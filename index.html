@@ -307,6 +307,45 @@ td .m-spec{color:var(--muted);font-size:12.5px}
 /* Reveal */
 .reveal{opacity:0;transform:translateY(14px);transition:opacity .55s ease,transform .55s ease}
 .reveal.visible{opacity:1;transform:none}
+/* ============ Quick bar 现场直达 ============ */
+.quick-bar{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0}
+.quick-bar a,.print-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border-radius:999px;background:var(--surface);border:1px solid var(--line-strong);color:var(--ink);font-size:13px;font-weight:600;text-decoration:none;cursor:pointer;font-family:var(--sans);transition:border-color .15s,color .15s,transform .15s}
+.quick-bar a:hover,.print-btn:hover{border-color:var(--brand);color:var(--brand);transform:translateY(-1px)}
+.quick-bar .qk{background:var(--brand);color:#fff;border-radius:6px;padding:1px 6px;font-size:11px;font-weight:700;line-height:1.6}
+.print-btn{font-weight:700}
+
+/* ============ Onboard 上手路线 ============ */
+.onboard{margin-top:22px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.ob-head{padding:12px 18px;font-weight:800;font-size:14px;letter-spacing:.03em;background:var(--brand-soft);color:var(--brand)}
+.ob-head small{font-weight:500;color:var(--muted);font-size:11.5px;margin-left:8px;letter-spacing:.05em}
+.ob-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.ob-card{padding:16px 18px;border-right:1px solid var(--line);border-top:1px solid var(--line)}
+.ob-card:first-child{border-top:none}
+.ob-card:last-child{border-right:none}
+.ob-card b{display:block;color:var(--brand);font-size:13.5px;margin-bottom:6px;letter-spacing:.02em}
+.ob-card span{font-size:13px;color:var(--muted);line-height:1.7}
+.ob-foot{padding:10px 18px;font-size:12.5px;color:var(--dim);border-top:1px solid var(--line);background:var(--surface-2)}
+@media(max-width:900px){.ob-card{border-right:none;border-top:1px solid var(--line)}.ob-card:first-child{border-top:none}}
+
+/* ============ Print 打印版式 ============ */
+@media print{
+  body{background:#fff;color:#111;font-size:12px}
+  .sidebar,.back-top,.theme-btn,.search-wrap{display:none!important}
+  .content{margin:0!important;padding:0!important;max-width:100%!important}
+  .section-inner{max-width:100%!important;padding:0!important}
+  .hero{background:#fff!important;padding:18px 0 10px!important}
+  .hero-kicker,.hero h1 .sub,.hero p.lead,.hero-meta{color:#444!important}
+  .hero h1{color:#111!important}
+  .hero-meta span,.hero-meta b{color:#444!important}
+  .doc-meta,.onboard{box-shadow:none!important}
+  .quick-bar{display:none}
+  section.block{padding:14px 0 6px!important;border-bottom:1px solid #ccc;box-shadow:none!important}
+  .reveal{opacity:1!important;transform:none!important}
+  .flash,.callout,.checklist,.ob-card{break-inside:avoid}
+  table{font-size:10.5px}
+  a{color:#111;text-decoration:none}
+  .print-btn{display:none!important}
+}
 </style>
 </head>
 <body>
@@ -367,6 +406,8 @@ td .m-spec{color:var(--muted);font-size:12.5px}
       <a class="nav-link" href="#app1"><span class="n">附1</span>商业新词速记卡</a>
       <a class="nav-link" href="#app2"><span class="n">附2</span>设备场景速记卡</a>
       <a class="nav-link" href="#app3"><span class="n">附3</span>拜访前 Checklist</a>
+      <a class="nav-link" href="#app4"><span class="n">附4</span>销售红线 10 条</a>
+      <a class="nav-link" href="#app5"><span class="n">附5</span>客户高频 10 问速答</a>
     </div>
   </nav>
   <div class="sidebar-foot">V7.0 · 内部学习参考<br>以公司官方说明书为准</div>
@@ -394,6 +435,29 @@ td .m-spec{color:var(--muted);font-size:12.5px}
     <div class="m"><dt>使用方式</dt><dd>先看左侧目录定位 → 正文看对应章节 → 见客户前查 4.11 与附3 → 客户说词查第十四章</dd></div>
     <div class="m"><dt>更新机制</dt><dd>随产品线变更与市场反馈不定期修订，以公司最新发布版本为准；产品参数一律以各型号详细说明书为准</dd></div>
   </dl>
+
+  <!-- ============ 现场直达 + 上手路线 ============ -->
+  <div class="quick-bar" aria-label="现场常用直达">
+    <a href="#p413"><span class="qk">秒</span>需求→型号口诀</a>
+    <a href="#p26"><span class="qk">读</span>读型号密码</a>
+    <a href="#p410"><span class="qk">表</span>产品→场景速查</a>
+    <a href="#ch14"><span class="qk">话</span>行业黑话</a>
+    <a href="#ch16"><span class="qk">谈</span>场景话术</a>
+    <a href="#app3"><span class="qk">备</span>拜访 Checklist</a>
+    <a href="#app4"><span class="qk">险</span>销售红线</a>
+    <a href="#app5"><span class="qk">问</span>高频 10 问</a>
+    <button class="print-btn" onclick="window.print()">打印 / 存 PDF</button>
+  </div>
+
+  <div class="onboard">
+    <div class="ob-head">新手怎么用这本手册<small>老手跳过</small></div>
+    <div class="ob-cards">
+      <div class="ob-card"><b>第 1 周 · 建立地图</b><span>看〇~四章：公司一句话 → 客户是谁 → 自家产品 → 设备在哪装。目标：客户报一个词，你能归类到"继电器 / 变送器 / 温控器"哪一栏。</span></div>
+      <div class="ob-card"><b>第 2~3 周 · 打通商务</b><span>看五~十章：制造模式、BOM、角色图谱、企业系统、采购流程、财务回款。目标：知道一张订单从需求到回款要过几道手、钱怎么安全回来。</span></div>
+      <div class="ob-card"><b>见客户前 10 分钟</b><span>过一遍：4.13 需求→型号口诀 + 附3 拜访 Checklist + 附4 红线。客户说的每个词都能在十四、十五章找到接法。</span></div>
+    </div>
+    <div class="ob-foot">日常：附1 速记卡每天扫 10 张；想快速变专业，先背 2.6 读型号 + 4.13 口诀；跑现场把附2 设备场景卡过一遍。</div>
+  </div>
 
   <!-- ============ 〇 公司一句话与实力清单 ============ -->
   <section class="block reveal" id="ch0">
@@ -499,6 +563,77 @@ td .m-spec{color:var(--muted);font-size:12.5px}
           <tr><td>"我们是成套厂"</td><td>组装开关柜的</td><td>图纸说话，选型权在设计院/业主</td></tr>
         </tbody>
       </table></div>
+
+      <h3 class="sub">1.10 电气量口头说法速查（客户嘴里数字的"翻译"）</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>客户说</th><th>标准含义</th><th>你该确认</th></tr></thead>
+        <tbody>
+          <tr><td class="m-name">"220 交流 / AC220 / 220VAC"</td><td>220V 交流电</td><td>辅助电源等级，决定推荐规格</td></tr>
+          <tr><td class="m-name">"110 直流 / DC110 / 110VDC"</td><td>110V 直流电（直流屏控母常见）</td><td>继电器线圈电压选直流档</td></tr>
+          <tr><td class="m-name">"控母 220 / 合母 220"</td><td>直流屏两根母线（控制/合闸）电压</td><td>RMY 电压监视的量程</td></tr>
+          <tr><td class="m-name">"8 安的触点 / 8A"</td><td>触点容量 8A</td><td>触点容量 + 负载类型（阻性/感性）</td></tr>
+          <tr><td class="m-name">"几常开几常闭 / 2开2闭"</td><td>触点形式（2H2D / 2Z）</td><td>按 H/D/Z 对号入座</td></tr>
+          <tr><td class="m-name">"600/5"</td><td>电流互感器变比（一次 600A→二次 5A）</td><td>变送器输入量程按二次侧算</td></tr>
+          <tr><td class="m-name">"1000kVA"</td><td>变压器容量（千伏安）</td><td>估算温控器/变送器配套量</td></tr>
+          <tr><td class="m-name">"50 赫兹 / 50Hz"</td><td>工频频率</td><td>产品一般按 50Hz 设计</td></tr>
+          <tr><td class="m-name">"三相 / 单相"</td><td>相数</td><td>电压继电器选三相型还是单相型</td></tr>
+          <tr><td class="m-name">"4-20 毫安 / 4-20mA"</td><td>模拟量信号制式</td><td>变送器输出格式</td></tr>
+          <tr><td class="m-name">"绝缘 500 兆欧 / 500MΩ"</td><td>绝缘电阻要求</td><td>出厂报告上的绝缘项</td></tr>
+          <tr><td class="m-name">"整定 5 安"</td><td>保护动作门槛 5A</td><td>RML 整定范围要覆盖</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3 class="sub">1.11 行业数字速查（听到数字先反应出"这是哪个量"）</h3>
+      <div class="callout callout-info"><p>客户电话里报数字，你 2 秒内要反应出它在问什么。这 12 个数字是行业里出现频率最高的，先背熟。</p></div>
+      <div class="tbl"><table>
+        <thead><tr><th>数字</th><th>是什么</th><th>你该联想到什么</th></tr></thead>
+        <tbody>
+          <tr><td class="m-name">0.4kV / 10kV / 35kV / 110kV / 220kV</td><td>电压等级台阶</td><td>先定位：低压柜（0.4）→ 高压柜（10/35）→ 变电站（110+），产品在哪一段</td></tr>
+          <tr><td class="m-name">600/5、1000/5、2000/5</td><td>CT 电流互感器变比（一次 A / 二次 5A）</td><td>变送器输入量程按二次侧算，别按一次侧报</td></tr>
+          <tr><td class="m-name">220VDC / 110VDC</td><td>直流屏合母 / 控母电压</td><td>继电器线圈电压选直流档的依据</td></tr>
+          <tr><td class="m-name">8A 250VAC / 10A 220VDC</td><td>常见触点容量档位</td><td>客户说"8 安的"就是这档；问清负载类型（阻性/感性）</td></tr>
+          <tr><td class="m-name">≤7ms</td><td>快速型动作时间</td><td>跳合闸等"要快"的回路选 RC-F 快速型</td></tr>
+          <tr><td class="m-name">55%~65%UN</td><td>动作电压范围（抗干扰门槛）</td><td>RAI/RN-FB 等抗干扰产品的核心指标，客户问"会不会误动"就讲这个</td></tr>
+          <tr><td class="m-name">4-20mA</td><td>模拟量信号制式</td><td>变送器输出标准，客户说"要 4-20 毫安"=要变送器</td></tr>
+          <tr><td class="m-name">RS485 / MODBUS</td><td>数字通信标准</td><td>"上后台 / 四遥"就靠它，直接挂通信管理机</td></tr>
+          <tr><td class="m-name">PT100（0~150℃）</td><td>铂电阻测温传感器</td><td>干变测温/绕组测温的标准探头，DTC 系列配它</td></tr>
+          <tr><td class="m-name">50Hz</td><td>工频频率</td><td>产品按 50Hz 设计；客户问"60Hz 能不能用"先确认</td></tr>
+          <tr><td class="m-name">500MΩ</td><td>绝缘电阻要求</td><td>出厂检验报告上的绝缘项，客户问"绝缘多少"答这个量级</td></tr>
+          <tr><td class="m-name">13%</td><td>增值税率</td><td>报价含税/未税差 13 个点，先问清楚再报（见 10.1）</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3 class="sub">1.12 前期拓客：先找对客户（新人第 1~2 周只干这一件事）</h3>
+      <div class="callout callout-brand"><p>拓客不是撒网，是"选矿"——<strong>你 90% 的时间该花在 10% 能下单的客户身上。判断标准一句话：谁的图纸里能写进你的型号，谁就是第一优先级；选型权在哪，你就在哪使劲。</strong>记住：成套厂的图纸是设计院画的、业主定的，他自己写不进你的型号——所以成套厂永远不是第一优先级。（结合 1.8 客户类型看）</p></div>
+      <div class="tbl"><table>
+        <thead><tr><th>优先级</th><th>客户是谁</th><th>为什么是它</th><th>打法目标</th></tr></thead>
+        <tbody>
+          <tr><td class="m-name">P0</td><td>本体厂 / 整机厂（干变厂、断路器机构厂、直流屏厂、箱变厂）</td><td>设备图纸自己出、二次元件自己选型，能写进你的型号、进 BOM</td><td>送样 → 进图纸 → 进 BOM（见 6.6）</td></tr>
+          <tr><td class="m-name">P1</td><td>设计院</td><td>二次图、技术规范真正出自这里——图纸写你型号，单就跑不掉</td><td>混脸熟 + 送资料，让新图纸想到你</td></tr>
+          <tr><td class="m-name">P2</td><td>终端 / 业主（国网、南网、工厂、电站、项目方）</td><td>招标技术规范可指定品牌，说了算但周期长</td><td>品牌印象 + 让技术规范写上你</td></tr>
+          <tr><td class="m-name">P3</td><td>新能源集成商（光伏 / 储能舱 / 充电桩）</td><td>整舱设计自己选型，量在起来</td><td>成套配套报价，一单配齐（见 4.8）</td></tr>
+          <tr><td class="m-name">P4</td><td>成套厂（KYN28 / GGD 柜厂）</td><td>按图施工，选型权在设计院 / 业主——他写不进你的型号</td><td>别当主力：已成单走流程 + 当情报线</td></tr>
+        </tbody>
+      </table></div>
+      <p>还有一个 <strong>贸易商（渠道）</strong>：不选型、只压价，留联系方式即可，不投入。</p>
+      <p><strong>找错客户的 5 个典型样子（新人最常犯，白忙一个月）：</strong></p>
+      <ul>
+        <li><strong>把成套厂当 P0 磨</strong>——图纸是设计院画的、业主定的，他再想用你也写不进图。跑十家成套厂，不如搞定一张图纸（老销售的实战教训）。</li>
+        <li><strong>在贸易商身上磨一周</strong>——他不选型、只压价，聊得再深也进不了 BOM。</li>
+        <li><strong>找设计院要订单</strong>——设计院不下单，你的目标是"图纸上出现你的型号"。</li>
+        <li><strong>找终端业主推销，却不跟图纸</strong>——业主说了算但周期长，图纸源头在设计院，两头都得顾。</li>
+        <li><strong>撒网群发不聚焦</strong>——二次元件客户就三类人：画图的（设计院）、自己出设备的（本体厂/集成商）、按图施工的（成套厂），重心永远在前两类。</li>
+      </ul>
+      <p><strong>去哪找 P0/P1（获客渠道，按效率排）：</strong></p>
+      <ul>
+        <li><strong>中标公告</strong>：搜"干变 中标 / 直流屏 中标 / 断路器 中标 / 储能舱 中标"，顺着中标单位找本体厂、集成商——谁中标谁有活；同时记下公告里的<strong>设计单位</strong>，那是图纸源头。</li>
+        <li><strong>老客户转介绍</strong>：已成交的本体厂 / 集成商技术部、采购部的人，认识十个同行，让他介绍比陌拜高效十倍——<strong>前期每成交一家，都问一句"您还认识做同类设备的朋友吗"</strong>。</li>
+        <li><strong>行业展会</strong>：输配电、电力设备类展会，本体厂、集成商、设计院都来——带样册换名片，回来后一周内跟进。</li>
+        <li><strong>行业名录</strong>：干变厂 / 直流屏厂 / 箱变厂 / 断路器厂名录，按地区圈定，挨个电话约拜访。</li>
+        <li><strong>设计院渠道</strong>：认识设计院工程师，新项目出图时想到你——图纸上写型号就赢了一半。</li>
+        <li><strong>电商 / 集采平台</strong>：国网、南网电商平台看采购目录和供应商名录，找入围机会。</li>
+      </ul>
+      <p><strong>对方一句话，30 秒判断值不值得深聊</strong>（结合 1.9 自称词）：报"我们是做干变的 / 做直流屏的 / 做断路器的 / 做箱变的"→ P0 本体厂，深聊约拜访；报"我们是做储能舱的 / 做光伏集成的"→ P3 集成商，深聊；报"我们是做开关柜的 / 做柜子的"→ P4 成套厂，<strong>先别急着约</strong>，问三句：图纸谁画的？柜内元件现在用谁家的？能不能跟设计院 / 业主提型号？能 → 当情报线 + 配合线；不能 → 留名片走人，别投入；设计院 → 给资料混脸熟，目标是图纸；贸易商 → 留联系方式，不投入；终端业主 → 客气接待，问清他的供应商是谁，找机会切进去。</p>
     </div>
   </section>
 
@@ -593,6 +728,33 @@ td .m-spec{color:var(--muted);font-size:12.5px}
         <li><strong>二极管冗余模块（DPM）</strong>：两台开关电源并联互为备份，一台坏了另一台顶上，重要负载（保护、监控）不掉电。<strong>客户说"供电不能断""要冗余"= DPM 的机会。</strong></li>
         <li><strong>控制变压器（XF）</strong>：电压转换（常见 380V 转 100V），负载阻抗≥50K、精度 1%、单相三相可选——给进口设备/仪表/特殊电压等级负载供电用。</li>
       </ul>
+
+      <h3 class="sub" id="p26">2.6 读型号：看一眼前缀就知道是什么（背家族缩写）</h3>
+      <ul>
+        <li><strong>第一个字母决定家族</strong>：
+          <ul>
+            <li><strong>R 开头 = 继电器家族</strong>：RC 中间、RDP 双位置、RMY 电压、RML 电流、RL- 断路器保护、RN- 集成模块（非全相/SF6闭锁）、RVS/RMS 电源切换、RT 时间、RAI 抗干扰——<strong>看到 R 就知道是继电器，再按第二个字母归位</strong>。</li>
+            <li><strong>T 开头 = 温度/变送家族</strong>：TT 温度变送、TS 信号变送、TG 挡位变送、TTH 温湿度变送、TC/TCC/TK 温控测温。</li>
+            <li><strong>TE = 电量变送</strong>（电→信号，不是温度，别和 TT 混）。</li>
+            <li><strong>THC = 温湿度控制器</strong>（本地自动动作）；<strong>DTC = 干变温控器</strong>。</li>
+            <li><strong>F 开头 = 信号报警</strong>：FA / FA-I（故障汇总）。</li>
+            <li><strong>Y 开头 = 电源</strong>：YDSP 开关电源；DPM 冗余模块；XF 控制变压器。</li>
+          </ul>
+        </li>
+        <li><strong>后缀代表"变种"</strong>（认后缀能答上"这是哪一档"）：
+          <ul>
+            <li><strong>-F</strong> 快速（RC-F ≤7ms）或反时限（RML-F）；</li>
+            <li><strong>-V</strong> 直流负载型（RC-V、RAI-V）；</li>
+            <li><strong>-E</strong> 增强/带显示（RDP-E 互锁、RT-E-NP 带显示、THC-E）；</li>
+            <li><strong>-M</strong> 模组/多功能（RC-M、THC-M）；</li>
+            <li><strong>-NP</strong> 无源型（RT-NP、RT-E-NP，不需辅助电源）；</li>
+            <li><strong>-S</strong> 单线圈（RDP-S）；<strong>-L</strong> 锁存/带指示灯（RDP-L）；</li>
+            <li><strong>-DW</strong> 直流操作（RL-TBJ-DW）；<strong>-DC</strong> 直流型（RVS-DC、RMF-F-DC）；</li>
+            <li><strong>-T</strong> 同步检查（RMY-T）；<strong>-K</strong> 无源型（RMY-K）。</li>
+          </ul>
+        </li>
+        <li><strong>实战用法</strong>：客户电话里报"RL-TBJ-DW"，你 1 秒反应"断路器防跳、直流操作型"——比翻目录快，专业感直接拉满。</li>
+      </ul>
     </div>
   </section>
 
@@ -602,7 +764,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
       <h2 class="section-title"><span class="sec-no">三</span>竞品与"邻居"产品<span style="font-family:var(--sans);font-size:12.5px;font-weight:500;color:var(--dim)">听得懂别人在用什么</span></h2>
       <ul>
         <li><strong>微机保护装置（微保）</strong>：用芯片程序实现保护功能的"电脑版继电器"，一块屏替代几十个继电器。<strong>成套厂大量用它，所以你排除微保用户——但注意：干变本体厂即使用微保测温保护，风机启停和简单联锁仍常保留独立温控器。</strong></li>
-        <li><strong>RC-P / 可拔插组件</strong>：国际品牌（如 Phoenix/UE 系列）做的插拔式接口继电器，插在底座上可不停电更换。成套厂图纸常用——你主推的 RC-P 就是对标替代它。</li>
+        <li><strong>RC-P / 可拔插组件</strong>：国际品牌（如 Phoenix/UE 系列）做的插拔式接口继电器，插在底座上可不停电更换。成套厂图纸常用——我们的 RC-P 就是对标替代它。</li>
         <li><strong>PLC</strong>：可编程逻辑控制器，"工业电脑"。它和继电器是部分竞争、部分共存关系（终端执行回路仍需继电器隔离放大）。</li>
         <li><strong>接触器</strong>：长得像继电器、但用来通断<strong>大电流电机</strong>的"大力士"。别和继电器混淆：继电器传信号，接触器带电机。</li>
         <li><strong>断路器 / 负荷开关 / 隔离开关</strong>：断路器能断故障电流；负荷开关只能断正常电流；隔离开关只做可见断口没有灭弧能力。<strong>它们的操作机构里都有二次回路=继电器客户。</strong></li>
@@ -622,6 +784,8 @@ td .m-spec{color:var(--muted);font-size:12.5px}
       <h2 class="section-title"><span class="sec-no">四</span>应用设备扫盲<span style="font-family:var(--sans);font-size:12.5px;font-weight:500;color:var(--dim)">你的产品都装在哪些柜子里 · 跑客户必背</span></h2>
       <div class="callout callout-brand"><p>客户张口就是"KYN28 二次室""直流屏控母""汇控柜""凝露加热""温度上后台"——这一章让你立刻反应出：<strong>那是你哪个产品的家，以及它在里面干什么活。</strong></p></div>
 
+      <div class="callout callout-info"><p><strong>先记住一条链：电从哪来到哪去。</strong>发电厂 → 升压站（110/220kV 高压远距离送电）→ 变电站逐级降压 → 10kV 配电室 → 变压器降到 0.4kV → 工厂/楼宇/家庭。<strong>你的产品全部落在这条链的"变电站 → 配电室 → 末端设备"这一段（10kV 及以下为主）。</strong>客户嘴里任何一个柜子、任何一句话，都能在这条链上找到位置——先定位它在链条哪一环，就知道该聊什么、该推什么。这条链背下来，你就比 80% 的同行"懂行业"。</p></div>
+
       <h3 class="sub">4.1 先搞懂三个"地方"（客户的一切都发生在这三个地方）</h3>
       <ul>
         <li><strong>变电站</strong>：电网的"大枢纽"，电压等级高（35kV 及以上），里面一排排<strong>间隔</strong>（间隔 = 一个完整的进线/出线单元，含一面开关柜或一套设备+保护）。电网公司建的。</li>
@@ -635,8 +799,8 @@ td .m-spec{color:var(--muted);font-size:12.5px}
       <div class="callout callout-info"><p>一条典型 10kV 配电室的柜列：<strong>进线柜 → 计量柜 → PT柜 → 出线/馈线柜（多面）→ 联络柜 → 无功补偿柜 → 直流屏 → 通信柜</strong></p></div>
       <ul>
         <li><strong>开关柜（总称）</strong>：装断路器+二次元件的柜子统称，高压柜（10~35kV）和低压柜（0.4kV）都算。<strong>柜 vs 屏</strong>：配电现场叫"柜"（开关柜、直流柜），电站里立起来一排的专业设备叫"屏"（保护屏、直流屏、远动屏）——本质都是"柜子+二次设备"。</li>
-        <li><strong>KYN28（中置柜）</strong>：最常见的 10kV 金属铠装移开式开关柜。K=铠装，Y=移开式，N=户内，28=设计序号。断路器装在<strong>手车</strong>上（可像抽屉一样拉出检修），中置=手车在柜子中间层。<strong>柜顶正面那格叫"继电器室/二次室（低压室）"——你的中间继电器、信号继电器就住在这里。</strong> 客户说"二次室空间太挤"= 你推小型化/可拔插 RC-P 的时机。<strong>我们在这：RC/RC-P 中间继电器、RT 时间继电器、THC 温湿度控制器（防凝露）、YDSP 开关电源。</strong></li>
-        <li><strong>XGN / HXGN（固定式柜/环网柜）</strong>：XGN=固定式金属封闭柜（断路器固定装，检修要停电）；HXGN=<strong>环网柜</strong>，体积小、装 SF6 负荷开关，城市配网"环网"主干用。<strong>环网柜空间更小，小型导轨式继电器/温湿度控制器（THC 防凝露）的机会。</strong> <strong>我们在这：小型 RC-P 中间继电器、THC 温湿度控制器、RVS 双电源切换继电器。</strong></li>
+        <li><strong>KYN28（中置柜）</strong>：最常见的 10kV 金属铠装移开式开关柜。K=铠装，Y=移开式，N=户内，28=设计序号。断路器装在<strong>手车</strong>上（可像抽屉一样拉出检修），中置=手车在柜子中间层。<strong>柜顶正面那格叫"继电器室/二次室（低压室）"——你的中间继电器、信号继电器就住在这里。</strong> 客户说"二次室空间太挤"= 小型化/可拔插结构的切入点。<strong>我们在这：RC/RC-P 中间继电器、RT 时间继电器、THC 温湿度控制器（防凝露）、YDSP 开关电源。</strong></li>
+        <li><strong>XGN / HXGN（固定式柜/环网柜）</strong>：XGN=固定式金属封闭柜（断路器固定装，检修要停电）；HXGN=<strong>环网柜</strong>，体积小、装 SF6 负荷开关，城市配网"环网"主干用。<strong>环网柜空间更小，小型导轨式继电器/温湿度控制器（THC 防凝露）的机会。</strong> <strong>我们在这：RC 中间继电器（含小型可拔插型）、THC 温湿度控制器、RVS 双电源切换继电器。</strong></li>
         <li><strong>GGD / GCS / GCK / MNS</strong>：都是低压柜（0.4kV）型号——GGD 固定面板式（最普及）；GCS/GCK/MNS <strong>抽屉柜</strong>（每个回路做成小抽屉，内装断路器+接触器+中间继电器+时间继电器）。<strong>低压成套厂的地盘，量大但选型权常在终端/设计院。</strong> <strong>我们在这：RC 中间继电器、RT 时间继电器、FA 信号报警器、THC 温湿度控制器。</strong></li>
         <li><strong>MCC / 动力中心（电机控制中心）</strong>：0.4kV 集中管理几十台电机的抽屉柜列，每台电机一个抽屉（断路器+接触器+热继电器+中间继电器+时间继电器）。<strong>电机类工厂、水厂、电厂辅机都是 MCC，是中间/时间继电器用量最大的柜型之一。</strong> <strong>我们在这：RC 中间继电器（顺序启动/星三角/互锁）、RT 时间继电器（延时/循环）、THC 柜内防凝露、FA 信号报警器（电机故障汇总）。</strong></li>
         <li><strong>配电柜 vs 配电箱</strong>：大个立地上的叫柜，小个挂墙上的叫箱（照明箱 AL、动力箱 AP）。箱子里也有继电器，量小。</li>
@@ -753,7 +917,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
         <li><strong>电厂（火电/燃机）辅机系统</strong>：DCS 控制柜 + 辅机 MCC——<strong>我们在这：TK 热电偶采集器（高温测点）、TT 温度变送器、RC 中间继电器、FA 信号报警器。电厂是 TK/热电偶类产品的第一大客户群。</strong></li>
       </ul>
 
-          <h3 class="sub">4.10 公司产品 → 应用场景速查表（背这张！）</h3>
+          <h3 class="sub" id="p410">4.10 公司产品 → 应用场景速查表（背这张！）</h3>
       <div class="tbl"><table>
         <thead><tr><th>产品线</th><th>装在哪</th><th>干什么</th><th>客户嘴里听到这些词 = 你的机会</th></tr></thead>
         <tbody>
@@ -841,6 +1005,32 @@ td .m-spec{color:var(--muted);font-size:12.5px}
         </tbody>
       </table></div>
       <div class="callout callout-warn"><p><strong>按这个清单算用量</strong>：一个典型配电室项目，继电器 20~50 台、温控器 2 套、变送器 5~15 台、信号报警器 1~2 台、开关电源 2~4 台——<strong>单项目元件金额可观，这就是你报"整柜配套"而不是"单件"的理由。</strong></p></div>
+
+      <h3 class="sub" id="p413">4.13 需求一句话 → 型号口诀（客户说这句，你接这个，20 秒对答）</h3>
+      <div class="callout callout-brand"><p>前面三张表是"查"的，这张是"背"的——客户嘴里蹦出左边任何一句，你嘴里的型号要在 1 秒内到位。背不下来就截图存手机里。</p></div>
+      <div class="tbl"><table>
+        <thead><tr><th>客户说</th><th>你接</th></tr></thead>
+        <tbody>
+          <tr><td class="m-name">"要延时 / 顺启 / 投切延时"</td><td>RT 时间继电器（没辅助电源要 RT-NP）</td></tr>
+          <tr><td class="m-name">"要防跳"</td><td>RL-TBJ；还要盯 SF6 → RN-FT 二合一</td></tr>
+          <tr><td class="m-name">"要双位置 / 位置保持"</td><td>RDP 系列（失电不忘）</td></tr>
+          <tr><td class="m-name">"要监视母线 / 控母电压"</td><td>RMY 电压继电器（没辅助电源 → RMY-K）</td></tr>
+          <tr><td class="m-name">"要过流保护 / 整定"</td><td>RML（反时限 RML-F / 直流 RMF-F-DC）</td></tr>
+          <tr><td class="m-name">"要检同期 / 备自投"</td><td>RMY-T 同步检查继电器</td></tr>
+          <tr><td class="m-name">"要双电源自动切"</td><td>RVS / RVS-DC / RMS（交流/直流/精确切换）</td></tr>
+          <tr><td class="m-name">"要防凝露 / 驱潮 / 柜内加热"</td><td>THC 温湿度控制器</td></tr>
+          <tr><td class="m-name">"要把温度 / 电量 / 温湿度传后台"</td><td>TT / TE / TTH，问清 4-20mA 还是 RS485</td></tr>
+          <tr><td class="m-name">"要信号隔离变换"</td><td>TS 信号变送器</td></tr>
+          <tr><td class="m-name">"要柜内直流供电"</td><td>YDSP 开关电源；不能掉电 → 加 DPM 冗余</td></tr>
+          <tr><td class="m-name">"要 380 转 100"</td><td>XF 控制变压器</td></tr>
+          <tr><td class="m-name">"要故障汇总 / 光字牌 / 警铃"</td><td>FA / FA-I 信号报警器</td></tr>
+          <tr><td class="m-name">"变频器旁老误动"</td><td>RAI / RAI-V 抗干扰继电器</td></tr>
+          <tr><td class="m-name">"柜子太挤 / 要不停电更换"</td><td>RC 系列小型可拔插型</td></tr>
+          <tr><td class="m-name">"干变要测温控温"</td><td>DTC / TC；风机要监视 → 加 TCC；高温点 → TK</td></tr>
+          <tr><td class="m-name">"分相操作 / 三相不一致"</td><td>RN-FB 非全相保护继电器</td></tr>
+        </tbody>
+      </table></div>
+      <div class="callout callout-warn"><p>反着用也成立：客户报完需求你接型号，<strong>报完再补一句"它干这个的专长是……"，一句话把"卖货"变成"专家给方案"。</strong></p></div>
     </div>
   </section>
 
@@ -1055,6 +1245,10 @@ td .m-spec{color:var(--muted);font-size:12.5px}
     <div class="section-inner">
       <h2 class="section-title"><span class="sec-no">十</span>财务、发票与回款<span style="font-family:var(--sans);font-size:12.5px;font-weight:500;color:var(--dim)">别在钱上露怯</span></h2>
       <div class="callout callout-info"><p>技术谈得再好，最后栽在发票和账期上就全白干。这节是防身用的。</p></div>
+      <div class="callout callout-brand">
+        <span class="ct">报价前必确认 6 件事（少问一件，后面就有一个坑）</span>
+        <p><strong>① 含税还是未税</strong>——13% 专票差 13 个点，直接吃掉毛利（见 10.1）；<strong>② 运费谁出</strong>——含运还是到付，报价单写死，别"到时候再说"；<strong>③ 账期 / 预付</strong>——新客户尽量款到发货或预付 30%+（见 10.2）；<strong>④ 开什么票、抬头开谁</strong>——专票普票、三流一致（见 10.1）；<strong>⑤ 质保与质保金</strong>——质保几年、押多少比例、何时释放（见 10.2）；<strong>⑥ 货期</strong>——客户要的日期能否满足、超期怎么算，别拍脑袋承诺。</p>
+      </div>
 
       <h3 class="sub">10.1 发票</h3>
       <ul>
@@ -1186,7 +1380,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
           <tr><td class="m-name">"这个要走 ECN"</td><td>换料要走工程变更</td><td>准备全套对比资料帮研发降低变更成本——帮他省事就是帮自己</td></tr>
           <tr><td class="m-name">"走 OA 了 / 在 OA 里"</td><td>内部审批中</td><td>别催，约节点提醒</td></tr>
           <tr><td class="m-name">"签个框架"</td><td>想谈框架协议</td><td>好事，谈价、量、有效期、自动续约条款</td></tr>
-          <tr><td class="m-name">"二次室太挤"</td><td>开关柜继电器室空间不足</td><td>推小型化/可拔插 RC-P 系列</td></tr>
+          <tr><td class="m-name">"二次室太挤"</td><td>开关柜继电器室空间不足</td><td>推小型化/可拔插系列（RC 系列小体积型号）</td></tr>
           <tr><td class="m-name">"柜子凝露/驱潮"</td><td>户外柜内结露要加热器</td><td>推 THC 温湿度控制器</td></tr>
           <tr><td class="m-name">"做一套直流屏"</td><td>客户做直流电源系统</td><td>报全系列：电压监视、双位置、信号报警器、开关电源</td></tr>
           <tr><td class="m-name">"光字牌要报警"</td><td>中央信号/事故音响需求</td><td>推 FA/FA-I 信号报警器</td></tr>
@@ -1317,20 +1511,21 @@ td .m-spec{color:var(--muted);font-size:12.5px}
       <div class="checklist">
         <h4>1. 对方是谁（30 秒判断）</h4>
         <label><input type="checkbox"><span>什么类型：设计院 / 本体厂 / 成套厂 / 集成商 / EPC / 终端业主？（查 1.9 + 4.11 对应行）</span></label>
+        <label><input type="checkbox"><span>什么档位：P0 本体/整机厂 / P1 设计院 / P2 终端 / P3 集成商 / P4 成套厂？（查 1.12——成套厂没选型权，别当主力投入）</span></label>
         <label><input type="checkbox"><span>主做产品：开关柜 / 直流屏 / 断路器 / 干变 / 新能源设备 / 其他？（查 4.11 上门清单）</span></label>
         <label><input type="checkbox"><span>谁说了算：研发选型 / 采购议价 / SQE 审厂？（查第七章）</span></label>
 
         <h4>2. 我方带什么（资料包清单）</h4>
         <label><input type="checkbox"><span>名片（每人 2 张以上）</span></label>
         <label><input type="checkbox"><span>产品样册 / 选型手册</span></label>
-        <label><input type="checkbox"><span>主打产品样品（RC-P、DTC、THC 常备）</span></label>
+        <label><input type="checkbox"><span>主打产品样品（RC 中间继电器、RT 时间继电器、THC 温湿度控制器常备）</span></label>
         <label><input type="checkbox"><span>参数对比表（对标 Phoenix/UE/竞品）</span></label>
         <label><input type="checkbox"><span>资质复印件（CCC、CE、型式试验、入网证明）</span></label>
         <label><input type="checkbox"><span>已供货客户名单 / 业绩表</span></label>
         <label><input type="checkbox"><span>报价单模板 + 计算器</span></label>
 
         <h4>3. 开场与破冰（30 秒自我介绍）</h4>
-        <label><input type="checkbox"><span>背熟"〇、公司一句话"模板</span></label>
+        <label><input type="checkbox"><span>背熟"公司一句话"30 秒自我介绍模板</span></label>
         <label><input type="checkbox"><span>准备一个和对方行业相关的问题（如"你们现在柜内凝露问题多吗"）</span></label>
 
         <h4>4. 必问清单（进门后 15 分钟内问完）</h4>
@@ -1346,12 +1541,70 @@ td .m-spec{color:var(--muted);font-size:12.5px}
         <h4>5. 客户说词 → 产品映射（现场翻第十四章）</h4>
         <label><input type="checkbox"><span>客户提到的每个设备词，都能对应到至少一个产品</span></label>
 
-        <h4>6. 会后动作（24 小时内完成）</h4>
+        <h4>6. 报价前确认（要报价就逐项打勾，见十章）</h4>
+        <label><input type="checkbox"><span>含税还是未税：13% 专票差 13 个点，报价单写死（见 10.1）</span></label>
+        <label><input type="checkbox"><span>运费谁出：含运还是到付，写进报价单，别"到时候再说"</span></label>
+        <label><input type="checkbox"><span>账期 / 预付：新客户款到发货或预付 30%+，账期记起算日（见 10.2）</span></label>
+        <label><input type="checkbox"><span>开什么票、抬头开谁：专票普票、三流一致（见 10.1）</span></label>
+        <label><input type="checkbox"><span>质保与质保金：质保几年、押多少比例、何时释放（见 10.2）</span></label>
+        <label><input type="checkbox"><span>货期：能否满足客户要的日期、超期怎么算，别拍脑袋承诺</span></label>
+
+        <h4>7. 会后动作（24 小时内完成）</h4>
         <label><input type="checkbox"><span>发会议纪要（需求 + 承诺 + 下一步）</span></label>
         <label><input type="checkbox"><span>发资料/报价单（按 9.5 清单核对）</span></label>
         <label><input type="checkbox"><span>记 CRM/台账：客户类型、联系人、角色、需求、下一步</span></label>
         <label><input type="checkbox"><span>约定下次节点（送样时间 / 技术交流 / 审厂时间）</span></label>
+
+        <h4>8. 会后台账字段（回公司 30 分钟内录完）</h4>
+        <label><input type="checkbox"><span>客户名称 + 类型（设计院/本体厂/成套厂/集成商/EPC/终端）</span></label>
+        <label><input type="checkbox"><span>联系人 + 角色（研发/采购/SQE/领导）+ 电话微信</span></label>
+        <label><input type="checkbox"><span>需求摘要：产品 / 型号 / 数量 / 应用场景</span></label>
+        <label><input type="checkbox"><span>竞争情况：现用品牌 / 价格水平 / A点B点</span></label>
+        <label><input type="checkbox"><span>下一步动作 + 截止日期 + 负责人</span></label>
       </div>
+    </div>
+  </section>
+
+  <!-- ============ 附4 销售红线 ============ -->
+  <section class="block reveal" id="app4">
+    <div class="section-inner">
+      <h2 class="section-title"><span class="sec-no">附4</span>销售红线：别踩这 10 条<span style="font-family:var(--sans);font-size:12.5px;font-weight:500;color:var(--dim)">踩一条白干一年</span></h2>
+      <ol>
+        <li><strong>报价不写"含税/未税"</strong>——13 个点增值税直接吃掉毛利，报价单先核对（见 9.5）。</li>
+        <li><strong>把 TT 和 TS 搞混</strong>——TT 管"温度→4-20mA"，TS 管"信号→信号"（隔离变换），报错型号等于现场翻车（见 2.2）。</li>
+        <li><strong>商业承兑当现款收</strong>——房企、资金紧张客户的商承约等于白条，能拒就拒；银承也要问期限算账期（见 10.2）。</li>
+        <li><strong>答应陪标 / 围标</strong>——违法，客户暗示"找两家陪标"直接拒绝，宁丢单不丢人（见 13.1）。</li>
+        <li><strong>承诺没有的认证</strong>——客户要 CCCF / CRCC / CCS / 防爆证，先确认公司有没有再报价，没有就明说"可定制申报"（见 4.9、12）。</li>
+        <li><strong>客户说"图纸定型"还硬推</strong>——BOM 锁死换料要走 ECN，正确动作是攻下一代产品（见 6.4）。</li>
+        <li><strong>裸降 5 个点</strong>——降价必须换条件：提量、预付、账期缩短、签框架，任何一条都比干降值钱（见 9.4）。</li>
+        <li><strong>客户说"走流程"还天天催</strong>——OA/招标/集采有自己的节奏，催没用还招烦，按节点跟进（见 8、14）。</li>
+        <li><strong>问到型号后缀答不上来</strong>——"2Z 是几常开几常闭"答不上 = 专业感清零，先把 2.6 型号密码背熟。</li>
+        <li><strong>忘带"三件套"</strong>——名片、样册、样品缺一不可；样品是让客户"摸到产品"的唯一机会（见附3）。</li>
+      </ol>
+      <div class="callout callout-warn"><p>红线不是吓唬人，是前辈用真金白银换来的教训。<strong>拿不准的条款，宁可回来问，不要现场拍脑袋。</strong></p></div>
+    </div>
+  </section>
+
+  <!-- ============ 附5 客户高频 10 问速答 ============ -->
+  <section class="block reveal" id="app5">
+    <div class="section-inner">
+      <h2 class="section-title"><span class="sec-no">附5</span>客户高频 10 问速答<span style="font-family:var(--sans);font-size:12.5px;font-weight:500;color:var(--dim)">被问住时的标准答案 · 直接能说出口</span></h2>
+      <div class="callout callout-brand"><p>这 10 个问题是电话、微信、见面里被问得最多的中性问题（不是"太贵了"那种拒绝）。<strong>每句都能直接说出口，说完再补一句"您看还需要什么资料，我马上发您"——把对话主动权拿回来。</strong></p></div>
+      <div class="tbl"><table>
+        <thead><tr><th>客户问</th><th>标准答法（可直接说）</th><th>注意（别踩坑）</th></tr></thead>
+        <tbody>
+          <tr><td class="m-name">"你们是厂家还是贸易商？"</td><td>"我们是厂家，国家高新技术企业，自有品牌，工厂在本地，CCC/CE/CB 都有，ISO 9001/14001 体系，已进国网/南网采购体系。"</td><td>说"厂家"要给证据：认证、产线照片、审厂邀请（见 0、12）</td></tr>
+          <tr><td class="m-name">"都有哪些认证？"</td><td>"CCC、CE、CB、ISO 9001/14001；每个产品还有对应的型式试验报告，您要哪个型号我马上发您。"</td><td>没说到的认证别乱承诺（CCCF/CRCC/CCS/防爆证先确认，见红线 5）</td></tr>
+          <tr><td class="m-name">"你们做过哪些大客户？"</td><td>"许继、平高、西电都有供货记录，进了国网/南网体系；详细的业绩清单我整理一份给您。"</td><td>只报合作事实，不吹产量规模；清单回来让公司出（见 0）</td></tr>
+          <tr><td class="m-name">"货期多久？"</td><td>"常备型号很快，定制型号按确认图纸和数量排产；您把型号、数量和交货日期给我，我确认后给您准确时间。"</td><td>不拍脑袋承诺天数，先确认库存再报（见 9.5）</td></tr>
+          <tr><td class="m-name">"能免费送样吗？"</td><td>"可以，免费送样配合您选型测试；型号定进 BOM 之后批量价格再谈。"</td><td>送样要说清数量、时限、试用协议（见 6.6、15）</td></tr>
+          <tr><td class="m-name">"质保多久？坏了怎么办？"</td><td>"质保条款以合同和说明书为准，写得清清楚楚；有问题我们响应，可返厂检测，流程简单。"</td><td>不自己编年限，按公司标准条款答（见 10.2）</td></tr>
+          <tr><td class="m-name">"能开 13% 专票吗？"</td><td>"可以，增值税专用发票；开票抬头和税号您发我，三流一致我们全力配合。"</td><td>报价前先确认含税/未税，别让 13 个点吃毛利（见 10.1）</td></tr>
+          <tr><td class="m-name">"能不能先供货后付款？"</td><td>"新客户一般款到发货或预付 30%，账期可以谈；量大或签框架可以走月结。"</td><td>账期决定现金流，别现场答应超长账期（见 10.2）</td></tr>
+          <tr><td class="m-name">"你们跟 XX 品牌比怎么样？"</td><td>"我们按您的参数要求逐项对比给您看，送样上机测试用数据说话；先小批量试用，不满意不强求。"</td><td>不贬低对手，用"同等替代"降风险（见 3、15）</td></tr>
+          <tr><td class="m-name">"有没有现货？"</td><td>"常备型号有库存，特殊规格按单排产；您报型号我马上查，今天能给您准信。"</td><td>报型号再答"有/没有"，别笼统说"有"（见 2.6）</td></tr>
+        </tbody>
+      </table></div>
     </div>
   </section>
 
