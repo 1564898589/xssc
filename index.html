@@ -374,6 +374,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
   <nav class="sidebar-nav" id="sidebarNav">
     <div class="nav-group">
       <div class="nav-group-title">入门必背</div>
+      <a class="nav-link" href="#basic"><span class="n">基</span>零基础电力扫盲</a>
       <a class="nav-link" href="#ch0"><span class="n">〇</span>公司一句话与实力清单</a>
       <a class="nav-link" href="#ch1"><span class="n">一</span>客户行业分类词</a>
       <a class="nav-link" href="#ch2"><span class="n">二</span>自家产品相关词</a>
@@ -410,7 +411,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
       <a class="nav-link" href="#app5"><span class="n">附5</span>客户高频 10 问速答</a>
     </div>
   </nav>
-  <div class="sidebar-foot">V7.0 · 内部学习参考<br>以公司官方说明书为准</div>
+  <div class="sidebar-foot">V7.1 · 内部学习参考<br>以公司官方说明书为准</div>
 </aside>
 
 <main class="content">
@@ -424,7 +425,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
       </h1>
       <p class="lead">跑客户时听到的词、客户报的身份、柜子里装的东西、谈单要用的流程与话术——一本随身速查，见客户前翻一翻，进会议室不慌。</p>
       <div class="hero-meta">
-        <span>版本 <b>V7.0</b></span>
+        <span>版本 <b>V7.1</b></span>
         <span>适用 <b>全体销售 / 技术支持</b></span>
         <span>用途 <b>拜访 · 交流 · 培训</b></span>
       </div>
@@ -452,12 +453,180 @@ td .m-spec{color:var(--muted);font-size:12.5px}
   <div class="onboard">
     <div class="ob-head">新手怎么用这本手册<small>老手跳过</small></div>
     <div class="ob-cards">
-      <div class="ob-card"><b>第 1 周 · 建立地图</b><span>看〇~四章：公司一句话 → 客户是谁 → 自家产品 → 设备在哪装。目标：客户报一个词，你能归类到"继电器 / 变送器 / 温控器"哪一栏。</span></div>
+      <div class="ob-card"><b>第 1 周 · 建立地图</b><span>完全没基础先看"基·零基础电力扫盲"（水电类比、电的旅程、故障时间线、图纸符号），再看〇~四章：公司一句话 → 客户是谁 → 自家产品 → 设备在哪装。目标：客户报一个词，你能归类到"继电器 / 变送器 / 温控器"哪一栏。</span></div>
       <div class="ob-card"><b>第 2~3 周 · 打通商务</b><span>看五~十章：制造模式、BOM、角色图谱、企业系统、采购流程、财务回款。目标：知道一张订单从需求到回款要过几道手、钱怎么安全回来。</span></div>
       <div class="ob-card"><b>见客户前 10 分钟</b><span>过一遍：4.13 需求→型号口诀 + 附3 拜访 Checklist + 附4 红线。客户说的每个词都能在十四、十五章找到接法。</span></div>
     </div>
     <div class="ob-foot">日常：附1 速记卡每天扫 10 张；想快速变专业，先背 2.6 读型号 + 4.13 口诀；跑现场把附2 设备场景卡过一遍。</div>
   </div>
+
+  <!-- ============ 基 零基础电力扫盲 ============ -->
+  <section class="block reveal" id="basic">
+    <div class="section-inner">
+      <h2 class="section-title"><span class="sec-no">基</span>零基础电力扫盲<span style="font-family:var(--sans);font-size:12.5px;font-weight:500;color:var(--dim)">完全不懂电也能看懂 · 后面所有章节的地基</span></h2>
+      <div class="callout callout-brand"><p>这一章先不急着讲怎么销售，先把"电是怎么回事、变电站里在发生什么、图纸怎么看"补到能听懂的程度。<strong>客户说的每个型号、每个回路，背后都是一个真实的物理过程——懂了物理，型号就不是死记，你也能跟技术对上话。</strong>不用一次背完，先记住 B.1 水电类比、B.2 电的旅程、B.4 故障 0.1 秒时间线、B.6 符号表这四张，其余随时回来查。</p></div>
+
+      <h3 class="sub">B.1 先建立直觉：用水理解电</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>电的概念</th><th>对应"水路"</th><th>单位 / 大白话</th></tr></thead>
+        <tbody>
+          <tr><td class="m-name">电压 V</td><td>水压（推动水流的力量）</td><td>伏特 V/kV；压力越大，推得越远</td></tr>
+          <tr><td class="m-name">电流 A</td><td>水流大小（每秒流过多少水）</td><td>安培 A/mA；用电器越多"水流"越大</td></tr>
+          <tr><td class="m-name">电阻 Ω</td><td>水管粗细 / 堵塞程度</td><td>欧姆 Ω；管子越细越堵，水流越小</td></tr>
+          <tr><td class="m-name">功率 W</td><td>水流带动机器干活的能力</td><td>瓦 W/kW；电压×电流≈功率</td></tr>
+        </tbody>
+      </table></div>
+      <ul>
+        <li><strong>交流 AC / 直流 DC</strong>：直流电方向不变（电池、手机、直流屏）；交流电方向周期性来回变，中国电网每秒来回 50 次 = <strong>50Hz</strong>。</li>
+        <li><strong>为什么保护和跳合闸偏偏用直流</strong>：交流一旦停电就什么都没了；直流屏带着蓄电池，<strong>哪怕全站交流电全停，仍能靠电池把断路器跳开、把信号发出去</strong>——这就是直流屏、DC220V/DC110V 存在的根本原因，也是你听到"控母/合母"的由来。</li>
+        <li><strong>三相电 / 单相电</strong>：电网用三根相线（火线 A/B/C）送电。<strong>火线对火线 = 线电压 380V，火线对零线 = 相电压 220V</strong>（380 ≈ 220×1.732）。家里只用一火一零=220V 单相；工厂电机要三相 380V 才转得有劲。</li>
+        <li><strong>销售要点</strong>：客户嘴里的 AC220 / DC220 / DC110、三相/单相、50Hz，说的都是"给继电器线圈供什么电"——<strong>选型第一步永远是先确认线圈电压和交直流，报错规格就不能用。</strong></li>
+      </ul>
+
+      <h3 class="sub">B.2 电的旅程：发 → 输 → 变 → 配 → 用</h3>
+      <div class="callout callout-info"><p><strong>发电厂（10~20kV）→ 升压站升到 110/220/500kV → 高压线路远距离输送 → 枢纽变电站逐级降压（220→110→35）→ 10kV 线路送到用户附近 → 配电室/箱变里变压器降到 0.4kV → 车间设备和墙上插座。</strong></p></div>
+      <ul>
+        <li><strong>为什么要先升高电压再远距离送</strong>：同样功率，电压越高电流越小，而线路发热损耗 = 电流²×电阻，电流小，线上白白烧掉的电就少——所以远距离必须高压送电，到用户家门口再逐级降下来。</li>
+        <li><strong>电压等级台阶，对号入座</strong>：500/220kV 跨区输电主干；110/35kV 区域与大工业；<strong>10kV 到用户门口（中压配网，开关柜、环网柜、箱变的主战场）</strong>；0.4kV 进车间（低压柜、MCC、配电箱）。</li>
+        <li><strong>发电侧 / 供电侧 / 用户侧</strong>：电厂和新能源场站是发电侧，电网是供电侧，工厂楼宇是用户侧；主网（35kV 以上）、配网（10kV 及以下）的说法见 1.6。</li>
+        <li><strong>销售要点</strong>：华用元件集中在"<strong>10kV 及以下的配、用这一段</strong>"——客户的开关柜、直流屏、箱变、干变、新能源舱都在这里。听到一个电压等级，先在这条链上定位它在哪一环，就知道该聊什么。</li>
+      </ul>
+
+      <h3 class="sub">B.3 一次设备全家福：强电设备各干什么</h3>
+      <p><strong>母线</strong>：汇集和分配电能的公共主干道（柜内铜排），所有进出线都挂在母线上。最容易混的是四种"开关类"一次设备，先把这张表背下来：</p>
+      <div class="tbl"><table>
+        <thead><tr><th>设备（符号）</th><th>切正常负荷</th><th>切短路故障</th><th>核心作用</th></tr></thead>
+        <tbody>
+          <tr><td class="m-name">隔离开关 QS</td><td>不能（禁止带负荷拉）</td><td>不能</td><td>停电后拉开，形成"看得见的断开点"，保证检修安全</td></tr>
+          <tr><td class="m-name">负荷开关 QL</td><td>能</td><td>不能（短路靠熔断器/上级断路器）</td><td>正常分合负荷，环网柜里最常见</td></tr>
+          <tr><td class="m-name">断路器 QF</td><td>能</td><td><strong>能（唯一能灭短路电弧、自动跳闸）</strong></td><td>最核心最贵，故障瞬间切掉大电流</td></tr>
+          <tr><td class="m-name">熔断器 FU</td><td>—</td><td>能（熔丝熔断，一次性）</td><td>过流/短路时熔丝烧断保护，断了要换</td></tr>
+        </tbody>
+      </table></div>
+      <ul>
+        <li><strong>三工位负荷开关</strong>：把"<strong>合闸—分闸—接地</strong>"做在一台开关上（环网柜/充气柜标配），详见 B.5，工位位置要靠继电器反馈给后台。</li>
+        <li><strong>接地开关</strong>：检修时把出线侧三相可靠接地，万一误送电直接导入大地，保护现场人员。</li>
+        <li><strong>互感器 CT / PT（销售天天碰到，务必懂）</strong>：
+          <ul>
+            <li><strong>CT 电流互感器（TA）</strong>：串联在主回路，把大电流按比例变小（如 600/5 = 一次 600A 变二次 5A）送给仪表和保护。<strong>铁律：CT 二次侧严禁开路</strong>（运行中开路会感应出危险高压）。</li>
+            <li><strong>PT 电压互感器（TV）</strong>：并联在母线上，把高电压变低（10kV→100V）送给测量保护。<strong>铁律：PT 二次侧严禁短路</strong>。</li>
+            <li>你的变送器、保护继电器看到的电流电压，<strong>全是 CT/PT 变换后的小信号</strong>——所以客户报"600/5"，量程要按二次 5A 算，别按一次 600A 报。</li>
+          </ul>
+        </li>
+        <li><strong>变压器</strong>：靠电磁感应把电压升高或降低，不改频率；干变/油变、型号怎么读见 1.5。<strong>避雷器</strong>：雷击或操作过电压时泄流，保护设备绝缘。<strong>电容器柜</strong>：补无功、提高功率因数，避免被电网罚款。</li>
+        <li><strong>销售要点</strong>：每一台一次开关的"控制、保护、位置、信号"都要二次元件来实现——断路器要防跳和位置监视，三工位负荷开关要工位指示，这就是你用量的来源。</li>
+      </ul>
+
+      <h3 class="sub">B.4 二次系统：一次设备的"神经和大脑"（你的地盘）</h3>
+      <ul>
+        <li><strong>一次 = 骨骼肌肉</strong>，走高压大电流；<strong>二次 = 神经大脑</strong>，只走小信号，干五件事：<strong>测量、控制、保护、信号、操作电源供电</strong>。你卖的全部属于二次。</li>
+        <li><strong>继电保护到底在保护什么</strong>：电网最怕短路（相线碰一起或碰地），短路电流是正常的几十上百倍，几秒就烧毁设备。保护的使命 = 实时盯着电流电压，一旦越限，在<strong>几十毫秒内</strong>命令断路器跳闸，把故障段切掉、保住其余部分。</li>
+      </ul>
+      <p><strong>客户嘴里常见的保护名词：</strong></p>
+      <div class="tbl"><table>
+        <thead><tr><th>名词</th><th>在抓什么故障</th></tr></thead>
+        <tbody>
+          <tr><td class="m-name">过负荷 / 过流</td><td>电流超额定：过负荷是慢慢超（延时告警），过流要动作跳闸</td></tr>
+          <tr><td class="m-name">电流速断</td><td>电流瞬间爆表=近处短路，不延时立刻跳（"速断"=不带延时）</td></tr>
+          <tr><td class="m-name">过压 / 欠压 / 失压</td><td>电压太高、太低、或直接没了（失压）</td></tr>
+          <tr><td class="m-name">零序 / 接地保护</td><td>三相电流本应相互抵消、向量和为 0；出现"零序"=漏电或单相接地</td></tr>
+          <tr><td class="m-name">差动保护</td><td>比较设备"进"和"出"的电流，对不上=内部故障，主变/大电机主保护</td></tr>
+          <tr><td class="m-name">备自投 BZT</td><td>主电源消失，自动把备用电源/母联合上，缩短停电</td></tr>
+        </tbody>
+      </table></div>
+      <ul>
+        <li><strong>两条技术路线，先分清客户走哪条（极重要）</strong>：
+          <ul>
+            <li><strong>传统 / 分立元件</strong>：用一个个电磁继电器（电流、电压、时间、中间、信号继电器）按逻辑接线搭出保护和控制，看得见、好维修——<strong>这就是华用的菜。</strong></li>
+            <li><strong>微机综合保护（综保 / 微机保护）</strong>：把采集、判断、出口集成进一块带芯片的装置，一个盒子顶一套逻辑，走板卡和装置、基本不用分立继电器。<strong>只做微机综保整机的厂不是你的主力目标</strong>（但综保的出口、操作回路仍可能要少量中间继电器，可以问一句）。</li>
+          </ul>
+        </li>
+      </ul>
+      <div class="callout callout-brand"><p><strong>故障发生后的 0.1 秒（把自家产品串成一条链，这段务必看懂）：</strong><br>
+      短路发生 → CT 把大电流变小送给保护 → 电流继电器/保护判断"越限" → 时间继电器配合选择性（先跳最近的）→ 中间继电器放大出口信号 → 断路器分闸线圈 YT 得电 → 机构分闸、灭弧 → 跳位继电器 TWJ 返回"已分"位置 → 信号继电器/FA 动作，光字牌亮、警铃响、后台收到信号。<strong>这条链上每一个箭头，背后都是一类华用产品。</strong></p></div>
+      <ul>
+        <li><strong>防跳为什么是标配</strong>：万一合闸按钮卡住或接点粘连，而断路器正合在故障上，就会"跳—合—跳—合"反复跳跃，几秒烧毁合闸线圈和机构。<strong>防跳继电器 RL-TBJ 保证"一次合闸命令只合一次"</strong>，这是它成为招牌的原因。</li>
+        <li><strong>销售要点</strong>：能跟技术聊到这一层，你就不只是个报型号的销售，而是懂他回路的人——推荐型号时讲得出"它在你哪条回路上、解决什么问题"。</li>
+      </ul>
+
+      <h3 class="sub">B.5 一台开关柜里面长什么样（以 KYN28 为例解剖）</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>隔室</th><th>位置 / 装什么</th></tr></thead>
+        <tbody>
+          <tr><td class="m-name">母线室</td><td>柜子顶部，主母线铜排水平贯穿，各柜并联取电</td></tr>
+          <tr><td class="m-name">断路器手车室</td><td>柜子中层，装可摇出的断路器手车（VS1 等）</td></tr>
+          <tr><td class="m-name">电缆室</td><td>柜子下方，进出线电缆、CT、接地开关、避雷器</td></tr>
+          <tr><td class="m-name">二次仪表室（继电器室）</td><td>柜顶正面一格，端子排+继电器+仪表+指示灯+操作把手——<strong>你的件就住这</strong></td></tr>
+        </tbody>
+      </table></div>
+      <ul>
+        <li><strong>手车的三个位置（别和"三工位开关"搞混）</strong>：<strong>工作位置</strong>（一次插头插死、主回路接通）→ <strong>试验位置</strong>（一次断开、二次仍连着，可在不带高压下试分合闸）→ <strong>检修位置</strong>（手车摇出柜外，形成明显断开）。手车位置也要位置开关和指示，是双位置继电器的应用位。</li>
+        <li><strong>三工位开关（环网柜/充气柜里）</strong>：指负荷开关本身的 <strong>合闸—分闸—接地</strong> 三个工位，和手车三位置是两回事，别混；工位信号要上传后台，靠双/多位置继电器。</li>
+        <li><strong>二次室常见小件</strong>：操作/转换开关 SA、分合闸按钮 SB、合位红灯 HR、分位绿灯 HG、<strong>压板（连接片，用来投退某路保护）</strong>、端子排、微型断路器、防凝露加热器。</li>
+        <li><strong>五防怎么实现</strong>：<strong>机械闭锁</strong>（钥匙和联锁机构，顺序错了根本操作不动）+ <strong>电气闭锁</strong>（靠辅助接点和继电器，条件不满足控制回路就不通）。电气闭锁回路里的触点，就是继电器的应用点。</li>
+        <li><strong>销售要点</strong>：客户带你看柜，你能按"母线室—手车室—电缆室—二次室"一路说下来，并指出二次室哪里放 RC、哪里放 RL-TBJ、哪里装 THC，专业度立刻不一样。</li>
+      </ul>
+
+      <h3 class="sub">B.6 看懂电气图纸（二次图入门，能跟客户翻图）</h3>
+      <ul>
+        <li><strong>一次系统图（单线图）</strong>：用一条线代表三相，看主接线和柜列顺序（进线—计量—PT—出线—联络…，见 4.2）。</li>
+        <li><strong>二次原理图（展开图）</strong>：按"电流从上到下、从左到右流动"画逻辑，<strong>不按元件实际位置摆</strong>；同一个继电器的线圈和它的各个触点会被拆到不同回路里，用相同的文字编号关联。</li>
+        <li><strong>安装接线图 / 端子排图</strong>：告诉你线实际怎么接、接到哪个端子。</li>
+        <li><strong>看图心法</strong>：先找某个继电器的<strong>线圈在哪得电</strong>，再顺着找<strong>它的触点控制了谁</strong>。规律：线圈一得电，它所有常开触点闭合、常闭触点断开；一失电全部复原。</li>
+      </ul>
+      <p><strong>最常见文字符号（截图存手机）：</strong></p>
+      <div class="tbl"><table>
+        <thead><tr><th>符号</th><th>是什么</th><th>符号</th><th>是什么</th></tr></thead>
+        <tbody>
+          <tr><td class="m-name">QF</td><td>断路器</td><td class="m-name">KA</td><td>中间继电器</td></tr>
+          <tr><td class="m-name">QS</td><td>隔离开关/接地刀</td><td class="m-name">KT</td><td>时间继电器</td></tr>
+          <tr><td class="m-name">QL</td><td>负荷开关</td><td class="m-name">KS</td><td>信号继电器</td></tr>
+          <tr><td class="m-name">KM</td><td>接触器</td><td class="m-name">KC/KV</td><td>电流/电压继电器</td></tr>
+          <tr><td class="m-name">TA</td><td>电流互感器 CT</td><td class="m-name">TV</td><td>电压互感器 PT</td></tr>
+          <tr><td class="m-name">SA</td><td>控制/转换开关</td><td class="m-name">SB</td><td>按钮</td></tr>
+          <tr><td class="m-name">YC/YT</td><td>合闸/分闸线圈</td><td class="m-name">HR/HG</td><td>合位红灯/分位绿灯</td></tr>
+          <tr><td class="m-name">FU</td><td>熔断器</td><td class="m-name">PE</td><td>保护接地</td></tr>
+        </tbody>
+      </table></div>
+      <ul>
+        <li><strong>常见小母线标号</strong>：+KM/-KM 控制电源小母线、+HM/-HM 合闸电源小母线、±XM 信号电源小母线；A/B/C 三相、N 中性线、PE 保护地。</li>
+        <li><strong>常开 NO / 常闭 NC</strong>：线圈没通电时断开=常开，没通电时闭合=常闭；线圈得电后状态反过来。客户说"几常开几常闭/2 开 2 闭"，说的就是触点组合。</li>
+        <li><strong>销售要点</strong>：客户和设计院对着图讨论时，你能在二次图上指出"这个防跳回路用 RL-TBJ、这个出口用 RC、这个位置用 RDP"——<strong>图上被标上型号，就是进 BOM 的第一步</strong>（见第六章）。</li>
+      </ul>
+
+      <h3 class="sub">B.7 接地、零线与最容易混的安全概念</h3>
+      <ul>
+        <li><strong>火线 / 零线 N / 地线 PE</strong>：火线带电压、是来电端；零线 N 是工作回路、电流回去的路；地线 PE 正常不带电流，只在漏电时把电导入大地保命。</li>
+        <li><strong>接地系统一句话对号</strong>：<strong>TN-S</strong>=三火+N+PE 五根线、N 与 PE 全程分开（最规范，新工厂主流）；<strong>TN-C</strong>=N 和 PE 合并成一根 PEN（老四线）；<strong>TT</strong>=设备单独就地接地；<strong>IT</strong>=系统不接地/高阻接地（医院、矿山等要求供电高可靠场所）。销售不用会算，听到能对号即可。</li>
+        <li><strong>漏电 / 剩余电流 / 零序</strong>：正常时"出去多少电流=回来多少"，一旦有电流从绝缘破损处漏走，进出不等，差值就是剩余/零序电流，零序保护就是抓它。</li>
+        <li><strong>绝缘、爬电与凝露</strong>：绝缘电阻用 MΩ 衡量、越大越安全；高压件之间、高压件对地要留够<strong>空气间隙和爬电距离</strong>。潮湿凝露会让绝缘下降、发生爬电闪络——这正是柜内要用 THC 加热驱潮的原因。</li>
+        <li><strong>常见额定词</strong>：额定电流 In、额定电压 Un；<strong>IP 防护等级</strong>（第一位防尘、第二位防水，如 IP4X = 防 1mm 以上固体进入）；<strong>温升</strong>=通电发热允许比环境高出的温度。</li>
+        <li><strong>销售要点</strong>：接地刀位置、零序、绝缘监测、IP 等级、防凝露都是成套柜验收必谈项，每一个都能接到对应产品。</li>
+      </ul>
+
+      <h3 class="sub">B.8 数字与单位速通（客户嘴里的量一次讲清）</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>量</th><th>单位</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td class="m-name">电流</td><td>A / mA</td><td>1A = 1000mA</td></tr>
+          <tr><td class="m-name">电压</td><td>V / kV</td><td>1kV = 1000V</td></tr>
+          <tr><td class="m-name">有功功率</td><td>W / kW / MW</td><td>真正干活的功率，电机用 kW 标</td></tr>
+          <tr><td class="m-name">视在功率</td><td>VA / kVA</td><td>"总容量"，变压器、UPS 用 kVA 标</td></tr>
+          <tr><td class="m-name">无功功率</td><td>var / kvar</td><td>在磁场里来回交换、不直接干活的部分</td></tr>
+          <tr><td class="m-name">电能</td><td>kWh（度）</td><td>功率×时间，电表走的就是它</td></tr>
+          <tr><td class="m-name">频率</td><td>Hz</td><td>中国工频 50Hz</td></tr>
+          <tr><td class="m-name">电阻 / 绝缘</td><td>Ω / MΩ</td><td>绝缘电阻越大越安全</td></tr>
+        </tbody>
+      </table></div>
+      <ul>
+        <li><strong>kW 和 kVA 差在哪</strong>：kW = kVA × 功率因数 cosφ（一般 0.8~0.95）。容量里有一小部分无功不直接干活，所以变压器用更大的 kVA 来标称——客户说"1000 的变压器"指 1000kVA。</li>
+        <li><strong>二次标准值（背下来）</strong>：CT 二次额定 <strong>5A</strong>（也有 1A）；PT 二次额定线电压 <strong>100V</strong>；控制/合闸电源 <strong>DC220V、DC110V</strong>；触点容量常见 5A/8A。</li>
+        <li><strong>整定值 / 动作时间</strong>：整定值=人为设定的动作门槛（如过流整定 5A，超过才动作）；动作时间以毫秒计，快速型继电器 ≤7ms。</li>
+        <li><strong>销售要点</strong>：配合 1.10、1.11 两张数字表，客户报任何数字，你先判断三件事——<strong>是一次值还是二次值、交流还是直流、是容量还是功率</strong>，再选规格，就不会报错。</li>
+      </ul>
+      <div class="callout callout-warn"><p>这一章是地基，不必死记。<strong>先吃透 B.1 水电类比、B.2 电的旅程、B.4 故障 0.1 秒时间线、B.6 符号表</strong>，再往后看产品和场景章，会顺很多；跑客户遇到不懂的词，回到这一章对号。</p></div>
+    </div>
+  </section>
 
   <!-- ============ 〇 公司一句话与实力清单 ============ -->
   <section class="block reveal" id="ch0">
@@ -663,6 +832,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
       </table></div>
 
       <h3 class="sub">2.1 继电器家族（型号最多、柜内用量最大）</h3>
+      <div class="callout callout-brand"><p><strong>先搞懂继电器到底是什么（30 秒）：</strong>它就是一个"用弱电控制强电、用一路信号控制多路通断"的电磁开关——内部一圈<strong>线圈</strong>，一通电产生磁力，把金属<strong>触点</strong>吸合或释放，触点那头接的电路就跟着接通/断开。<strong>为什么柜里非用它不可：</strong>保护装置、PLC 出来的信号很弱，带不动跳闸线圈、指示灯、警铃这些负载，而且一路信号往往要同时去好几个地方，必须靠继电器把信号<strong>放大、隔离、一分多路</strong>，所以它在二次回路里用量最大。另有<strong>固态继电器（SSR，半导体通断、无机械触点、动作快但怕过载发热）</strong>，电力柜内绝大多数仍是电磁继电器，你销售的也以电磁式为主。</p></div>
       <ul>
         <li><strong>中间继电器（RC 系列）</strong>：把一个小信号放大成多个输出的"多路开关"。柜子里用量最大的品种。一个中间继电器上通常有 2~8 对触点。RC 系列分五档：
           <ul>
@@ -755,6 +925,22 @@ td .m-spec{color:var(--muted);font-size:12.5px}
         </li>
         <li><strong>实战用法</strong>：客户电话里报"RL-TBJ-DW"，你 1 秒反应"断路器防跳、直流操作型"——比翻目录快，专业感直接拉满。</li>
       </ul>
+
+      <h3 class="sub">2.7 选型七问：接到询价先问清这 7 项，少问一个就可能报错型号</h3>
+      <div class="callout callout-warn"><p>客户一句"给我报个继电器"是没法直接报价的。<strong>下面 7 项问不全就回公司找技术确认，别凭感觉报——报错规格来回退换，比多问两句贵得多。</strong></p></div>
+      <div class="tbl"><table>
+        <thead><tr><th>#</th><th>必问项</th><th>怎么问 / 常见取值</th><th>决定什么</th></tr></thead>
+        <tbody>
+          <tr><td class="m-name">1</td><td>线圈 / 辅助电源</td><td>"给继电器供什么电？交流还是直流、多少伏？"（AC220 / DC220 / DC110 / DC24 / 85~265 宽范围）</td><td>选哪个电压规格；交直流报错直接不能用</td></tr>
+          <tr><td class="m-name">2</td><td>触点形式与对数</td><td>"几常开几常闭？"（H 常开 / D 常闭 / Z 转换，如 2Z、4H2D）</td><td>选后缀触点档（2Z/4Z/8Z…）</td></tr>
+          <tr><td class="m-name">3</td><td>触点容量与负载</td><td>"触点带多大电流？带灯/信号，还是带线圈、电机？"（8A 250VAC、10A 220VDC；感性负载要降容）</td><td>选常规型还是 RC-V 直流/大触点型</td></tr>
+          <tr><td class="m-name">4</td><td>要实现的功能</td><td>"这个件在回路里干什么？"（放大信号 / 防跳 / 延时 / 双位置 / 双电源切换 / 电压电流监视 / 变送上传…）</td><td>决定家族：RC / RL-TBJ / RT / RDP / RVS / RMY·RML / TE·TT…</td></tr>
+          <tr><td class="m-name">5</td><td>整定范围（量度类）</td><td>"过流/过压整定多少？要在什么范围内可调？"</td><td>RML/RMY 规格档，整定范围必须盖住客户整定值</td></tr>
+          <tr><td class="m-name">6</td><td>动作时间 / 有无辅助电源</td><td>"要不要快（≤7ms）？现场取不取得到辅助电源？"</td><td>要快选 RC-F；无辅助电源选无源型 RMY-K / RT-NP</td></tr>
+          <tr><td class="m-name">7</td><td>输出制式 / 安装 / 认证</td><td>"要接点输出还是 4-20mA / RS485？导轨还是嵌入式？要不要 CCC/CE/入网？"</td><td>变送类选输出制式；确认安装方式与要交付的认证</td></tr>
+        </tbody>
+      </table></div>
+      <div class="callout callout-brand"><p>一句话口诀：<strong>"先问电（电源）、再问点（触点）、再问干啥（功能）、最后问怎么传（输出）和要什么证（认证）"</strong>——对应上面 7 项，电话里照着问，两分钟就能把一句"报个继电器"问成可以落型号的需求。</p></div>
     </div>
   </section>
 
@@ -775,6 +961,18 @@ td .m-spec{color:var(--muted);font-size:12.5px}
         <li><strong>DTU / FTU / TTU</strong>：配网自动化终端（站所/馈线/配变），配电自动化客户的主产品。</li>
         <li><strong>四遥</strong>：遥测、遥信、遥控、遥调——电网远程监控的四种功能，是"电力物联网"的老词。<strong>遥测=变送器的活、遥信=信号继电器/报警器的活——听到"四遥"就想到变送器+信号类两条线。</strong></li>
       </ul>
+
+      <h3 class="sub">3.1 客户嘴里的品牌梯队与国产替代打法（听到牌子不慌）</h3>
+      <p>客户说"我们一直用 XX 的"，你要先知道对方在哪个档位，再谈怎么切。下面是工业/电力柜里最常被提到的接口与继电器品牌，<strong>只做认知，任何场合都不贬低对手</strong>。</p>
+      <div class="tbl"><table>
+        <thead><tr><th>梯队</th><th>代表品牌（客户可能提到）</th><th>特点 / 客户为什么用它</th></tr></thead>
+        <tbody>
+          <tr><td class="m-name">欧美日进口</td><td>菲尼克斯 Phoenix Contact、魏德米勒 Weidmüller、和泉 IDEC、欧姆龙 OMRON、施耐德、ABB</td><td>做工一致性好、插拔式接口件强；价格高、交期长、服务链条远——是国产替代的主要对象</td></tr>
+          <tr><td class="m-name">国内通用大厂</td><td>宏发、正泰、德力西等</td><td>通用继电器、低压电器量大面广、认知度高；但防跳、双位置、抗干扰、非全相这类<strong>电力二次专用型号不一定齐</strong></td></tr>
+          <tr><td class="m-name">电力二次专业厂</td><td>华用（我们）及一批电力继电器专业厂</td><td>围绕开关柜、断路器、直流屏的操作与保护回路做专用型号，谱系全、贴合电力标准，响应和交期快</td></tr>
+        </tbody>
+      </table></div>
+      <div class="callout callout-brand"><p><strong>我们的替代打法（只讲自己真实有的）：</strong>① <strong>型号谱系全</strong>——防跳 RL-TBJ、低气压闭锁 RN-FT、非全相 RN-FB、抗干扰 RAI 这些电力专用件，通用品牌往往要东拼西凑，我们一站式配齐；② <strong>背书硬</strong>——给许继、平高、西电供货，进国网/南网体系，CCC/CE/CB 齐全；③ <strong>国产替代交期与服务快</strong>——给同参数对比表 + 免费送样上机，先做"同等替代 / B 点备份"，用数据说话（接话方式见第 15 章"我们一直用进口的"那一行）。</p></div>
     </div>
   </section>
 
@@ -1030,7 +1228,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
           <tr><td class="m-name">"分相操作 / 三相不一致"</td><td>RN-FB 非全相保护继电器</td></tr>
         </tbody>
       </table></div>
-      <div class="callout callout-warn"><p>反着用也成立：客户报完需求你接型号，<strong>报完再补一句"它干这个的专长是……"，一句话把"卖货"变成"专家给方案"。</strong></p></div>
+      <div class="callout callout-warn"><p>反着用也成立：客户报完需求你接型号，<strong>报完再补一句"它干这个的专长是……"，一句话把"报价格"变成"专家给方案"。</strong></p></div>
     </div>
   </section>
 
@@ -1388,7 +1586,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
           <tr><td class="m-name">"两路进线要自动切"</td><td>双电源自动切换</td><td>推 RVS/RVS-DC/RMS 电源切换继电器</td></tr>
           <tr><td class="m-name">"柜内直流电源用谁的"</td><td>问给二次设备供电的开关电源品牌</td><td>推 YDSP 开关电源，重要负载加 DPM 冗余模块</td></tr>
           <tr><td class="m-name">"埋的是 PT100"</td><td>测温电阻是铂电阻</td><td>TT/DTC 都能配，问埋了几只</td></tr>
-          <tr><td class="m-name">"温度要检同期"</td><td>并网/备自投前核对压差角差频差</td><td>推 RMY-T 同步检查继电器</td></tr>
+          <tr><td class="m-name">"并网/备自投要检同期"</td><td>合闸前核对两侧压差、角差、频差</td><td>推 RMY-T 同步检查继电器</td></tr>
           <tr><td class="m-name">"柜子要能报出事故信号"</td><td>需要故障汇总+光字牌</td><td>推 FA 信号报警器，问几路输入</td></tr>
           <tr><td class="m-name">"这台是分相操作的"</td><td>220kV+ 分相断路器</td><td>推 RN-FB 非全相保护</td></tr>
         </tbody>
@@ -1434,6 +1632,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
         <li><strong>见变频柜/矿山等强干扰客户</strong>："变频器旁边普通继电器容易误动，我们的 RAI 启动功率大于 5 瓦、持续抗工频 220 伏不误动、防反接防烧——专门为这种环境设计的。"</li>
         <li><strong>见电网/供电局终端</strong>："我们已入国网/南网体系，许继、平高、西电都有供货记录；四遥配套的变送器、信号报警器、继电器全产品线都齐，资料和型式试验报告都带全了。"</li>
         <li><strong>见所有成长期客户</strong>："我们免费送样配合你们选型测试，型号定进图纸（BOM）后批量价格再谈。"</li>
+        <li><strong>电话首次触达（通用开场，不先报公司名）</strong>："您好，请问是咱们厂技术（采购）这边吗？——我们一直给许继、平高、西电这类厂供开关柜里的二次元件，像防跳继电器、中间继电器、温湿度控制器这些。想先了解下，咱们现在干变（直流屏/断路器）柜里这部分，是自己选型还是按设计院图纸来的？"<strong>先抛行业场景和供货背书勾起兴趣、问出有没有选型权，等聊上需求再自报家门和姓名——一上来就报没人听过的公司名，最容易被直接挂断。</strong></li>
       </ol>
     </div>
   </section>
@@ -1466,7 +1665,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
   <!-- ============ 附2 设备场景速记卡 ============ -->
   <section class="block reveal" id="app2">
     <div class="section-inner">
-      <h2 class="section-title"><span class="sec-no">附2</span>设备场景速记卡<span style="font-family:var(--sans);font-size:12.5px;font-weight:500;color:var(--dim)">32 个 · 客户嘴里的设备词</span></h2>
+      <h2 class="section-title"><span class="sec-no">附2</span>设备场景速记卡<span style="font-family:var(--sans);font-size:12.5px;font-weight:500;color:var(--dim)">48 个 · 客户嘴里的设备词</span></h2>
       <div class="flash-grid">
         <div class="flash"><div class="term">开关柜</div><div class="def">装断路器+二次设备的柜子总称，你的产品最多的家</div></div>
         <div class="flash"><div class="term">KYN28</div><div class="def">最常见 10kV 中置柜，柜顶"二次室"=继电器的房间</div></div>
@@ -1500,6 +1699,22 @@ td .m-spec{color:var(--muted);font-size:12.5px}
         <div class="flash"><div class="term">充电桩</div><div class="def">直流快充模块发热大 → TT 模块测温+YDSP 辅助电源</div></div>
         <div class="flash"><div class="term">消防联动</div><div class="def">消防泵/排烟风机双电源+顺序启动 → RVS+RT+RC+FA</div></div>
         <div class="flash"><div class="term">控制变压器</div><div class="def">380V 转 100V 等电压转换，XF 系列的应用位</div></div>
+        <div class="flash"><div class="term">三工位</div><div class="def">环网柜/充气柜负荷开关的三个位置：合闸—分闸—接地，一把刀切换；位置要靠双位置/多位置继电器反馈给后台</div></div>
+        <div class="flash"><div class="term">五防闭锁</div><div class="def">成套柜强制的五道安全联锁（防误分误合、带负荷拉刀闸、带电挂地线、带地线合闸、误入间隔），闭锁回路=继电器硬需求</div></div>
+        <div class="flash"><div class="term">真空断路器</div><div class="def">10kV 主流开关，靠真空泡灭弧；你供的防跳/合保/跳位监视就装在它的操作回路里</div></div>
+        <div class="flash"><div class="term">VS1 / VD4</div><div class="def">KYN28 里最常见的手车式真空断路器（VS1 国产主流、VD4 是 ABB），客户说"配 VS1"就是它</div></div>
+        <div class="flash"><div class="term">SF6 六氟化硫</div><div class="def">高压柜/GIS 用的绝缘灭弧气体，气压低要报警闭锁 → RN-FT 低气压闭锁继电器</div></div>
+        <div class="flash"><div class="term">充气柜（C-GIS）</div><div class="def">钢板密封、内充 SF6 的环网柜，三工位+气压闭锁一个不少，小型继电器用量集中</div></div>
+        <div class="flash"><div class="term">箱变（箱式变电站）</div><div class="def">把变压器+高压柜+低压柜塞进一个箱体，分欧式/美式；每台都是成套件+干变温控的整单</div></div>
+        <div class="flash"><div class="term">移开式 / 固定式</div><div class="def">手车能摇出来=移开式（KYN28），断路器固定装死=固定式（XGN）；两种都要操作回路继电器</div></div>
+        <div class="flash"><div class="term">弹簧储能</div><div class="def">断路器合闸前先由电机把弹簧拉紧"上弦"，储能到位/未到位要做指示和闭锁</div></div>
+        <div class="flash"><div class="term">PT / CT 互感器</div><div class="def">PT 取电压（PT 切换用 RVSD）、CT 取电流（喂给量度继电器），每面柜必备的小件</div></div>
+        <div class="flash"><div class="term">操作回路（二次回路）</div><div class="def">控制断路器分合闸的那套弱电回路，防跳、合保、跳/合位监视全在这——你的主战场</div></div>
+        <div class="flash"><div class="term">低压成套柜</div><div class="def">0.4kV 的 GGD（固定）和 GCS/GCK/MNS（抽屉柜）；MNS 抽屉柜里中间、时间继电器最密</div></div>
+        <div class="flash"><div class="term">干变温控</div><div class="def">干变配的温控箱：测三相绕组温度，到点启风机、再高报警、最高跳闸 = DTC 干变温控器</div></div>
+        <div class="flash"><div class="term">电缆分支箱 DFW</div><div class="def">路边把一路电缆分成几路的铁箱子，配网改造量大，负荷开关+位置指示用小型继电器</div></div>
+        <div class="flash"><div class="term">一二次融合</div><div class="def">把一次开关和二次 DTU/保护做成一体（环网箱、柱上开关），国网主推方向，分立元件被压缩——见到心里有数</div></div>
+        <div class="flash"><div class="term">微机综保 vs 分立继电器</div><div class="def">综保=一块芯片搞定保护（走板卡、不用你的件）；传统屏柜用分立继电器搭逻辑才是你的菜，先分清客户走哪条路</div></div>
       </div>
     </div>
   </section>
@@ -1617,7 +1832,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
       </div>
       <p>本手册为销售内部学习与参考材料，产品参数与型号信息以本公司官方发布的产品说明书及手册为准，产品规格可能变更，恕不另行通知。</p>
     </div>
-    <div class="footer-copy">让电力更安全 · 销售速查手册 V7.0</div>
+    <div class="footer-copy">让电力更安全 · 销售速查手册 V7.1</div>
   </div>
 </main>
 
