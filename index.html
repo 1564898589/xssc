@@ -409,7 +409,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
       <a class="nav-link" href="#app3"><span class="n">附3</span>拜访前 Checklist</a>
     </div>
   </nav>
-  <div class="sidebar-foot">V7.9 · 内部学习参考<br>以公司官方说明书为准</div>
+  <div class="sidebar-foot">V8.1 · 内部学习参考<br>以公司官方说明书为准</div>
 </aside>
 
 <main class="content">
@@ -423,7 +423,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
       </h1>
       <p class="lead">跑客户时听到的词、客户报的身份、柜子里装的东西、谈单要用的流程与话术——一本随身速查，见客户前翻一翻，进会议室不慌。</p>
       <div class="hero-meta">
-        <span>版本 <b>V7.9</b></span>
+        <span>版本 <b>V8.1</b></span>
         <span>适用 <b>全体销售 / 技术支持</b></span>
         <span>用途 <b>拜访 · 交流 · 培训</b></span>
       </div>
@@ -561,7 +561,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
         </tbody>
       </table></div>
       <ul>
-        <li><strong>手车的三个位置（别和"三工位开关"搞混）</strong>：<strong>工作位置</strong>（一次插头插死、主回路接通）→ <strong>试验位置</strong>（一次断开、二次仍连着，可在不带高压下试分合闸）→ <strong>检修位置</strong>（手车摇出柜外，形成明显断开）。手车位置也要位置开关和指示，是双位置继电器的应用位。</li>
+        <li><strong>手车的三个位置（别和"三工位开关"搞混）</strong>：<strong>工作位置</strong>（一次插头插死、主回路接通）→ <strong>试验位置</strong>（一次断开、二次仍连着，可在不带高压下试分合闸）→ <strong>检修位置</strong>（手车摇出柜外，形成明显断开）。手车位置也要位置开关和指示，是双位置继电器的应用位。手车本身还分工种：<strong>断路器手车、PT（电压互感器）手车、隔离手车、计量手车、熔断器手车</strong>——可摇出的小车装什么就叫什么手车，无论哪种，二次室都要给它做位置指示和联锁。</li>
         <li><strong>三工位开关（环网柜/充气柜里）</strong>：指负荷开关本身的 <strong>合闸—分闸—接地</strong> 三个工位，和手车三位置是两回事，别混；工位信号要上传后台，靠双/多位置继电器。</li>
         <li><strong>二次室常见小件</strong>：操作/转换开关 SA、分合闸按钮 SB、合位红灯 HR、分位绿灯 HG、<strong>压板（连接片，用来投退某路保护）</strong>、端子排、微型断路器、防凝露加热器。</li>
         <li><strong>五防怎么实现</strong>：<strong>机械闭锁</strong>（钥匙和联锁机构，顺序错了根本操作不动）+ <strong>电气闭锁</strong>（靠辅助接点和继电器，条件不满足控制回路就不通）。电气闭锁回路里的触点，就是继电器的应用点。</li>
@@ -1000,7 +1000,26 @@ td .m-spec{color:var(--muted);font-size:12.5px}
       <ul>
         <li><strong>开关柜（总称）</strong>：装断路器+二次元件的柜子统称，高压柜（10~35kV）和低压柜（0.4kV）都算。<strong>柜 vs 屏</strong>：配电现场叫"柜"（开关柜、直流柜），电站里立起来一排的专业设备叫"屏"（保护屏、直流屏、远动屏）——本质都是"柜子+二次设备"。</li>
         <li><strong>KYN28（中置柜）</strong>：最常见的 10kV 金属铠装移开式开关柜。K=铠装，Y=移开式，N=户内，28=设计序号。断路器装在<strong>手车</strong>上（可像抽屉一样拉出检修），中置=手车在柜子中间层。<strong>柜顶正面那格叫"继电器室/二次室（低压室）"——你的中间继电器、信号继电器就住在这里。</strong> 客户说"二次室空间太挤"= 小型化/可拔插结构的切入点。<strong>我们在这：RC/RC-P 中间继电器、RT 时间继电器、THC 温湿度控制器（防凝露）、YDSP 开关电源。</strong></li>
-        <li><strong>XGN / HXGN（固定式柜/环网柜）</strong>：XGN=固定式金属封闭柜（断路器固定装，检修要停电）；HXGN=<strong>环网柜</strong>，体积小、装 SF6 负荷开关，城市配网"环网"主干用。<strong>环网柜空间更小，小型导轨式继电器/温湿度控制器（THC 防凝露）的机会。</strong> <strong>我们在这：RC 中间继电器（含小型可拔插型）、THC 温湿度控制器、RVS 双电源切换继电器。</strong></li>
+        <li><strong>XGN / HXGN（固定式柜/环网柜）</strong>：XGN=固定式金属封闭柜（断路器固定装，检修要停电）；HXGN=<strong>环网柜（行业英文简称 RMU，Ring Main Unit）</strong>，体积小、装负荷开关，城市配网"环网"主干用，外资厂和出口单常直接叫 RMU。<strong>环网柜空间更小，小型导轨式/可拔插继电器、温湿度控制器（THC 防凝露）的机会。</strong> <strong>我们在这：RC 中间继电器（含小型可拔插型）、THC 温湿度控制器、RVS 双电源切换继电器。</strong></li>
+        <li><strong>充气柜（C-GIS，气体绝缘开关柜）</strong>：把断路器/负荷开关、隔离开关、母线等高压带电部分全部密封进钢板气箱、箱内充绝缘气体的中压柜，全绝缘、全密封、免维护、体积小，抗潮湿、抗污秽、抗盐雾，地下配电室、紧凑站房、沿海和高海拔用得多。<strong>两个维度最容易说错，务必分清：①"充气柜"按绝缘/密封方式命名，"环网柜"按用途（环网供电）命名，两者有交叉——既有充气式环网柜，也有空气绝缘环网柜（HXGN）；充气柜也能做成断路器馈线柜，不一定是环网柜。②它和 GIS 是大小两码事：GIS 是变电站里的大型组合电器（电压等级高、按间隔组合），C-GIS 是配电级整柜密封，常见 12/24/40.5kV。</strong>气箱里传统充 SF6，现在越来越多改用<strong>干燥空气、氮气等环保气体</strong>（SF6 是强温室气体，受限）。<strong>我们在这：三工位/开关位置重动（双位置+中间继电器按辅助接点组合，以图为准）、小型可拔插中间继电器 RC-P、THC 防凝露（地下/户外尤其要）。两个边界别报错：只有充 SF6 的柜才用得上 RN-FT 的低气压闭锁，环保气体柜、固体柜没有"SF6 气压"这一说；只有断路器型充气柜才用防跳 RL-TBJ，负荷开关-熔断器型不用防跳。</strong></li>
+        <li><strong>固体绝缘柜 / 环保气体柜（和充气柜并列、客户常一起提）</strong>：<strong>固体绝缘柜（SIS）</strong>用环氧树脂把带电体浇注封死、柜内没有绝缘气体，也就没有漏气和气压问题；<strong>环保气体柜</strong>结构同充气柜，但把 SF6 换成干燥空气/氮气/环保混合气体。三者都走"小型化、全密封、免维护"路线，<strong>二次元件用法和充气柜基本一致（位置重动＋小型中间＋防凝露），唯一区别：固体柜和环保气体柜都没有 SF6 低气压闭锁，RN-FT 的气压功能用不上，别按充气柜照搬。</strong></li>
+        <li><strong>隔离柜 / 站用变柜 / 避雷器柜（一排柜里剩下的功能柜）</strong>：<strong>隔离柜</strong>装隔离开关或隔离手车，检修时给出一个看得见的明显断开点（它不切负荷电流）；<strong>站用变柜（所用变柜）</strong>柜内装一台小变压器把 10kV 变 0.4kV，给本站照明、加热、直流屏充电等自用电供电；<strong>避雷器柜（PT 避雷器柜）</strong>装避雷器吸收雷击和操作过电压，常和 PT 柜合并。<strong>这些柜的二次室同样要位置指示、信号报警和防凝露，是 RC、FA、THC 的补充用量位。</strong></li>
+        <li><strong>电缆分支箱 / 环网箱 / JP 柜（户外配网三件套，配网改造量大）</strong>：<strong>电缆分支箱（DFW）</strong>=路边把一路电缆分成几路的铁箱，普通型只做电缆分接、不含开关（基本不用继电器），带负荷开关的才有位置指示；<strong>环网箱（户外环网柜/开闭箱）</strong>=放到户外的环网柜组合、配 DTU 上后台，三工位位置重动、防凝露、变送器都要；<strong>JP 柜（综合配电箱）</strong>=挂在柱上变压器下方的低压箱，把配电、计量、无功补偿、漏电保护做进一个箱，农网/台网改造标配，低压小型中间继电器、信号器有零散用量。<strong>听到"配网、台变、农网"就对号这三件套。</strong></li>
+        <li><strong>高压柜型号命名密码（客户报一串型号，你当场拆开听懂）</strong>：
+          <div class="tbl"><table>
+            <thead><tr><th>位</th><th>字母/数字</th><th>含义</th></tr></thead>
+            <tbody>
+              <tr><td class="m-name">第1位·隔室结构</td><td>K / J / X</td><td>K=铠装式（各室用金属板全隔开，KYN28 就是）；J=间隔式（部分隔开）；X=箱式（共用箱体、隔板少，XGN 就是）</td></tr>
+              <tr><td class="m-name">第2位·断路器装法</td><td>Y / G</td><td>Y=移开式（断路器在手车上能摇出，"中置柜"属此类）；G=固定式（断路器固定装死）</td></tr>
+              <tr><td class="m-name">第3位·场所</td><td>N / W</td><td>N=户内；W=户外</td></tr>
+              <tr><td class="m-name">前缀 H</td><td>H</td><td>环网（HXGN=环网型·箱式·固定式·户内柜）</td></tr>
+              <tr><td class="m-name">中间数字</td><td>如 28 / 15</td><td>厂家设计序号，不代表参数高低</td></tr>
+              <tr><td class="m-name">横杠后</td><td>12 / 24 / 40.5</td><td>额定电压 kV：12=10kV 等级（最常见）、24=20kV、40.5=35kV 等级</td></tr>
+              <tr><td class="m-name">断路器型号</td><td>ZN63(VS1)</td><td>Z=真空、N=户内；VS1/ZN63 是 KYN28 里最常见的国产手车式真空断路器</td></tr>
+            </tbody>
+          </table></div>
+          举例：<strong>KYN28-12</strong>＝铠装(K)＋移开式(Y)＋户内(N)＋第 28 代＋12kV；<strong>HXGN15-12</strong>＝环网(H)＋箱式(X)＋固定式(G)＋户内(N)＋12kV。（扫盲用，具体以图纸和铭牌为准）
+        </li>
         <li><strong>GGD / GCS / GCK / MNS</strong>：都是低压柜（0.4kV）型号——GGD 固定面板式（最普及）；GCS/GCK/MNS <strong>抽屉柜</strong>（每个回路做成小抽屉，内装断路器+接触器+中间继电器+时间继电器）。<strong>低压成套厂的地盘，量大但选型权常在终端/设计院。</strong> <strong>我们在这：RC 中间继电器、RT 时间继电器、FA 信号报警器、THC 温湿度控制器。</strong></li>
         <li><strong>MCC / 动力中心（电机控制中心）</strong>：0.4kV 集中管理几十台电机的抽屉柜列，每台电机一个抽屉（断路器+接触器+热继电器+中间继电器+时间继电器）。<strong>电机类工厂、水厂、电厂辅机都是 MCC，是中间/时间继电器用量最大的柜型之一。</strong> <strong>我们在这：RC 中间继电器（顺序启动/星三角/互锁）、RT 时间继电器（延时/循环）、THC 柜内防凝露、FA 信号报警器（电机故障汇总）。</strong></li>
         <li><strong>配电柜 vs 配电箱</strong>：大个立地上的叫柜，小个挂墙上的叫箱（照明箱 AL、动力箱 AP）。箱子里也有继电器，量小。</li>
@@ -1008,9 +1027,9 @@ td .m-spec{color:var(--muted);font-size:12.5px}
         <li><strong>进线柜 / 出线柜（馈线柜）</strong>：电源进来的柜 / 电分出去的柜。"馈线"= 分出去的线路。</li>
         <li><strong>计量柜 / PT柜</strong>：装电表计量的柜 / 装电压互感器的柜。<strong>PT柜里的电压继电器（RMY）监视母线电压（欠压/过压告警）、电量变送器（TE）把计量数据送后台——这是你变送器和电压继电器的经典应用位。</strong> <strong>我们在这：RMY 电压继电器（母线电压监视）、TE 电量变送器（遥测上传）。</strong></li>
         <li><strong>联络柜（母联柜）</strong>：把两段母线连起来的柜。两路电源互为备用时由它切换——<strong>"备自投（BZT）"</strong>= 备用电源自动投入，就是母联柜自动合闸的逻辑；<strong>并网/备自投合闸前要"检同期"，同步检查继电器（RMY-T）就是干这个的；双电源切换继电器（RVS）是执行元件。</strong> <strong>我们在这：RMY-T 同步检查继电器、RVS 电源切换继电器、RC 中间继电器（出口回路）。</strong></li>
-        <li><strong>无功补偿柜（电容柜）</strong>：装电容器组提高功率因数（避免被电网罚款），<strong>电容器投切回路的延时/联锁用时间继电器、中间继电器</strong>。<strong>我们在这：RT 时间继电器（投切延时）、RC 中间继电器（联锁）、THC 柜内温控（电容柜发热）。</strong></li>
+        <li><strong>无功补偿柜（电容柜）</strong>：装电容器组提高功率因数（避免被电网罚款），<strong>电容器投切回路的延时/联锁用时间继电器、中间继电器</strong>。同一排电能质量柜还会听到：<strong>SVG（静止无功发生器，动态补无功）、APF（有源电力滤波器，滤谐波）、SVC（静止无功补偿装置）</strong>——都是电容柜的升级/同类，柜内控制、投切、报警元件相通。<strong>我们在这：RT 时间继电器（投切延时）、RC 中间继电器（联锁）、THC 柜内温控（电容柜发热）。</strong></li>
         <li><strong>变频柜 / 软启动柜</strong>：装变频器或软启动器的柜子，控制电机调速/平滑启动。<strong>变频器是电磁干扰源，旁边继电器容易误动——这是 RAI 抗干扰继电器的招牌场景。</strong> <strong>我们在这：RAI/RAI-V 抗干扰继电器（变频器旁）、THC 温湿度控制器（变频器发热大要散热/防凝露）、YDSP 开关电源（给控制板供电）。</strong></li>
-        <li><strong>直流屏（直流电源柜 / 直流系统）</strong>：变电站/配电室的"心脏起搏器"——柜内<strong>蓄电池组 + 充电模块</strong>，平时给全站二次设备供电，<strong>交流电全停时靠电池撑住——保护和断路器跳合闸一刻都离不开它</strong>。客户必查、验收必看的核心柜：
+        <li><strong>直流屏（直流电源柜 / 直流系统，常见型号 GZDW＝柜式·直流·电力·微机控制）</strong>：变电站/配电室的"心脏起搏器"——柜内<strong>蓄电池组 + 充电模块</strong>，平时给全站二次设备供电，<strong>交流电全停时靠电池撑住——保护和断路器跳合闸一刻都离不开它</strong>。客户必查、验收必看的核心柜：
           <ul>
             <li><strong>合母 / 控母（HM / KM）</strong>：合闸母线（电压高，如 DC220V，给合闸线圈瞬间大电流）；控制母线（给保护、仪表、继电器的小电流电源）。合母经<strong>硅链（降压硅堆）</strong>降到控母等级。<strong>客户说"控母电压监视"= 你电压继电器（RMY）的活。</strong></li>
             <li><strong>浮充 / 均充</strong>：平时小电流"浮充"养电池；定期大电流"均充"补足。直流屏维护的高频词。</li>
@@ -1023,16 +1042,50 @@ td .m-spec{color:var(--muted);font-size:12.5px}
         </li>
         <li><strong>一体化电源柜（智能一体化电源系统）</strong>：新建变电站的主流配置——把直流屏、UPS、通信电源、逆变电源<strong>合成一个柜、共享一组蓄电池</strong>。客户说"做一体化电源"= 还是直流屏那套元件，只是柜子合并了。<strong>我们在这：同直流屏全系列（RMY/RDP/FA/YDSP/DPM），外加 UPS 相关变送与切换。</strong></li>
         <li><strong>通信屏 / 远动屏</strong>：装通信管理机、四遥设备的屏（把现场信号送电网后台）。<strong>"温度/电流要上传"= 变送器（TT/TE）挂到这面屏的机会。</strong> <strong>我们在这：TT 温度变送器、TE 电量变送器、THS 温湿度变送器（RS485 直挂通信管理机）。</strong></li>
-        <li><strong>DTU / FTU 站所终端柜（配网自动化柜）</strong>：装配网自动化终端的户外/户内柜——DTU（站所终端，管整个配电室）、FTU（馈线终端，管一条线路）。<strong>做配网自动化的客户=变送器+开关电源的稳定客户。</strong> <strong>我们在这：TE 电量变送器（电压/电流采集）、RS485 通信配套、YDSP 开关电源、THC 户外柜防凝露。</strong></li>
-        <li><strong>UPS / EPS 屏</strong>：交流不间断 / 应急电源柜，机房和楼宇标配，内含控制回路。</li>
-        <li><strong>箱变（箱式变电站）</strong>：变压器+高压柜+低压柜整套装进一个铁箱，工厂预装、现场吊装。欧式（大铁房子）/ 美式（变压器本体+外挂）两种。<strong>箱变里的干变同样要装温控器（DTC/TC）——干变厂接箱变订单 = 温控器跟着走。</strong> <strong>我们在这：DTC/TC 干变温控器、RVS 双电源切换（箱变常有双回路）、RL-TBJ 防跳、RDP 双位置、THC 箱内防凝露。</strong></li>
+        <li><strong>DTU / FTU 站所终端柜（配网自动化柜）</strong>：装配网自动化终端的户外/户内柜——DTU（站所终端，Distribution Terminal Unit，管整个配电室/开闭所）、FTU（馈线终端，Feeder Terminal Unit，管一条出线）、TTU（配变终端，Transformer Terminal Unit，管一台台变/箱变）。<strong>做配网自动化的客户=变送器+开关电源的稳定客户。</strong> <strong>我们在这：TE 电量变送器（电压/电流采集）、RS485 通信配套、YDSP 开关电源、THC 户外柜防凝露。</strong></li>
+        <li><strong>UPS / EPS 屏</strong>：UPS（Uninterruptible Power Supply，不间断电源，平时在线、停电无缝顶上，机房用）/ EPS（Emergency Power Supply，应急电源，平时待机、事故才投，消防应急用），都是交流电源柜，内含切换与控制回路。</li>
+        <li><strong>箱变（箱式变电站）</strong>：变压器+高压柜+低压柜整套装进一个箱体，工厂预装、现场吊装。分三种风格：<strong>欧式（学名预装式变电站，型号 YBM/YBP，高压室、变压器室、低压室隔间齐全，像个小铁房）</strong>、<strong>美式（学名组合式变压器，型号 ZGS，以变压器本体为主、元件外挂，更紧凑）</strong>、<strong>华式（介于欧美之间的国产紧凑型，新能源箱变多用）</strong>。<strong>箱变里的干变同样要装温控器（DTC/TC）——干变厂接箱变订单 = 温控器跟着走。</strong> <strong>我们在这：DTC/TC 干变温控器、RVS 双电源切换（箱变常有双回路）、RL-TBJ 防跳、RDP 双位置、THC 箱内防凝露。</strong></li>
         <li><strong>端子箱 / 汇控柜</strong>：户外设备旁的小柜子。端子箱=电缆中转接线；汇控柜=GIS/户外断路器旁的"大脑"，汇集本间隔全部二次回路（跳合闸、信号、闭锁、加热驱潮）。<strong>汇控柜里防跳、双位置、非全相、SF6闭锁继电器、温湿度控制器（防凝露）全套都装——断路器厂/GIS厂/集成商是 RN 系列的客户。</strong> <strong>我们在这：RL-TBJ 防跳、RDP 双位置、RN-FB 非全相、RN-FT 防跳+SF6闭锁、THC 驱潮加热、YDSP 柜内供电——汇控柜=RN 系列全家福。</strong></li>
-        <li><strong>GIS（气体绝缘全封闭组合电器）</strong>：把断路器、隔离开关、母线全封进金属筒充 SF6 气体，占地小、可靠性高——城市变电站和新能源升压站主流。<strong>每个 GIS 间隔配一台汇控柜=每个间隔都是你的继电器容量。</strong> <strong>我们在这：同汇控柜全套（RN 系列是核心，SF6 低气压监视就是 RN-FT 的招牌功能）。</strong></li>
+        <li><strong>GIS（气体绝缘金属封闭组合电器/开关设备，Gas Insulated Switchgear）</strong>：把断路器、隔离开关、母线全封进金属筒充 SF6 气体，占地小、可靠性高——城市变电站和新能源升压站主流。<strong>记住大小对应：GIS 是变电站级大型组合电器，C-GIS（前面的充气柜）是配电级整柜，差一个 C（Cubicle，箱/柜式）。</strong><strong>每个 GIS 间隔配一台汇控柜=每个间隔都是你的继电器容量。</strong> <strong>我们在这：同汇控柜全套（RN 系列是核心，SF6 低气压监视就是 RN-FT 的招牌功能）。</strong></li>
       </ul>
+
+      <h3 class="sub">4.2 附 · 字母代号 / 英文简称速查（客户嘴里、标书、图纸上看到就能对上中文）</h3>
+      <p>这些不是我们的型号，是<strong>行业通用简称</strong>——先认出它指哪个设备，才知道该聊哪类元件。</p>
+      <div class="tbl"><table>
+        <thead><tr><th>简称</th><th>全称 / 中文</th><th>简称</th><th>全称 / 中文</th></tr></thead>
+        <tbody>
+          <tr><td class="m-name">C-GIS</td><td>充气柜（柜式气体绝缘开关）</td><td class="m-name">GIS</td><td>气体绝缘金属封闭组合电器（变电站级）</td></tr>
+          <tr><td class="m-name">RMU</td><td>环网柜</td><td class="m-name">MCC / PC</td><td>电机控制中心 / 动力中心</td></tr>
+          <tr><td class="m-name">CB</td><td>断路器</td><td class="m-name">VCB</td><td>真空断路器（VS1/ZN63 都是）</td></tr>
+          <tr><td class="m-name">LBS</td><td>负荷开关</td><td class="m-name">DS / ES</td><td>隔离开关 / 接地开关</td></tr>
+          <tr><td class="m-name">CT（新标 TA）</td><td>电流互感器</td><td class="m-name">PT（新标 TV）</td><td>电压互感器</td></tr>
+          <tr><td class="m-name">ATSE</td><td>双电源自动转换开关</td><td class="m-name">OLTC</td><td>有载分接开关（带电调挡）</td></tr>
+          <tr><td class="m-name">UPS / EPS</td><td>不间断电源 / 应急电源</td><td class="m-name">GZDW</td><td>微机控制直流电源柜（即直流屏）</td></tr>
+          <tr><td class="m-name">SVG / SVC</td><td>静止无功发生器 / 静止无功补偿</td><td class="m-name">APF</td><td>有源电力滤波器（滤谐波）</td></tr>
+          <tr><td class="m-name">DTU / FTU / TTU</td><td>站所 / 馈线 / 配变终端</td><td class="m-name">SCADA</td><td>数据采集与监视控制（后台系统）</td></tr>
+          <tr><td class="m-name">PCS / BMS / EMS</td><td>储能变流器 / 电池管理 / 能量管理</td><td class="m-name">PV</td><td>光伏（Photovoltaic）</td></tr>
+        </tbody>
+      </table></div>
+      <p><strong>二次原理图上的"文字符号"（元件旁标的字母，看图纸找位置全靠它）：</strong></p>
+      <div class="tbl"><table>
+        <thead><tr><th>符号</th><th>指什么</th><th>符号</th><th>指什么</th></tr></thead>
+        <tbody>
+          <tr><td class="m-name">QF</td><td>断路器</td><td class="m-name">QS</td><td>隔离开关 / 隔离手车</td></tr>
+          <tr><td class="m-name">KM</td><td>接触器</td><td class="m-name">FR</td><td>热继电器（热过载保护）</td></tr>
+          <tr><td class="m-name">KA</td><td>中间继电器</td><td class="m-name">KT</td><td>时间继电器</td></tr>
+          <tr><td class="m-name">KS</td><td>信号继电器</td><td class="m-name">FU</td><td>熔断器（保险）</td></tr>
+          <tr><td class="m-name">SB</td><td>按钮（分/合闸按钮）</td><td class="m-name">SA</td><td>转换 / 控制开关（操作把手）</td></tr>
+          <tr><td class="m-name">HR / HG</td><td>红色指示灯（合位）/ 绿色指示灯（分位）</td><td class="m-name">PA / PV</td><td>电流表 / 电压表</td></tr>
+          <tr><td class="m-name">TA / TV</td><td>电流 / 电压互感器（新标，同 CT/PT）</td><td class="m-name">YC / YT</td><td>合闸线圈 / 分闸线圈</td></tr>
+          <tr><td class="m-name">XT</td><td>端子排（接线中转）</td><td class="m-name">EH</td><td>加热器（防凝露，THC 控制它）</td></tr>
+        </tbody>
+      </table></div>
+      <div class="callout callout-info"><p>看图方法：二次图上每个元件旁都标着这类字母＋编号（如 KA1、KT3、HR2），<strong>顺着符号就能找到"哪个是中间继电器、哪个是时间继电器、指示灯和线圈在哪"，再对照我们的型号替换——这是跟二次设计对话的基本功。</strong>我们自己的专用型号（RL-TBJ、RL-THW、RDP 等）是产品型号，和上面这些通用文字符号是两回事，别混。</p></div>
 
       <h3 class="sub">4.3 断路器与操作机构（防跳/双位置/非全相的"家"）</h3>
       <ul>
         <li><strong>断路器本体 vs 操作机构</strong>：本体管"灭弧+分合电流"；机构是"肌肉"——弹簧储能、分合闸线圈、辅助开关都在机构箱里。<strong>操作机构厂 = 你的核心目标客户。</strong></li>
+        <li><strong>一次开关/互感器的字母代号（图纸、外资厂、标书里常直接用）</strong>：<strong>CB</strong>＝断路器（Circuit Breaker），其中 <strong>VCB</strong>＝真空断路器（Vacuum CB，VS1/ZN63 都是 VCB）；<strong>LBS</strong>＝负荷开关（Load Break Switch，环网柜里那台）；<strong>DS</strong>＝隔离开关（Disconnect Switch）；<strong>ES</strong>＝接地开关（Earth Switch，三工位里的"接地"那一刀）；<strong>FU</strong>＝熔断器。互感器：<strong>CT＝电流互感器（新国标写 TA）</strong>、<strong>PT＝电压互感器（新国标写 TV）</strong>，新老标注图纸上都会遇到，指的是同一个东西。</li>
         <li><strong>弹簧操作机构 / 永磁机构</strong>：两种主流。弹簧机构 = 电机拉紧弹簧储能、释放完成分合闸。</li>
         <li><strong>储能</strong>：合闸弹簧上紧的过程。客户说"储能回路"= 控制储能电机的二次回路（<strong>储能电机控制用中间继电器+时间继电器</strong>）。</li>
         <li><strong>合闸线圈（YC）/ 分闸线圈（YT）</strong>：通电即动作的"电磁扳机"。<strong>你的继电器控制的最终对象就是这两个线圈</strong>——客户说"防跳回路"，防的就是合闸信号粘住导致合闸线圈反复受电、断路器在故障上反复分合（"跳跃"），几秒就烧机构。</li>
@@ -1048,12 +1101,13 @@ td .m-spec{color:var(--muted);font-size:12.5px}
         <li><strong>控制回路 / 信号回路 / 测量回路</strong>：跳合闸指令走的路 / 位置与报警上传的路 / CT/PT 信号进仪表的路。你的产品横跨三者——<strong>控制回路=继电器家族，信号回路=信号继电器/报警器，测量回路=变送器家族。</strong></li>
         <li><strong>TWJ / HWJ（跳闸位置继电器 / 合闸位置继电器）</strong>：监视断路器在分位还是合位的继电器——<strong>专用件是跳合位监视继电器 RL-THW（想和防跳合一就选 RL-TBJ-DW）；RDP 双位置也能做通用位置保持，但不是这个用途的专用件，别混报</strong>。客户说"TWJ 不励磁了"= 跳位监视回路故障。</li>
         <li><strong>屏顶小母线</strong>：一排屏柜顶上贯穿的共用电源铜排（控制电源、信号电源、闪光母线等），每面屏从屏顶取电。</li>
+        <li><strong>母线 / 母线桥 / 母线槽（三个别混，关系到你认不认得客户）</strong>：<strong>主母线</strong>是柜顶贯穿、把一排柜并联起来的铜排；<strong>母线桥</strong>是两排柜之间跨接的铜排罩壳；<strong>母线槽</strong>是低压大电流远距离送电用的封闭铜排"通道"，属结构件、里面基本不放继电器。<strong>所以只做母线槽/电缆桥架的厂不是目标客户（没有二次回路），做开关柜、箱变、直流屏的才是。</strong></li>
         <li><strong>端子排 / 端子</strong>：二次接线的中转站，继电器经端子接入柜内回路。<strong>客户说"端子排不够用/太挤"= 推可拔插式省端子的机会。</strong></li>
         <li><strong>光字牌</strong>：柜门上写着"断路器跳闸""SF6 报警""控制回路断线"的发光窗，由<strong>信号报警器（FA）驱动</strong>——客户提"光字牌""事故音响""警铃"= FA 的活。</li>
         <li><strong>中央信号 / 事故总信号</strong>：全站报警的汇总（警铃+光字+送后台），是信号报警器的主战场。</li>
         <li><strong>合闸红灯 / 跳闸绿灯</strong>：柜面指示灯，红=合位、绿=分位，串在位置继电器触点回路里。</li>
         <li><strong>控制回路断线（控制回路断线告警）</strong>：TWJ 和 HWJ 都不励磁 = 回路失电——电网最常见的告警之一，<strong>背后就是位置监视继电器（RL-THW）的应用逻辑。</strong></li>
-        <li><strong>联锁 / 闭锁</strong>：防止误操作的逻辑关联（如隔离开关未分不许合接地刀）；闭锁=强制禁止。<strong>闭锁回路里继电器的用法（如 SF6 闭锁、低气压闭锁）你要能接上话。</strong></li>
+        <li><strong>联锁 / 闭锁</strong>：防止误操作的逻辑关联（如隔离开关未分不许合接地刀）；闭锁=强制禁止。<strong>闭锁回路里继电器的用法（如 SF6 闭锁、低气压闭锁）你要能接上话；成套柜强制的"五防"及其机械闭锁/电气闭锁怎么实现，见 B.5。</strong></li>
         <li><strong>我们在这（二次回路）：RL-THW 跳合位监视（TWJ/HWJ、控制回路断线告警）、RDP 双位置继电器（需要失电保持的两态位置重动）、FA 信号报警器（光字牌/中央信号）、RC 中间继电器（出口/信号放大回路）。</strong></li>
       </ul>
 
@@ -1082,7 +1136,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
         <li><strong>柜内直流供电</strong>：柜子里一堆继电器、变送器、温控器都要直流电吃饭——<strong>开关电源（YDSP）就是把柜内交流变成稳定直流的"食堂"</strong>。交流 100~240V 输入，输出 110VDC/220VDC，120W~1000W 四档。<strong>卖继电器时顺手问一句"柜内直流电源用谁的"——元件越多电源功率越大，捆绑机会。</strong></li>
         <li><strong>冗余供电</strong>：重要负载（保护、监控、通信）不能断电——<strong>两台开关电源 + 二极管冗余模块（DPM）并联</strong>，一台故障另一台无缝顶上。客户说"供电冗余""N+1""重要负载不能掉电"= DPM 的机会。</li>
         <li><strong>控制变压器（XF）</strong>：380V 转 100V 等电压等级转换，负载阻抗 ≥50K、精度 1%——<strong>进口设备、特殊电压等级仪表、老系统改造会点名要</strong>。单相三相可选。</li>
-        <li><strong>双电源切换</strong>：箱变、户外柜、通信站点常有两路进线——<strong>双交流/双直流电源切换继电器（RVS/RVS-DC）自动切换，AC1 失电秒切 AC2、恢复自动切回</strong>。客户说"双回路供电""两路进线自动切"= RVS 系列。</li>
+        <li><strong>双电源切换</strong>：箱变、户外柜、通信站点常有两路进线——<strong>双交流/双直流电源切换继电器（RVS/RVS-DC）自动切换，AC1 失电秒切 AC2、恢复自动切回</strong>。客户说"双回路供电""两路进线自动切"= RVS 系列；这类自动切换设备行业统称 <strong>ATSE（Automatic Transfer Switching Equipment，双电源自动转换开关）</strong>，听到 ATSE 也是它。</li>
         <li><strong>我们在这（电源场景）：YDSP 开关电源（柜内交变直供电）、DPM 二极管冗余模块（双电源并联不断电）、XF 控制变压器（380V 转 100V 等电压转换）、RVS/RVS-DC/RMS 双电源切换继电器。</strong></li>
       </ul>
 
@@ -1097,7 +1151,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
           </ul>
         </li>
         <li><strong>风电场</strong>：<strong>机舱</strong>（变桨、偏航、主控柜——<strong>我们在这：控制柜 RC 中间继电器、TT 温度变送器测齿轮箱/发电机温度、THC 防凝露</strong>）；<strong>塔筒</strong>（电缆、升降机控制、环境监测——<strong>我们在这：THS 温湿度变送器、THC 驱潮</strong>）；<strong>箱变 + 升压站</strong>（同光伏）。</li>
-        <li><strong>储能电站</strong>：<strong>PCS 舱</strong>（变流器+控制柜——<strong>我们在这：控制柜 RC 继电器、温度变送器、YDSP 开关电源</strong>）；<strong>电池舱</strong>（电池簇 + BMS，怕热怕湿怕烟雾——<strong>我们在这：THS 温湿度变送器、THC 驱潮、FA 信号报警器（温度/烟雾告警联动）</strong>）；<strong>升压站/箱变</strong>（同上）。</li>
+        <li><strong>储能电站</strong>：先认三个缩写——<strong>PCS</strong>＝储能变流器（Power Conversion System，交直流变换）、<strong>BMS</strong>＝电池管理系统（Battery Management System，管每簇电池）、<strong>EMS</strong>＝能量管理系统（Energy Management System，全站调度）。<strong>PCS 舱</strong>（变流器+控制柜——<strong>我们在这：控制柜 RC 继电器、温度变送器、YDSP 开关电源</strong>）；<strong>电池舱</strong>（电池簇 + BMS，怕热怕湿怕烟雾——<strong>我们在这：THS 温湿度变送器、THC 驱潮、FA 信号报警器（温度/烟雾告警联动）</strong>）；<strong>升压站/箱变</strong>（同上）。</li>
         <li><strong>充电桩 / 充电站</strong>：<strong>交流桩</strong>（小功率，控制板+计量——<strong>我们在这：TE 电量变送器（计量）、YDSP</strong>）；<strong>直流快充桩</strong>（整流模块+控制板，模块发热大——<strong>我们在这：TT 温度变送器（模块温度）、YDSP 辅助电源、THC</strong>）；<strong>充电场站箱变</strong>（同上）。<strong>客户做充电桩/充电堆=电源类+温度类产品的稳定客户。</strong></li>
         <li><strong>氢能/制氢（新赛道，提前占位）</strong>：电解槽+整流电源+控制柜——<strong>我们在这：整流柜温控、YDSP、变送器。目前量小，但客户跑起来后先入为主。</strong></li>
         <li><strong>新能源一句话总结</strong>：这些场景本质都是"柜子+测温+供电+通信"的组合，<strong>我们的五大类产品（继电器/变送器/温控/信号报警/电源）在每一个环节都有位置</strong>——见到新能源集成商，按"柜内供电 YDSP + 测温 TT/THS + 防凝露 THC + 控制继电器 RC"一整套报。</li>
@@ -1787,15 +1841,15 @@ td .m-spec{color:var(--muted);font-size:12.5px}
   <!-- ============ 附2 设备场景速记卡 ============ -->
   <section class="block reveal" id="app2">
     <div class="section-inner">
-      <h2 class="section-title"><span class="sec-no">附2</span>设备场景速记卡<span style="font-family:var(--sans);font-size:12.5px;font-weight:500;color:var(--dim)">48 个 · 客户嘴里的设备词</span></h2>
+      <h2 class="section-title"><span class="sec-no">附2</span>设备场景速记卡<span style="font-family:var(--sans);font-size:12.5px;font-weight:500;color:var(--dim)">73 个 · 客户嘴里的设备词</span></h2>
       <div class="flash-grid">
         <div class="flash"><div class="term">开关柜</div><div class="def">装断路器+二次设备的柜子总称，你的产品最多的家</div></div>
         <div class="flash"><div class="term">KYN28</div><div class="def">最常见 10kV 中置柜，柜顶"二次室"=继电器的房间</div></div>
-        <div class="flash"><div class="term">环网柜</div><div class="def">小体积 10kV 柜，城市配网用，小型继电器机会</div></div>
+        <div class="flash"><div class="term">环网柜（RMU）</div><div class="def">小体积 10kV 柜，城市配网用，外资/出口单叫 RMU，小型继电器机会</div></div>
         <div class="flash"><div class="term">直流屏</div><div class="def">电池+充电柜，全站跳合闸靠它；合母/控母是两根母线</div></div>
         <div class="flash"><div class="term">一体化电源</div><div class="def">直流屏+UPS+通信电源合成一柜，按直流屏全系列报</div></div>
         <div class="flash"><div class="term">汇控柜</div><div class="def">断路器/GIS 旁的二次柜，防跳+非全相+SF6闭锁的安装位</div></div>
-        <div class="flash"><div class="term">GIS</div><div class="def">全封闭充 SF6 的组合电器，每个间隔配一台汇控柜</div></div>
+        <div class="flash"><div class="term">GIS</div><div class="def">气体绝缘金属封闭组合电器（变电站级），全封闭充 SF6，每个间隔配一台汇控柜；比 C-GIS 充气柜大一级</div></div>
         <div class="flash"><div class="term">间隔（Bay）</div><div class="def">变电站一个进出线单元 = 一份继电器容量</div></div>
         <div class="flash"><div class="term">二次室</div><div class="def">KYN28 柜顶装继电器的小房间，"太挤"=小型化机会</div></div>
         <div class="flash"><div class="term">手车</div><div class="def">KYN28 里可抽出的断路器小车</div></div>
@@ -1817,7 +1871,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
         <div class="flash"><div class="term">DTU/FTU</div><div class="def">配网自动化终端柜，变送器+开关电源的稳定客户</div></div>
         <div class="flash"><div class="term">汇流箱</div><div class="def">光伏把组件电流汇成一路的箱子，THC 防凝露+通信模块</div></div>
         <div class="flash"><div class="term">逆变器</div><div class="def">光伏直流变交流，IGBT 发热大 → TT 测温+YDSP 供电</div></div>
-        <div class="flash"><div class="term">PCS</div><div class="def">储能变流器，控制柜继电器+温度变送器</div></div>
+        <div class="flash"><div class="term">PCS/BMS/EMS</div><div class="def">储能三件套：PCS 变流器、BMS 电池管理、EMS 能量管理；PCS 舱用继电器+温度变送器</div></div>
         <div class="flash"><div class="term">充电桩</div><div class="def">直流快充模块发热大 → TT 模块测温+YDSP 辅助电源</div></div>
         <div class="flash"><div class="term">消防联动</div><div class="def">消防泵/排烟风机双电源+顺序启动 → RVS+RT+RC+FA</div></div>
         <div class="flash"><div class="term">控制变压器</div><div class="def">380V 转 100V 等电压转换，XF 系列的应用位</div></div>
@@ -1826,11 +1880,20 @@ td .m-spec{color:var(--muted);font-size:12.5px}
         <div class="flash"><div class="term">真空断路器</div><div class="def">10kV 主流开关，靠真空泡灭弧；你供的防跳/合保/跳位监视就装在它的操作回路里</div></div>
         <div class="flash"><div class="term">VS1 / VD4</div><div class="def">KYN28 里最常见的手车式真空断路器（VS1 国产主流、VD4 是 ABB），客户说"配 VS1"就是它</div></div>
         <div class="flash"><div class="term">SF6 六氟化硫</div><div class="def">高压柜/GIS 用的绝缘灭弧气体，气压低要报警闭锁 → RN-FT 低气压闭锁继电器</div></div>
-        <div class="flash"><div class="term">充气柜（C-GIS）</div><div class="def">钢板密封、内充 SF6 的环网柜，三工位+气压闭锁一个不少，小型继电器用量集中</div></div>
+        <div class="flash"><div class="term">充气柜（C-GIS）</div><div class="def">高压带电体全密封进气箱、充 SF6 或环保气体的中压柜，全密封免维护；按绝缘命名，和按用途命名的"环网柜"是两个维度、有交叉；只有 SF6 柜才用 RN-FT 气压闭锁，只有断路器型才用防跳</div></div>
+        <div class="flash"><div class="term">固体柜 / 环保气体柜</div><div class="def">固体=环氧浇注封死、无气体；环保气体=干燥空气/N2 替 SF6；都没有 SF6 气压闭锁，其余元件用法同充气柜</div></div>
+        <div class="flash"><div class="term">高压柜型号命名</div><div class="def">K铠装/J间隔/X箱式 + Y移开/G固定 + N户内/W户外 + 序号-电压(kV)，前缀 H=环网；KYN28-12、HXGN15-12 当场拆开听</div></div>
+        <div class="flash"><div class="term">隔离/站用变/避雷器柜</div><div class="def">隔离柜给明显断开点不切负荷；站用变柜给本站自用电；避雷器柜吸收过电压；都有位置/信号/防凝露零散用量</div></div>
+        <div class="flash"><div class="term">JP 柜</div><div class="def">柱上变压器下方的低压综合配电箱，配电+计量+无功补偿+漏保一体，农网/台网改造标配</div></div>
+        <div class="flash"><div class="term">母线 / 母线桥 / 母线槽</div><div class="def">主母线柜内并联、母线桥跨接两排柜；母线槽是低压大电流封闭通道、属结构件基本不放继电器——只做母线槽/桥架的厂不是客户</div></div>
+        <div class="flash"><div class="term">CB/VCB/LBS/DS/ES</div><div class="def">一次开关代号：断路器/真空断路器/负荷开关/隔离开关/接地开关；VS1 就是一台 VCB</div></div>
+        <div class="flash"><div class="term">二次图文字符号</div><div class="def">QF断路器、KM接触器、FR热继、KA中间、KT时间、KS信号、SB按钮、SA转换开关、HR红/HG绿灯、YC合/YT分闸线圈、XT端子排</div></div>
+        <div class="flash"><div class="term">SVG/APF/SVC</div><div class="def">电能质量柜：SVG 静止无功发生器、APF 有源滤波、SVC 静止无功补偿，都是电容补偿柜的同类/升级</div></div>
+        <div class="flash"><div class="term">ATSE/UPS/EPS/GZDW</div><div class="def">ATSE 双电源自动转换、UPS 不间断/EPS 应急电源、GZDW 直流屏；配网终端 DTU/FTU/TTU＝站所/馈线/配变</div></div>
         <div class="flash"><div class="term">箱变（箱式变电站）</div><div class="def">把变压器+高压柜+低压柜塞进一个箱体，分欧式/美式；每台都是成套件+干变温控的整单</div></div>
         <div class="flash"><div class="term">移开式 / 固定式</div><div class="def">手车能摇出来=移开式（KYN28），断路器固定装死=固定式（XGN）；两种都要操作回路继电器</div></div>
         <div class="flash"><div class="term">弹簧储能</div><div class="def">断路器合闸前先由电机把弹簧拉紧"上弦"，储能到位/未到位要做指示和闭锁</div></div>
-        <div class="flash"><div class="term">PT / CT 互感器</div><div class="def">PT 取电压（PT 切换用 RVSD）、CT 取电流（喂给量度继电器），每面柜必备的小件</div></div>
+        <div class="flash"><div class="term">PT/CT（新标 TV/TA）</div><div class="def">PT/TV 取电压（PT 切换用 RVSD）、CT/TA 取电流（喂给量度继电器），新老标注指同一个东西</div></div>
         <div class="flash"><div class="term">操作回路（二次回路）</div><div class="def">控制断路器分合闸的那套弱电回路，防跳、合保、跳/合位监视全在这——你的主战场</div></div>
         <div class="flash"><div class="term">低压成套柜</div><div class="def">0.4kV 的 GGD（固定）和 GCS/GCK/MNS（抽屉柜）；MNS 抽屉柜里中间、时间继电器最密</div></div>
         <div class="flash"><div class="term">干变温控</div><div class="def">干变配的温控箱：测三相绕组温度，到点启风机、再高报警、最高跳闸 = DTC 干变温控器</div></div>
@@ -1911,7 +1974,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
       </div>
       <p>本手册为销售内部学习与参考材料，产品参数与型号信息以本公司官方发布的产品说明书及手册为准，产品规格可能变更，恕不另行通知。</p>
     </div>
-    <div class="footer-copy">让电力更安全 · 销售速查手册 V7.9</div>
+    <div class="footer-copy">让电力更安全 · 销售速查手册 V8.1</div>
   </div>
 </main>
 
