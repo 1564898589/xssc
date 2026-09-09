@@ -408,7 +408,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
       <a class="nav-link" href="#app3"><span class="n">附3</span>拜访前 Checklist</a>
     </div>
   </nav>
-  <div class="sidebar-foot">V8.3 · 内部学习参考<br>以公司官方说明书为准</div>
+  <div class="sidebar-foot">V8.5 · 内部学习参考<br>以公司官方说明书为准</div>
 </aside>
 
 <main class="content">
@@ -422,7 +422,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
       </h1>
       <p class="lead">跑客户时听到的词、客户报的身份、柜子里装的东西、谈单要用的流程与话术——一本随身速查，见客户前翻一翻，进会议室不慌。</p>
       <div class="hero-meta">
-        <span>版本 <b>V8.3</b></span>
+        <span>版本 <b>V8.5</b></span>
         <span>适用 <b>全体销售 / 技术支持</b></span>
         <span>用途 <b>拜访 · 交流 · 培训</b></span>
       </div>
@@ -785,7 +785,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
       <h2 class="section-title"><span class="sec-no">二</span>自家产品相关词<span style="font-family:var(--sans);font-size:12.5px;font-weight:500;color:var(--dim)">谈单时要说得清</span></h2>
 
       <h3 class="sub">2.0 产品线总览（先记住这张地图）</h3>
-      <div class="callout callout-brand"><p>公司产品分 <strong>6 大门类、12 个产品小类、50+ 型号</strong>，销售时归成 <strong>5 个家族</strong>来记（继电器一家就占 7 个小类）。客户提任何需求，先在脑子里把型号归位到这张表。</p></div>
+      <div class="callout callout-brand"><p>公司产品分 <strong>6 大门类、13 个产品小类、50+ 型号</strong>，销售时归成 <strong>5 个家族</strong>来记（继电器一家就占 8 个小类）。客户提任何需求，先在脑子里把型号归位到这张表。</p></div>
       <div class="tbl"><table>
         <thead><tr><th>家族</th><th>大类</th><th>代表型号</th><th>一句话</th></tr></thead>
         <tbody>
@@ -794,6 +794,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
           <tr><td class="m-name">继电器</td><td>量度继电器</td><td>RMY / RMY-K / RMY-T / RML / RML-F / RML-F-DC</td><td>电压电流的"监视器"，过欠压/过流保护</td></tr>
           <tr><td class="m-name">继电器</td><td>断路器保护继电器</td><td>RL-TBJ / RL-TBJ-DW / RL-I / RL-HBJ / RL-THW / RL-UI / RL-CBS / RL-PSS</td><td>防跳、位置监视、回路监视，断路器的"保镖"</td></tr>
           <tr><td class="m-name">继电器</td><td>集成继电器模块</td><td>RN-FT / RN-FB</td><td>防跳+SF6闭锁二合一 / 非全相保护</td></tr>
+          <tr><td class="m-name">继电器</td><td>刀闸机构控制模块</td><td>RN-DK-A / RN-DK-C</td><td>电动刀闸/三工位刀闸的电机正反转控制，带过载、超时保护与联锁</td></tr>
           <tr><td class="m-name">继电器</td><td>电源切换继电器</td><td>RVS / RMS / RVS-DC / RVSD / RVSD-TQ</td><td>双电源自动切换、PT 电压切换</td></tr>
           <tr><td class="m-name">继电器</td><td>时间继电器</td><td>RT / RT-NP / RT-E-NP / RT-X</td><td>延时动作、循环定时</td></tr>
           <tr><td class="m-name">变送器</td><td>变送器</td><td>TE / TT / THS / TG / TS</td><td>把电量/温度/温湿度/挡位/信号变成 4-20mA、RS485</td></tr>
@@ -806,7 +807,20 @@ td .m-spec{color:var(--muted);font-size:12.5px}
 
       <h3 class="sub">2.1 继电器家族（型号最多、柜内用量最大）</h3>
       <p style="font-size:13px;color:var(--dim);margin:2px 0 8px">下面的电流、时间、路数只帮你记住"谁大谁快、大概什么量级"，方便跟客户对得上话；<strong>精确参数、可选规格以最新产品说明书 / 合订册为准，选型报价别只照这里抄。</strong></p>
-      <div class="callout callout-brand"><p><strong>先搞懂继电器到底是什么（30 秒）：</strong>它就是一个"用弱电控制强电、用一路信号控制多路通断"的电磁开关——内部一圈<strong>线圈</strong>，一通电产生磁力，把金属<strong>触点</strong>吸合或释放，触点那头接的电路就跟着接通/断开。<strong>为什么柜里非用它不可：</strong>保护装置、PLC 出来的信号很弱，带不动跳闸线圈、指示灯、警铃这些负载，而且一路信号往往要同时去好几个地方，必须靠继电器把信号<strong>放大、隔离、一分多路</strong>，所以它在二次回路里用量最大。另有<strong>固态继电器（SSR，半导体通断、无机械触点、动作快但怕过载发热）</strong>，电力柜内绝大多数仍是电磁继电器，你销售的也以电磁式为主。</p></div>
+      <div class="callout callout-brand"><p><strong>先搞懂继电器到底是什么（30 秒）：</strong>它就是一个"用弱电控制强电、用一路信号控制多路通断"的电磁开关——内部一圈<strong>线圈</strong>，一通电产生磁力，把金属<strong>触点</strong>吸合或释放，触点那头接的电路就跟着接通/断开。<strong>为什么柜里非用它不可：</strong>保护装置、PLC 出来的信号很弱，带不动跳闸线圈、指示灯、警铃这些负载，而且一路信号往往要同时去好几个地方，必须靠继电器把信号<strong>放大、隔离、一分多路</strong>，所以它在二次回路里用量最大。另有<strong>固态继电器（SSR，半导体通断、无机械触点、动作快但怕过载发热）</strong>。柜内控制回路用量最大的仍是电磁继电器；继电器按动作原理的完整四类分法（电磁 / 磁保持 / 静态 / 固态）和每个型号的归属，见下面的对照表。</p></div>
+
+      <p style="margin:12px 2px 6px;font-weight:600">▼ 继电器按"动作原理"怎么分（客户说电磁式 / 磁保持 / 静态 / 固态，你要接得住）</p>
+      <p style="font-size:13px;color:var(--dim);margin:0 2px 6px">先分清两套维度：前面 RC、RDP、RL 这些是按"<strong>干什么用</strong>"（功能）分；电磁式、磁保持、静态是按"<strong>靠什么动作</strong>"（原理）分，两套维度不能硬对。下表逐系列对照合订册归类，<strong>能确定对应的写明型号，拿不准的不写死、以最新说明书 / 技术答复为准。</strong></p>
+      <div class="tbl"><table>
+        <thead><tr><th>按动作原理</th><th>靠什么动作 / 特点</th><th>我们对应的型号（已对照合订册）</th><th>销售怎么记</th></tr></thead>
+        <tbody>
+          <tr><td class="m-name">① 电磁式（非保持 / 单位置，有触点）</td><td>线圈通电产生磁力吸合衔铁、带动机械触点，断电靠弹簧弹回；要<strong>持续通电</strong>才保持、一断电就回默认位（单稳态），<strong>无需辅助电源</strong>、靠线圈自身工作。合订册对 RC 的原话就是"非保持型单位置继电器"</td><td>中间 / 接口：RC、RC-F、RC-V、RC-PTCD、RC-M、RC-P、RAI、RAI-V；断路器保护：RL-TBJ、RL-TBJ-Y、RL-I、RL-HBJ、RL-THW、RL-CBS、RL-PSS、RL-PSS-H、RL-UI；电磁型电源切换 RVS、RVS-NF、RVS-DC；无源时间 RT-NP、RT-E-NP（合订册标"无源、无需辅助电源"）；防跳+低气压闭锁 <strong>RN-FT</strong>（动作 / 返回电压、毫秒级动作、无电子电路，属电磁式集成）</td><td>柜内用量最大的基本盘，客户说"普通电磁 / 有触点 / 机械式 / 单位置 / 无源继电器"就是它</td></tr>
+          <tr><td class="m-name">② 磁保持 / 永磁（双位置 / 双稳态）</td><td>内部有<strong>永久磁铁</strong>，给一个正 / 反<strong>脉冲</strong>就切到合或分，随后线圈断电、靠永磁力锁住状态，<strong>断电也不变</strong>，省电、线圈不长期发热；分单线圈（正反电流）和双线圈（动作 / 复位各一线圈）。合订册原文"双位置磁保持类型"</td><td><strong>RDP、RDP-E、RDP-S、RDP-L、RDP-PTCD</strong> 双位置全系；<strong>RVSD 的"双位置型"</strong>（S/R 动作复位线圈、失电自保持）——注意 RVSD 同时有"单位置型"，那一种失电自动返回、属电磁式，下单要问清</td><td>"双位置"是<strong>功能名</strong>，"磁保持 / 永磁 / 双稳态"是<strong>原理名</strong>，说的是同一类；客户要"脉冲驱动、断电保持"就是它</td></tr>
+          <tr><td class="m-name">③ 静态 / 电子式（数字电路，需辅助电源，出口仍可带机械触点）</td><td>内部用<strong>数字电路 / 单片机</strong>实时采集、计算、整定后再驱动出口，<strong>必须接辅助电源</strong>，带数码管 / 显示 / 通讯；单独 PDF 里 RML、RMY-T 就是"辅助电源 + 数码管整定 + MODBUS + 出口继电器接点"。<strong>注意：内部是电子的，但出口接点往往仍是机械触点（不是无触点）</strong></td><td>需辅助电源的数字式量度 <strong>RML、RML-F、RML-F-DC、RMY、RMY-DC、RMY-T</strong>；电子时间 RT、RT-X（需辅助电源、多模式 / 可编程）；智能电源切换模块 <strong>RMS</strong>（实时监测、过 / 欠压、RS485）；集成模块 RN-FB（辅助电源 + 时间整定 + 数码管）、RN-DK-A / RN-DK-C（电机控制）</td><td>"静态继电器"=电子脑子 + 机械出口，<strong>我们有量度 / 模块这条线</strong>。注意量度里 <strong>RMY-K / RMY-K-N 是"无源拨盘型、无需辅助电源"</strong>，不属此类、内部结构以说明书为准；FA 报警器、温湿度 / 风机控制器、变送器（TE/TT/TS/THS/TG、SS 信号隔离器 / 安全栅）、开关电源也是电子装置，但不叫"继电器"</td></tr>
+          <tr><td class="m-name">④ 固态 SSR / 光电（光耦）继电器——我们不做</td><td>从输入到输出<strong>全程半导体 / 光耦合、完全没有机械触点和运动部件</strong>，动作快、无火花、寿命长，但怕过载发热、有微小漏电流；PhotoMOS 是 MOSFET 输出的光耦继电器。合订册全文无此类产品</td><td><strong>无——我们的继电器产品线不做全无触点的固态 / 光电开关</strong>（别和第③类"静态"混：静态出口还有机械触点，固态是真的一个触点都没有）</td><td>客户指定要"固态 / SSR / 光耦 / PhotoMOS 继电器"，<strong>别当场说我们有</strong>，记下来回公司找技术确认，以公司答复为准</td></tr>
+        </tbody>
+      </table></div>
+      <div class="callout callout-warn"><p><strong>几组最容易搅在一起的词，都是自家型号、务必分清：</strong><br>① <strong>电磁式 / 静态 / 固态三者别混</strong>：电磁式靠线圈机械动作；静态（RML 等需辅助电源的数字式量度）靠数字电路判断、但出口仍是机械触点；固态 SSR 连出口都是半导体、全机无触点，我们不做。<br>② <strong>磁保持 ≠ 电气自保持</strong>：RDP 靠<strong>永久磁铁</strong>保持，线圈只通一下脉冲、平时不耗电；RL-HBJ"电流启动并自保持"是靠<strong>自身辅助触点把线圈锁住、持续通电</strong>（电气自保持 / seal-in），本质还是电磁式、线圈一直带电——名字都带"保持"，原理两码事。<br>③ <strong>单稳态 ≠ 双稳态</strong>：普通电磁继电器是单稳态（通电吸合、断电弹回，只有一个稳定位）；磁保持是双稳态（合、分两个位置断电都能保持），"双位置继电器"正由此得名。<br>④ 客户嘴里的"<strong>永磁继电器</strong>"有时指方向敏感的<strong>极化继电器</strong>，听到先确认对方是不是要"给个脉冲就保持、不用一直通电"那种，拿不准回公司问技术，别凭名字报型号。<br>⑤ <strong>同一系列里也可能分电磁 / 电子，别按系列名"想当然"</strong>：时间继电器 RT-NP / RT-E-NP 是<strong>无源</strong>（电磁类）、RT / RT-X <strong>需辅助电源</strong>（电子类）；电源切换 RVS 是<strong>电磁</strong>立即切换、RMS 是带监测和通讯的<strong>电子模块</strong>；RN-FT 是<strong>电磁式</strong>、RN-FB 是<strong>电子式</strong>；RVSD 分<strong>单位置（电磁、失电返回）/ 双位置（磁保持、失电保持）</strong>；量度 RMY-K 无源拨盘、RML 带辅助电源数字式。<strong>判据就一条：要不要单独接辅助电源、有没有数码管 / 整定 / 通讯——要的是电子类，不要、靠线圈直接动作的是电磁类；拿不准一律以说明书 / 技术答复为准。</strong></p></div>
       <ul>
         <li><strong>中间继电器（RC 系列）</strong>：把一个小信号放大成多个输出的"多路开关"。柜子里用量最大的品种。一个中间继电器上通常有 2~8 对触点。RC 系列分五档：
           <ul>
@@ -831,6 +845,9 @@ td .m-spec{color:var(--muted);font-size:12.5px}
         <li><strong>电源监视继电器（RL-PSS）</strong>：监视辅助电源，有电立即动作（≤7ms）。<strong>通用 RL-PSS 失电立即返回（≤4ms、无延时）；要"电压晃一下不动作、失电撑一小段"的抗晃电场景，选海外版 RL-PSS-H——失电延时 150~400ms 才返回、150ms 以内的瞬时抖动不返回。</strong>两款均 8A 250VAC，别把 PSS-H 的延时返回当成通用 PSS 的特性报。</li>
         <li><strong>非全相保护继电器（RN-FB）</strong>：分相操作的大断路器（220kV+）三相可能只跳开一相，非全相运行危害电网——RN-FB 监视三相位置、延时跳三相，集成自检/复位按钮。<strong>六大特点要能背：启动功率≥5W；220V 工频交流持续输入不动作、无噪声；-40~70℃内动作电压 55%~65%UN；线圈防反接（各电压等级均支持反向 220VDC 持续输入）；防烧（允许持续输入小于动作值的电压）；集成自检和复位按钮</strong>，8A 250VAC。</li>
         <li><strong>防跳及低气压闭锁继电器（RN-FT）</strong>：防跳 + 监视断路器 SF6 气压二合一，气压低至闭锁值时闭锁分合闸，带动作指示灯——一个继电器顶两个功能位，8A 250VAC。</li>
+        <li><strong>刀闸机构控制模块（RN-DK-A，两工位）</strong>：用在<strong>普通两工位刀闸（隔离开关，只有分/合两个位置）的电动操作机构</strong>上，驱动 <strong>1 个串励电机</strong>正反转完成分/合，行程开关到位自动停机、靠<strong>外接制动电阻</strong>制动。一个导轨模块把电机正反转、过载与超时保护（电流异常或超时自动停电机并报警）、电机电流监测、合闸次数显示都集成起来；电机电源交直流自适应，电机功率 ≤800W，开出 3 常开 1 常闭、5A/250VAC，DIN35 导轨安装（电压规格、整定参数以说明书为准，销售先记住"两工位、一个串励电机、要制动电阻"即可）。</li>
+        <li><strong>三工位刀闸机构控制模块（RN-DK-C，三工位）</strong>：用在<strong>三工位刀闸（隔离合—分—接地合，一把刀三个位置）的电动机构</strong>上，一台驱动 <strong>隔刀、地刀 2 个永磁电机</strong>正反转（单台电机 ≤600W）。最大特点是内置<strong>三态联锁</strong>：处于隔离合位只响应隔离分闸、处于接地合位只响应接地分闸、电机转动中不接受新指令，从硬件上杜绝"带接地刀合隔离开关"的误操作；同时集成过载、超时、电机失电保护和操作间隔联锁、隔离合闸次数显示。<strong>它不用制动电阻</strong>，电源规格、接点容量、安装方式与 A 相同（整定参数以说明书为准，销售先记住"三工位、隔刀+地刀两个永磁电机、三态联锁、无制动电阻"即可）。</li>
+        <li><strong>RN-DK 的边界务必分清（最容易报错）</strong>：RN-DK 管的是"<strong>电机怎么转、机构怎么动</strong>"——电动操作、电机保护、动作联锁这一层；而"刀闸/三工位<strong>现在在哪个位置、把位置信号反馈给后台</strong>"属于<strong>位置信号层</strong>，仍由双位置/中间继电器按辅助接点组合实现（以二次图为准）。<strong>它不是"三工位位置继电器"，两层会同时出现在一台柜里、互不替代。</strong>价值点：以前电机正反转+热继保护+延时+联锁要一堆分立器件搭，现在一个模块集成。</li>
         <li><strong>电压继电器（RMY）</strong>：单相/三相过压、欠压、不平衡保护。<strong>RMY-K</strong> 是无源型（不需要辅助电源，8A 250VAC）、<strong>RMY-T</strong> 是同步检查继电器（并网/备自投合闸前检查压差、角差、频差）。</li>
         <li><strong>电流继电器（RML）</strong>：单相/三相过流保护、三相电流不平衡保护，定时限。<strong>RML-F</strong> 交流反时限、<strong>RML-F-DC</strong> 直流反时限（电流越大跳得越快），均 5A 250VAC。</li>
         <li><strong>整定值 / 整定范围</strong>：客户调的保护门槛数字（如"过流整定 5A"）；整定范围 = 这个门槛能调的最小~最大区间。<strong>报型号时客户常说"我要 5~10A 可整定的"</strong>。</li>
@@ -877,7 +894,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
       <ul>
         <li><strong>第一个字母决定家族</strong>：
           <ul>
-            <li><strong>R 开头 = 继电器家族</strong>：RC 中间、RDP 双位置、RMY 电压、RML 电流、RL- 断路器保护、RN- 集成模块（非全相/SF6闭锁）、RVS/RMS 电源切换、RT 时间、RAI 抗干扰——<strong>看到 R 就知道是继电器，再按第二个字母归位</strong>。</li>
+            <li><strong>R 开头 = 继电器家族</strong>：RC 中间、RDP 双位置、RMY 电压、RML 电流、RL- 断路器保护、RN- 集成/机构控制模块（RN-FT 防跳+气压闭锁、RN-FB 非全相、RN-DK 刀闸机构电机控制）、RVS/RMS 电源切换、RT 时间、RAI 抗干扰——<strong>看到 R 就知道是继电器，再按第二个字母归位</strong>。</li>
             <li><strong>T 开头 = 温度/变送家族</strong>：TT 温度变送、TS 信号变送、TG 挡位变送、THS 温湿度变送、TC/TCC/TK 温控测温。</li>
             <li><strong>TE = 电量变送</strong>（电→信号，不是温度，别和 TT 混）。</li>
             <li><strong>THC = 温湿度控制器</strong>（本地自动动作）；<strong>DTC = 干变温控器</strong>。</li>
@@ -973,7 +990,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
         <li><strong>开关柜（总称）</strong>：装断路器+二次元件的柜子统称，高压柜（10~35kV）和低压柜（0.4kV）都算。<strong>柜 vs 屏</strong>：配电现场叫"柜"（开关柜、直流柜），电站里立起来一排的专业设备叫"屏"（保护屏、直流屏、远动屏）——本质都是"柜子+二次设备"。</li>
         <li><strong>KYN28（中置柜）</strong>：最常见的 10kV 金属铠装移开式开关柜。K=铠装，Y=移开式，N=户内，28=设计序号。断路器装在<strong>手车</strong>上（可像抽屉一样拉出检修），中置=手车在柜子中间层。<strong>柜顶正面那格叫"继电器室/二次室（低压室）"——你的中间继电器、信号继电器就住在这里。</strong> 客户说"二次室空间太挤"= 小型化/可拔插结构的切入点。<strong>我们在这：RC/RC-P 中间继电器、RT 时间继电器、THC 温湿度控制器（防凝露）、YDSP 开关电源。</strong></li>
         <li><strong>XGN / HXGN（固定式柜/环网柜）</strong>：XGN=固定式金属封闭柜（断路器固定装，检修要停电）；HXGN=<strong>环网柜（行业英文简称 RMU，Ring Main Unit）</strong>，体积小、装负荷开关，城市配网"环网"主干用，外资厂和出口单常直接叫 RMU。<strong>环网柜空间更小，小型导轨式/可拔插继电器、温湿度控制器（THC 防凝露）的机会。</strong> <strong>我们在这：RC 中间继电器（含小型可拔插型）、THC 温湿度控制器、RVS 双电源切换继电器。</strong></li>
-        <li><strong>充气柜（C-GIS，气体绝缘开关柜）</strong>：把断路器/负荷开关、隔离开关、母线等高压带电部分全部密封进钢板气箱、箱内充绝缘气体的中压柜，全绝缘、全密封、免维护、体积小，抗潮湿、抗污秽、抗盐雾，地下配电室、紧凑站房、沿海和高海拔用得多。<strong>两个维度最容易说错，务必分清：①"充气柜"按绝缘/密封方式命名，"环网柜"按用途（环网供电）命名，两者有交叉——既有充气式环网柜，也有空气绝缘环网柜（HXGN）；充气柜也能做成断路器馈线柜，不一定是环网柜。②它和 GIS 是大小两码事：GIS 是变电站里的大型组合电器（电压等级高、按间隔组合），C-GIS 是配电级整柜密封，常见 12/24/40.5kV。</strong>气箱里传统充 SF6，现在越来越多改用<strong>干燥空气、氮气等环保气体</strong>（SF6 是强温室气体，受限）。<strong>我们在这：三工位/开关位置重动（双位置+中间继电器按辅助接点组合，以图为准）、小型可拔插中间继电器 RC-P、THC 防凝露（地下/户外尤其要）。两个边界别报错：只有充 SF6 的柜才用得上 RN-FT 的低气压闭锁，环保气体柜、固体柜没有"SF6 气压"这一说；只有断路器型充气柜才用防跳 RL-TBJ，负荷开关-熔断器型不用防跳。</strong></li>
+        <li><strong>充气柜（C-GIS，气体绝缘开关柜）</strong>：把断路器/负荷开关、隔离开关、母线等高压带电部分全部密封进钢板气箱、箱内充绝缘气体的中压柜，全绝缘、全密封、免维护、体积小，抗潮湿、抗污秽、抗盐雾，地下配电室、紧凑站房、沿海和高海拔用得多。<strong>两个维度最容易说错，务必分清：①"充气柜"按绝缘/密封方式命名，"环网柜"按用途（环网供电）命名，两者有交叉——既有充气式环网柜，也有空气绝缘环网柜（HXGN）；充气柜也能做成断路器馈线柜，不一定是环网柜。②它和 GIS 是大小两码事：GIS 是变电站里的大型组合电器（电压等级高、按间隔组合），C-GIS 是配电级整柜密封，常见 12/24/40.5kV。</strong>气箱里传统充 SF6，现在越来越多改用<strong>干燥空气、氮气等环保气体</strong>（SF6 是强温室气体，受限）。<strong>我们在这：三工位/开关位置重动（双位置+中间继电器按辅助接点组合，以图为准）、小型可拔插中间继电器 RC-P、THC 防凝露（地下/户外尤其要）；若三工位是电动操作机构，电机正反转控制与三态联锁另用 RN-DK-C 一台（位置反馈仍走组合继电器，两层不冲突）。两个边界别报错：只有充 SF6 的柜才用得上 RN-FT 的低气压闭锁，环保气体柜、固体柜没有"SF6 气压"这一说；只有断路器型充气柜才用防跳 RL-TBJ，负荷开关-熔断器型不用防跳。</strong></li>
         <li><strong>固体绝缘柜 / 环保气体柜（和充气柜并列、客户常一起提）</strong>：<strong>固体绝缘柜（SIS）</strong>用环氧树脂把带电体浇注封死、柜内没有绝缘气体，也就没有漏气和气压问题；<strong>环保气体柜</strong>结构同充气柜，但把 SF6 换成干燥空气/氮气/环保混合气体。三者都走"小型化、全密封、免维护"路线，<strong>二次元件用法和充气柜基本一致（位置重动＋小型中间＋防凝露），唯一区别：固体柜和环保气体柜都没有 SF6 低气压闭锁，RN-FT 的气压功能用不上，别按充气柜照搬。</strong></li>
         <li><strong>隔离柜 / 站用变柜 / 避雷器柜（一排柜里剩下的功能柜）</strong>：<strong>隔离柜</strong>装隔离开关或隔离手车，检修时给出一个看得见的明显断开点（它不切负荷电流）；<strong>站用变柜（所用变柜）</strong>柜内装一台小变压器把 10kV 变 0.4kV，给本站照明、加热、直流屏充电等自用电供电；<strong>避雷器柜（PT 避雷器柜）</strong>装避雷器吸收雷击和操作过电压，常和 PT 柜合并。<strong>这些柜的二次室同样要位置指示、信号报警和防凝露，是 RC、FA、THC 的补充用量位。</strong></li>
         <li><strong>电缆分支箱 / 环网箱 / JP 柜（户外配网三件套，配网改造量大）</strong>：<strong>电缆分支箱（DFW）</strong>=路边把一路电缆分成几路的铁箱，普通型只做电缆分接、不含开关（基本不用继电器），带负荷开关的才有位置指示；<strong>环网箱（户外环网柜/开闭箱）</strong>=放到户外的环网柜组合、配 DTU 上后台，三工位位置重动、防凝露、变送器都要；<strong>JP 柜（综合配电箱）</strong>=挂在柱上变压器下方的低压箱，把配电、计量、无功补偿、漏电保护做进一个箱，农网/台网改造标配，低压小型中间继电器、信号器有零散用量。<strong>听到"配网、台变、农网"就对号这三件套。</strong></li>
@@ -1066,6 +1083,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
         <li><strong>SF6 低气压闭锁（RN-FT 的功能之一）</strong>：SF6 气压低于闭锁值 = 灭弧能力不足，此时闭锁分合闸（强行操作=放电事故）。<strong>RN-FT = 防跳 + 低气压闭锁二合一，一个继电器顶两个功能位。</strong></li>
         <li><strong>行程开关 / 辅助开关（位置触点）</strong>：机构上随断路器位置联动的机械触点，给二次回路发"已合/已分"信号——<strong>双位置继电器（RDP）和跳合位监视继电器（RL-THW）就是用来监视和保持这些位置的。</strong></li>
         <li><strong>我们在这（断路器操作机构全家桶）：RL-TBJ 防跳继电器、RDP 双位置继电器、RL-THW 跳合位监视、RL-CBS 跳合闸回路监视、RL-PSS 电源监视、RN-FB 非全相（分相机构）、RN-FT 防跳+SF6 闭锁、RL-TBJ-DW 直流操作型（直流操作机构）。</strong></li>
+        <li><strong>隔离开关 / 接地开关（刀闸）的电动操作机构（RN-DK 系列，别和断路器机构混）</strong>：断路器靠弹簧储能机构、要防跳；<strong>刀闸（DS/ES）很多是用电机直接驱动正反转来分合</strong>。这套"电机正反转 + 行程开关到位停 + 过载/超时保护 + 联锁"，过去要用接触器、热继电器、时间继电器、中间继电器一堆搭，现在专用模块集成：<strong>普通两工位刀闸（1 个串励电机、要接制动电阻）用 RN-DK-A；三工位刀闸（隔刀+地刀 2 个永磁电机、要三态联锁）用 RN-DK-C</strong>。再强调一次：RN-DK 负责电机动作，<strong>刀闸位置反馈后台仍走双位置/中间继电器组合</strong>，是两层东西。</li>
       </ul>
 
       <h3 class="sub">4.4 二次回路"黑话"（听懂客户讨论图纸）</h3>
@@ -1159,6 +1177,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
           <tr><td class="m-name">电源监视 RL-PSS</td><td>辅助电源回路</td><td>有电即动作；通用版失电立即返回，抗晃电要延时返回选 RL-PSS-H</td><td>"电源监视""辅助电源掉了要告警""晃电不跳"</td></tr>
           <tr><td class="m-name">非全相 RN-FB</td><td>220kV+ 断路器汇控柜/端子箱</td><td>三相不一致保护（启动功率≥5W、防反接防烧）</td><td>"非全相""三相不一致""分相操作"</td></tr>
           <tr><td class="m-name">防跳+闭锁 RN-FT</td><td>高压断路器汇控柜</td><td>防跳 + SF6 低气压闭锁二合一</td><td>"SF6 闭锁""低气压报警""气室压力"</td></tr>
+          <tr><td class="m-name">刀闸机构控制 RN-DK-A/C</td><td>隔离开关/接地开关/三工位刀闸的电动操作机构</td><td>电机正反转+行程到位停、过载超时保护；C 型带隔/地刀三态联锁</td><td>"电动刀闸""电机操作机构""三工位电机""隔刀/地刀"</td></tr>
           <tr><td class="m-name">电压继电器 RMY/RMY-K</td><td>PT柜、保护屏、直流屏</td><td>欠压/过压/不平衡监视（RMY-K 无源免辅助电源）</td><td>"母线电压监视""低电压""控母电压""没地方接辅助电源"</td></tr>
           <tr><td class="m-name">电流继电器 RML/RML-F/RML-F-DC</td><td>保护回路、配电柜</td><td>过流/不平衡监视、反时限（交流/直流）</td><td>"过流告警""整定值""反时限"</td></tr>
           <tr><td class="m-name">同步检查 RMY-T</td><td>备自投/并网回路</td><td>合闸前检同期（压差/角差/频差）</td><td>"检同期""备自投""BZT""并网"</td></tr>
@@ -1190,6 +1209,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
           <tr><td class="m-name">低压成套柜厂（GGD/GCS/MCC）</td><td>"抽屉柜""顺启""星三角""互锁"</td><td>RC 中间继电器、RT 时间继电器、FA 信号报警器、THC</td></tr>
           <tr><td class="m-name">直流屏厂 / 一体化电源厂</td><td>"合母控母""浮充均充""控母电压""绝缘监测"</td><td>RMY 电压继电器、RDP 双位置、FA 信号报警器、YDSP+DPM 全套</td></tr>
           <tr><td class="m-name">断路器 / 操作机构厂</td><td>"防跳""跳跃""位置监视""三相不一致""回路监视"</td><td>RL-TBJ、RDP、RL-THW、RL-CBS、RL-PSS、RN-FB、RN-FT、RL-TBJ-DW</td></tr>
+          <tr><td class="m-name">隔离开关/接地开关（刀闸）机构厂、三工位开关厂</td><td>"电动刀闸""电机操作机构""隔刀/地刀""三工位电动操作"</td><td>RN-DK-A（两工位/单串励+制动电阻）、RN-DK-C（三工位/双永磁+三态联锁）；位置反馈再配 RDP/RC 组合</td></tr>
           <tr><td class="m-name">GIS 厂 / 汇控柜集成商</td><td>"汇控柜""SF6 气压""低气压闭锁""间隔"</td><td>RN-FT（防跳+SF6闭锁）、RN-FB、RL-TBJ、RDP、THC、YDSP</td></tr>
           <tr><td class="m-name">干变厂 / 箱变厂</td><td>"PT100""埋件""超温跳闸""启风机""风冷"</td><td>DTC/TC 温控器、TCC 风机报警器、TT 温度变送器</td></tr>
           <tr><td class="m-name">温控/温湿度配套客户</td><td>"凝露""驱潮""柜内加热""温湿度上传"</td><td>THC（本地驱潮）、THS（上传）、TT（温度上传）</td></tr>
@@ -1241,7 +1261,8 @@ td .m-spec{color:var(--muted);font-size:12.5px}
           <tr><td class="m-name">"要防跳"</td><td>RL-TBJ；还要盯 SF6 → RN-FT 二合一</td></tr>
           <tr><td class="m-name">"要双位置 / 位置保持"</td><td>RDP 系列（失电不忘，通用两态保持）</td></tr>
           <tr><td class="m-name">"要跳/合位监视、TWJ/HWJ、控制回路断线"</td><td>专用 RL-THW；要和防跳合一选 RL-TBJ-DW（别一律报 RDP）</td></tr>
-          <tr><td class="m-name">"三工位（合/分/接）位置要上传"</td><td>无三工位专用件，用双位置/中间继电器按辅助接点组合，常见 2 只，以图为准</td></tr>
+          <tr><td class="m-name">"三工位（合/分/接）位置要上传 / 工位指示"</td><td>位置信号层：没有三工位位置继电器，用双位置/中间继电器按辅助接点组合，常见 2 只，以图为准（不是 RN-DK）</td></tr>
+          <tr><td class="m-name">"三工位/刀闸要电动操作、电机驱动分合"</td><td>机构控制层：两工位刀闸用 RN-DK-A（单串励+制动电阻），三工位用 RN-DK-C（隔刀+地刀双永磁、三态联锁），管电机动作与保护</td></tr>
           <tr><td class="m-name">"要监视母线 / 控母电压"</td><td>RMY 电压继电器（没辅助电源 → RMY-K）</td></tr>
           <tr><td class="m-name">"要过流保护 / 整定"</td><td>RML（反时限 RML-F / 直流 RML-F-DC）</td></tr>
           <tr><td class="m-name">"要检同期 / 备自投"</td><td>RMY-T 同步检查继电器</td></tr>
@@ -1266,7 +1287,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
         <thead><tr><th>一台 / 一面 / 一套</th><th>通常会用到的二次元件（按功能）</th><th>怎么估</th></tr></thead>
         <tbody>
           <tr><td class="m-name">中置柜 KYN28（一面）</td><td>防跳 RL-TBJ 1 组、跳/合位监视 RL-THW 1 组（或 RL-TBJ-DW 一体）、中间继电器若干、温湿度控制器 1~2，必要时配开关电源</td><td>按"每面一组操作回路 + 每个隔室一组防凝露"估，面数 × 单面用量</td></tr>
-          <tr><td class="m-name">环网柜 / 充气柜（一面）</td><td>三工位位置重动（双位置/中间继电器组合，常见 2 只）、小型可拔插中间继电器、SF6 柜加气压低闭锁、温湿度</td><td>三工位是三态、单只双位置表不全，按间隔数 × 组合只数估，以图为准</td></tr>
+          <tr><td class="m-name">环网柜 / 充气柜（一面）</td><td>三工位位置重动（双位置/中间继电器组合，常见 2 只）、小型可拔插中间继电器、SF6 柜加气压低闭锁、温湿度；电动三工位机构另加 RN-DK-C</td><td>三工位是三态、单只双位置表不全，按间隔数 × 组合只数估，以图为准；电动机构每单元另加 1 只 RN-DK-C，手动机构不加</td></tr>
           <tr><td class="m-name">直流屏 / 一体化电源（一套）</td><td>控母/合母电压监视、双位置、信号报警器、开关电源与冗余模块</td><td>按"一套屏一组监控 + 供电"整单估，配套率高</td></tr>
           <tr><td class="m-name">干式变压器（一台）</td><td>干变温控器 1 台（配 PT100），带风机的再加风机断线监视</td><td>基本 1:1，年产能多少台干变 ≈ 多少台温控器</td></tr>
           <tr><td class="m-name">光伏 / 储能舱（一舱）</td><td>温湿度防凝露、温度变送、舱内开关电源、控制回路中间继电器</td><td>按舱数估，整舱配套一单配齐</td></tr>
@@ -1281,7 +1302,8 @@ td .m-spec{color:var(--muted);font-size:12.5px}
         <thead><tr><th>设备</th><th>数量按什么数</th><th>主要变量 / 最容易算错的地方</th></tr></thead>
         <tbody>
           <tr><td class="m-name">KYN28 中置柜</td><td>按"<strong>每个断路器间隔</strong>"数：操作回路 1 套（防跳 RL-TBJ + 跳/合位监视 RL-THW，或直接用 RL-TBJ-DW 一体）；中间继电器看出线/馈线约 4~6、PT/计量/母联/备自投柜约 6~10；温湿度按易凝露隔室（手车室、电缆室各 1）</td><td>① 断路器<strong>内置防跳</strong>则外配防跳填 0；② 上综保则中间/量度继电器按装置开点数、大减；③ 母联、PT 柜比出线柜费件；④ 跳/合位监视专用件是 RL-THW，别一律报成 RDP</td></tr>
-          <tr><td class="m-name">环网柜 / 充气柜</td><td>按"<strong>三工位单元</strong>"数：三工位是合/分/接<strong>三个状态</strong>，单只双位置只能表两态，要拿双位置/中间继电器按负荷开关辅助接点<strong>组合重动（常见 2 只）</strong>，以二次图为准；中间继电器看联锁/信号约 2~4；只有<strong>断路器型</strong>才配防跳</td><td>① 没有"三工位继电器"这个专用件，别按 1 只估；② 负荷开关-熔断器型没有防跳，别算；③ 户外环网箱才必配温湿度，户内开闭所可不加</td></tr>
+          <tr><td class="m-name">环网柜 / 充气柜</td><td>按"<strong>三工位单元</strong>"数：三工位是合/分/接<strong>三个状态</strong>，单只双位置只能表两态，要拿双位置/中间继电器按负荷开关辅助接点<strong>组合重动（常见 2 只）</strong>，以二次图为准；中间继电器看联锁/信号约 2~4；只有<strong>断路器型</strong>才配防跳；若三工位是<strong>电动操作机构</strong>，另配 RN-DK-C 1 台/单元（电机控制层，与上面位置组合不冲突）</td><td>① 没有"三工位位置继电器"这个专用件，位置反馈别按 1 只估；② 负荷开关-熔断器型没有防跳，别算；③ 户外环网箱才必配温湿度，户内开闭所可不加；④ RN-DK-C 只在电动机构时配，手动机构填 0</td></tr>
+          <tr><td class="m-name">电动刀闸 / 三工位机构</td><td>按"<strong>电动机构台套数</strong>"数：每个两工位电动刀闸配 RN-DK-A 1 台；每个三工位（隔刀+地刀）电动机构配 RN-DK-C 1 台；位置反馈继电器另按二次图组合估</td><td>① RN-DK 管电机控制，不是位置指示继电器，别重复也别漏；② 手动弹簧/人力机构不用，填 0；③ 单串励电机+制动电阻选 A，隔刀+地刀双永磁三态联锁选 C</td></tr>
           <tr><td class="m-name">直流屏 / 一体化电源</td><td>按"<strong>一套系统</strong>"数：控母、合母各一组过欠压监视（2~4）；集中信号报警 1；馈线信号按馈出回路数加</td><td>充电模块、绝缘监测、电池巡检是<strong>专用装置、不是我们的件</strong>，别算进来</td></tr>
           <tr><td class="m-name">干式变压器</td><td>温控器基本 <strong>1 台 : 1 台</strong>标配（三相 PT100 + 一路铁芯/环境）</td><td>风机断线监视 TCC 只有"要监视风机故障"才配，属选配，默认不填</td></tr>
           <tr><td class="m-name">箱式变电站</td><td><strong>不要整箱再乘一遍</strong>：= 内部高压间隔（按 KYN28/环网柜数）+ 1 台干变温控 + 箱体防凝露 1~2</td><td>按内部构成拆开累加，避免和柜类、干变重复计算</td></tr>
@@ -1323,6 +1345,8 @@ td .m-spec{color:var(--muted);font-size:12.5px}
             <tr class="est-row"><td contenteditable="true">环网柜 / 充气柜</td><td contenteditable="true">三工位位置重动（双位置/中间继电器组合）</td><td class="num"><input class="qty" type="number" min="0" step="any" inputmode="decimal" value="2" placeholder="三态需2只组合,以图为准"></td><td class="num"><input class="cap" type="number" min="0" step="any" inputmode="numeric" placeholder="年产单元数"></td><td class="num"><input class="price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="公司报价"></td><td class="num out-qty">—</td><td class="num out-amt">—</td></tr>
             <tr class="est-row"><td contenteditable="true">环网柜 / 充气柜</td><td contenteditable="true">中间继电器（RC 类）</td><td class="num"><input class="qty" type="number" min="0" step="any" inputmode="decimal" value="2" placeholder="联锁/信号 2~4"></td><td class="num"><input class="cap" type="number" min="0" step="any" inputmode="numeric" placeholder="年产单元数"></td><td class="num"><input class="price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="公司报价"></td><td class="num out-qty">—</td><td class="num out-amt">—</td></tr>
             <tr class="est-row"><td contenteditable="true">环网柜 / 充气柜</td><td contenteditable="true">温湿度控制器（THC，户外）</td><td class="num"><input class="qty" type="number" min="0" step="any" inputmode="decimal" value="1" placeholder="户外1,户内0"></td><td class="num"><input class="cap" type="number" min="0" step="any" inputmode="numeric" placeholder="年产单元数"></td><td class="num"><input class="price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="公司报价"></td><td class="num out-qty">—</td><td class="num out-amt">—</td></tr>
+            <tr class="est-row"><td contenteditable="true">两工位电动刀闸机构</td><td contenteditable="true">刀闸机构控制模块（RN-DK-A，串励+制动电阻）</td><td class="num"><input class="qty" type="number" min="0" step="any" inputmode="decimal" value="1" placeholder="每台电动刀闸1,手动0"></td><td class="num"><input class="cap" type="number" min="0" step="any" inputmode="numeric" placeholder="年产机构台数"></td><td class="num"><input class="price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="公司报价"></td><td class="num out-qty">—</td><td class="num out-amt">—</td></tr>
+            <tr class="est-row"><td contenteditable="true">三工位电动刀闸机构</td><td contenteditable="true">三工位机构控制模块（RN-DK-C，隔刀+地刀双永磁）</td><td class="num"><input class="qty" type="number" min="0" step="any" inputmode="decimal" value="1" placeholder="每个三工位单元1,手动0"></td><td class="num"><input class="cap" type="number" min="0" step="any" inputmode="numeric" placeholder="年产三工位单元数"></td><td class="num"><input class="price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="公司报价"></td><td class="num out-qty">—</td><td class="num out-amt">—</td></tr>
             <tr class="est-row"><td contenteditable="true">直流屏 / 一体化电源</td><td contenteditable="true">控/合母电压监视（RMY）</td><td class="num"><input class="qty" type="number" min="0" step="any" inputmode="decimal" value="2" placeholder="控母+合母 2~4"></td><td class="num"><input class="cap" type="number" min="0" step="any" inputmode="numeric" placeholder="年产套数"></td><td class="num"><input class="price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="公司报价"></td><td class="num out-qty">—</td><td class="num out-amt">—</td></tr>
             <tr class="est-row"><td contenteditable="true">直流屏 / 一体化电源</td><td contenteditable="true">信号报警器（FA）</td><td class="num"><input class="qty" type="number" min="0" step="any" inputmode="decimal" value="1" placeholder="1/套集中报警"></td><td class="num"><input class="cap" type="number" min="0" step="any" inputmode="numeric" placeholder="年产套数"></td><td class="num"><input class="price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="公司报价"></td><td class="num out-qty">—</td><td class="num out-amt">—</td></tr>
             <tr class="est-row"><td contenteditable="true">干式变压器</td><td contenteditable="true">干变温控器（DTC，配 PT100）</td><td class="num"><input class="qty" type="number" min="0" step="any" inputmode="decimal" value="1" placeholder="1:1 标配"></td><td class="num"><input class="cap" type="number" min="0" step="any" inputmode="numeric" placeholder="年产台数"></td><td class="num"><input class="price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="公司报价"></td><td class="num out-qty">—</td><td class="num out-amt">—</td></tr>
@@ -1772,6 +1796,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
       <ol>
         <li><strong>见干变厂</strong>："干变出厂必配温控器，三相PT100测温、超温告警启风机再跳闸，第四路还能测铁芯——我们的 DTC 系列就是干这个的；风机要不要顺便配个断线监视？"</li>
         <li><strong>见断路器/机构厂</strong>："操作机构控制回路这一套我们都齐：防跳用 RL-TBJ，跳/合位监视用 RL-THW（想防跳带位置一体就用 RL-TBJ-DW），要失电保持的两态位置才用双位置 RDP；跳合闸回路监视 RL-CBS、电源监视 RL-PSS 也有；分相操作的再加非全相 RN-FB，SF6 的加低气压闭锁 RN-FT——一条龙都有。"</li>
+        <li><strong>见隔离开关/三工位开关（刀闸）机构厂</strong>："刀闸电动操作那套电机控制我们做成专用模块了——普通两工位刀闸、一个串励电机还要接制动电阻的用 RN-DK-A；三工位隔刀加地刀、两个永磁电机要做三态联锁的用 RN-DK-C，正反转、行程到位停机、过载超时、失电保护、联锁都集成在一个导轨模块里，省掉接触器加热继加时间继电器那一摊分立件。工位位置要再上后台，另配双位置/中间继电器组合，两层我们都能给齐。"</li>
         <li><strong>见直流屏厂</strong>："直流屏里控母/合母电压监视、双位置保持、故障信号报警这些继电器我们齐，柜内直流供电的开关电源和冗余模块也能一起配；充电模块、绝缘监测、电池巡检装置是你们的专业主机，我们只做它们外围的监视、报警和供电配套，不抢主机、也不乱报。"</li>
         <li><strong>见成套柜/配电柜厂</strong>："二次室的中间继电器、时间继电器我们小型化可拔插，柜子凝露配温湿度控制器，电机顺启的时间继电器都是常备货。"</li>
         <li><strong>见要"上后台/四遥"的客户</strong>："要上传的量都能变送：温度、电流电压、温湿度、挡位，4-20mA 或 RS485 都行，走 MODBUS 直挂你们通信管理机。"</li>
@@ -1813,7 +1838,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
   <!-- ============ 附2 设备场景速记卡 ============ -->
   <section class="block reveal" id="app2">
     <div class="section-inner">
-      <h2 class="section-title"><span class="sec-no">附2</span>设备场景速记卡<span style="font-family:var(--sans);font-size:12.5px;font-weight:500;color:var(--dim)">73 个 · 客户嘴里的设备词</span></h2>
+      <h2 class="section-title"><span class="sec-no">附2</span>设备场景速记卡<span style="font-family:var(--sans);font-size:12.5px;font-weight:500;color:var(--dim)">82 个 · 客户嘴里的设备词</span></h2>
       <div class="flash-grid">
         <div class="flash"><div class="term">开关柜</div><div class="def">装断路器+二次设备的柜子总称，你的产品最多的家</div></div>
         <div class="flash"><div class="term">KYN28</div><div class="def">最常见 10kV 中置柜，柜顶"二次室"=继电器的房间</div></div>
@@ -1828,6 +1853,13 @@ td .m-spec{color:var(--muted);font-size:12.5px}
         <div class="flash"><div class="term">断路器机构</div><div class="def">弹簧储能+分合闸线圈，防跳/双位置的"家"</div></div>
         <div class="flash"><div class="term">防跳</div><div class="def">防止断路器故障时反复分合烧毁，RL-TBJ 的招牌</div></div>
         <div class="flash"><div class="term">TWJ/HWJ</div><div class="def">跳位/合位监视，专用件是 RL-THW（要和防跳合一用 RL-TBJ-DW）；RDP 双位置只做通用两态保持，别混报</div></div>
+        <div class="flash"><div class="term">电磁式继电器</div><div class="def">线圈通电吸合衔铁带动机械触点、断电弹簧弹回、要持续通电（单稳态，合订册叫"非保持型单位置"）；RC/RAI/RL 全系、RVS 电磁切换、无源 RT-NP/RT-E-NP、RN-FT 都是，共同点是无需辅助电源、靠线圈直接动作</div></div>
+        <div class="flash"><div class="term">磁保持（永磁）继电器</div><div class="def">靠永久磁铁保持，给正/反脉冲就切换、线圈平时断电、状态断电不变（双稳态、省电不发热）；对应 RDP/E/S/L/PTCD 双位置全系，以及 RVSD 的双位置型</div></div>
+        <div class="flash"><div class="term">单稳态 / 双稳态</div><div class="def">普通电磁继电器=单稳态，断电弹回原位只有一个稳定位；磁保持=双稳态，合/分两个位置断电都保持，"双位置继电器"因此得名</div></div>
+        <div class="flash"><div class="term">磁保持 ≠ 自保持</div><div class="def">RDP 磁保持靠永磁、线圈只通脉冲不常带电；RL-HBJ 自保持靠自身辅助触点锁住线圈持续通电，仍是电磁式，名字都带"保持"但原理不同</div></div>
+        <div class="flash"><div class="term">静态（数字式）继电器</div><div class="def">数字电路/单片机采集判断、必须接辅助电源、带数码管/通讯，出口仍可带机械触点；需辅助电源的量度 RML/RMY/RMY-T、电子时间 RT/RT-X、RMS 智能切换、RN-FB/RN-DK 都是（RMY-K 无源拨盘型不算这类）</div></div>
+        <div class="flash"><div class="term">固态 SSR / 光电继电器</div><div class="def">从输入到输出全程半导体或光耦、完全无机械触点（SSR、PhotoMOS）；这个我们不做，别和"静态"混，客户要就记下找技术确认，别当场认</div></div>
+        <div class="flash"><div class="term">同系列也分电磁/电子</div><div class="def">别看系列名想当然：RT-NP 无源=电磁、RT 需辅助电源=电子；RVS 电磁、RMS 电子；RN-FT 电磁、RN-FB 电子；RVSD 单位置电磁/双位置磁保持。判据：要辅助电源+数码管=电子，不要、线圈直接动作=电磁</div></div>
         <div class="flash"><div class="term">小母线</div><div class="def">屏柜顶上共用电源铜排，从屏顶取电</div></div>
         <div class="flash"><div class="term">光字牌</div><div class="def">柜门发光报警窗，FA 信号报警器驱动</div></div>
         <div class="flash"><div class="term">中央信号</div><div class="def">全站报警汇总（警铃+光字+后台），FA 的主战场</div></div>
@@ -1847,7 +1879,9 @@ td .m-spec{color:var(--muted);font-size:12.5px}
         <div class="flash"><div class="term">充电桩</div><div class="def">直流快充模块发热大 → TT 模块测温+YDSP 辅助电源</div></div>
         <div class="flash"><div class="term">消防联动</div><div class="def">消防泵/排烟风机双电源+顺序启动 → RVS+RT+RC+FA</div></div>
         <div class="flash"><div class="term">控制变压器</div><div class="def">380V 转 100V 等电压转换，XF 系列的应用位</div></div>
-        <div class="flash"><div class="term">三工位</div><div class="def">环网柜/充气柜负荷开关的三个位置：合闸—分闸—接地，一把刀切换；没有"三工位继电器"专用件，三态要用双位置/中间继电器按辅助接点组合（常见2只）反馈后台，以图为准</div></div>
+        <div class="flash"><div class="term">三工位</div><div class="def">环网柜/充气柜负荷开关的三个位置：隔离合—分闸—接地合，一把刀切换；分两层记——位置反馈后台没有"三工位位置继电器"，用双位置/中间继电器按辅助接点组合（常见2只、以图为准）；电动操作机构的电机控制才有专用 RN-DK-C</div></div>
+        <div class="flash"><div class="term">RN-DK-A</div><div class="def">两工位刀闸（隔离开关，只有分/合）电动机构控制模块：驱动1个串励电机正反转、外接制动电阻，带过载和超时保护，电机≤800W；管电机怎么动，不是位置继电器</div></div>
+        <div class="flash"><div class="term">RN-DK-C</div><div class="def">三工位刀闸电动机构控制模块：驱动隔刀+地刀2个永磁电机（单台≤600W），内置三态联锁（隔离合只响应隔离分、接地合只响应接地分），无制动电阻；位置反馈仍另配组合继电器</div></div>
         <div class="flash"><div class="term">五防闭锁</div><div class="def">成套柜强制的五道安全联锁（防误分误合、带负荷拉刀闸、带电挂地线、带地线合闸、误入间隔），闭锁回路=继电器硬需求</div></div>
         <div class="flash"><div class="term">真空断路器</div><div class="def">10kV 主流开关，靠真空泡灭弧；你供的防跳/合保/跳位监视就装在它的操作回路里</div></div>
         <div class="flash"><div class="term">VS1 / VD4</div><div class="def">KYN28 里最常见的手车式真空断路器（VS1 国产主流、VD4 是 ABB），客户说"配 VS1"就是它</div></div>
@@ -1944,7 +1978,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
       </div>
       <p>本手册为销售内部学习与参考材料，产品参数与型号信息以本公司官方发布的产品说明书及手册为准，产品规格可能变更，恕不另行通知。</p>
     </div>
-    <div class="footer-copy">让电力更安全 · 销售速查手册 V8.3</div>
+    <div class="footer-copy">让电力更安全 · 销售速查手册 V8.5</div>
   </div>
 </main>
 
