@@ -78,6 +78,12 @@ body{
 .sr-item b{color:var(--brand);font-weight:600}
 .sr-item .sr-snip{color:var(--muted);display:block;margin-top:2px;line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .sr-empty{padding:10px 12px;font-size:12.5px;color:var(--dim)}
+.sr-tag{display:inline-block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10.5px;font-weight:600;color:var(--brand);background:var(--brand-soft);border-radius:5px;padding:0 6px;margin-bottom:3px}
+.sr-name{display:block;font-weight:600;font-size:12.5px;color:var(--ink);line-height:1.4}
+.sr-item.active{background:var(--brand-soft)}
+.sr-count{padding:8px 12px;font-size:11px;color:var(--dim);background:var(--surface-2);position:sticky;bottom:0}
+.sr-flash-hit{animation:srHit 1.7s ease-out;border-radius:6px}
+@keyframes srHit{0%{background:rgba(46,158,110,.30)}55%{background:rgba(46,158,110,.15)}100%{background:transparent}}
 .sidebar-nav{flex:1;overflow-y:auto;padding:10px 10px 24px}
 .nav-group{margin-bottom:10px}
 .nav-group-title{
@@ -347,8 +353,140 @@ td .m-spec{color:var(--muted);font-size:12.5px}
   .print-btn{display:none!important}
 }
 </style>
+
+<style id="marvis-beauty-layer">
+/* ============ 视觉升级层（由 Marvis 叠加，不改动原结构与功能） ============ */
+:root{
+  --brand-grad:linear-gradient(135deg,var(--brand-ink),var(--brand) 55%,var(--brand-2));
+  --hero-grad:linear-gradient(158deg,#0a3a25 0%,#0e5737 50%,#147a55 100%);
+}
+
+/* ---------- 阅读进度条 ---------- */
+.reading-progress{
+  position:fixed; top:0; left:0; height:3px; width:0; z-index:200;
+  background:linear-gradient(90deg,var(--brand-2),#35b17c 55%,var(--amber));
+  box-shadow:0 0 10px color-mix(in srgb,var(--brand-2) 45%,transparent);
+  transition:width .08s linear; pointer-events:none; border-radius:0 3px 3px 0;
+}
+
+/* ---------- 排版与章节节奏 ---------- */
+body{letter-spacing:.005em}
+section.block{scroll-margin-top:24px}
+.section-title{position:relative;display:flex;align-items:center;gap:14px}
+.section-title::after{
+  content:""; flex:1; min-width:44px; height:1px; margin-left:6px;
+  background:linear-gradient(90deg,var(--line-strong),transparent); opacity:.75;
+}
+.section-title .sec-no{
+  background:var(--brand-grad); color:#fff;
+  box-shadow:0 2px 8px color-mix(in srgb,var(--brand) 25%,transparent);
+}
+h3.sub{
+  position:relative; margin:32px 0 12px; padding-left:0; border-left:none;
+  font-size:17.5px; font-weight:800; letter-spacing:-.01em;
+  color:var(--ink); line-height:1.45;
+}
+
+/* ---------- Hero 质感升级 ---------- */
+.hero{background:var(--hero-grad)}
+.hero::before{
+  content:""; inset:0; width:auto; height:auto; border:none; border-radius:0; opacity:.55;
+  background:
+    linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px) 0 0/100% 44px,
+    linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px) 0 0/44px 100%;
+  -webkit-mask-image:radial-gradient(120% 130% at 18% 0%,#000 30%,transparent 78%);
+  mask-image:radial-gradient(120% 130% at 18% 0%,#000 30%,transparent 78%);
+}
+.hero::after{
+  content:""; width:660px; height:660px; border:none; right:-230px; top:-270px;
+  border-radius:50%;
+  background:radial-gradient(circle closest-side,rgba(255,255,255,.14),transparent 72%);
+}
+.hero-kicker{background:rgba(255,255,255,.08); border-color:rgba(255,255,255,.3)}
+.hero h1{text-wrap:balance}
+.hero-inner{animation:heroIn .8s cubic-bezier(.2,.7,.2,1) both}
+@keyframes heroIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+/* ---------- Callout 提示块 ---------- */
+.callout{
+  position:relative; padding:16px 20px 16px 26px; border:none; border-radius:12px;
+  box-shadow:0 1px 2px rgba(15,40,25,.04),0 10px 26px -16px rgba(15,40,25,.12);
+  overflow:hidden;
+}
+.callout::before{content:""; position:absolute; left:0; top:0; bottom:0; width:4px; background:var(--caccent)}
+.callout-info{--caccent:var(--blue)}
+.callout-warn{--caccent:var(--amber)}
+.callout-brand{--caccent:var(--brand)}
+.callout .ct::before{
+  content:""; display:inline-block; width:7px; height:7px; border-radius:50%;
+  margin-right:7px; background:currentColor;
+  box-shadow:0 0 0 3.5px color-mix(in srgb,currentColor 15%,transparent);
+}
+
+/* ---------- 表格 ---------- */
+.tbl{border:1px solid var(--line); box-shadow:0 1px 2px rgba(15,40,25,.04),0 14px 30px -24px rgba(15,40,25,.18)}
+thead th{
+  background:linear-gradient(180deg,var(--brand-ink),var(--brand));
+  border-bottom:1px solid color-mix(in srgb,var(--brand-ink) 55%,transparent);
+  font-size:11.5px; letter-spacing:.05em; text-transform:uppercase;
+}
+tbody tr{transition:background .15s}
+tbody tr:hover{background:color-mix(in srgb,var(--brand-soft) 72%,transparent)}
+
+/* ---------- 速记卡 ---------- */
+.flash-grid{gap:14px}
+.flash{
+  position:relative; border-radius:12px; padding:14px 15px;
+  border:1px solid var(--line); border-left:3px solid var(--brand);
+  background:linear-gradient(180deg,var(--surface),color-mix(in srgb,var(--surface) 88%,var(--brand-soft)));
+  transition:transform .18s cubic-bezier(.2,.7,.2,1),box-shadow .18s ease,border-left-color .18s ease;
+}
+.flash:hover{transform:translateY(-3px); box-shadow:var(--shadow-lg); border-left-color:var(--brand-2)}
+.flash .term{font-weight:800; letter-spacing:.015em}
+.flash .def{margin-top:5px}
+
+/* ---------- Checklist ---------- */
+.checklist{border-radius:12px}
+.checklist label{padding:6px 8px; border-radius:8px; border-bottom:none; transition:background .15s}
+.checklist label:hover{background:color-mix(in srgb,var(--surface-2) 62%,transparent)}
+.checklist input[type="checkbox"]{border-radius:5px}
+.checklist h4::before{background:var(--amber); box-shadow:0 0 0 3px color-mix(in srgb,var(--amber) 16%,transparent)}
+
+/* ---------- Onboard 上手路线 ---------- */
+.ob-head{
+  background:linear-gradient(90deg,var(--brand-soft),color-mix(in srgb,var(--brand-soft) 45%,var(--surface)));
+}
+
+/* ---------- 侧栏 / 控件反馈 ---------- */
+.sidebar-nav{scrollbar-width:thin; scrollbar-color:color-mix(in srgb,var(--dim) 38%,transparent) transparent}
+.sidebar-nav::-webkit-scrollbar{width:6px}
+.sidebar-nav::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--dim) 38%,transparent); border-radius:8px}
+.theme-btn:hover{transform:rotate(8deg) scale(1.06)}
+.back-top:hover{transform:translateY(-2px) scale(1.04)}
+.nav-link:focus-visible,.quick-bar a:focus-visible,.theme-btn:focus-visible,
+.back-top:focus-visible,.menu-btn:focus-visible{outline:2px solid var(--brand-2); outline-offset:2px}
+
+/* ---------- 动效偏好与打印兜底 ---------- */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  .reveal{opacity:1;transform:none}
+}
+@media print{
+  .reading-progress{display:none!important}
+  .hero{background:#fff!important}
+  .hero::before,.hero::after{display:none!important}
+  .hero-inner{animation:none!important}
+  .section-title::after,h3.sub::before,h3.sub::after,.callout::before,.callout .ct::before{display:none!important}
+  .callout{border:1px solid #ccc!important; box-shadow:none!important}
+  .flash{background:#fff!important; box-shadow:none!important; border-color:#ccc!important}
+  thead th{background:#eee!important; color:#111!important}
+}
+
+</style>
 </head>
 <body>
+<div class="reading-progress" id="readingProgress" aria-hidden="true"></div>
+
 
 <button class="menu-btn" id="menuBtn" aria-label="打开目录">
   <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
@@ -377,7 +515,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
       <a class="nav-link" href="#basic"><span class="n">基</span>零基础电力扫盲</a>
       <a class="nav-link" href="#ch1"><span class="n">一</span>客户行业分类词</a>
       <a class="nav-link" href="#ch2"><span class="n">二</span>自家产品相关词</a>
-      <a class="nav-link" href="#ch3"><span class="n">三</span>竞品与邻居产品</a>
+      <a class="nav-link" href="#ch3"><span class="n">三</span>替代·同行·配套邻居</a>
     </div>
     <div class="nav-group">
       <div class="nav-group-title">设备与场景</div>
@@ -436,7 +574,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
 
   <div class="callout callout-warn" style="margin:14px 0 4px">
     <span class="ct">先看清这本手册的定位：扫盲入门，不是选型 / 参数手册</span>
-    <p>它的作用是让你<strong>听得懂行话、判断客户需求该往哪一类产品上靠、见客户能开口聊</strong>。文中出现的型号、触点电流、动作时间、路数、功率等数字，<strong>只用来帮你建立"大概多大、多快、多少路"的量级概念，方便沟通，不作为选型和报价依据</strong>。正式选型、报价、给客户任何技术承诺时，<strong>具体型号与参数一律以公司最新版产品说明书 / 产品合订册、正式选型资料，以及客户的二次图纸（BOM）为准</strong>；数字对不上或拿不准，回来找技术确认，别照着本手册向客户拍参数、拍配置。</p>
+    <p>它的作用是让你<strong>听得懂行话、判断客户需求该往哪一类产品上靠、见客户能开口聊</strong>。文中出现的型号、触点电流、动作时间、路数、功率等数字，<strong>只用来帮你建立"大概多大、多快、多少路"的量级概念，方便沟通，不作为选型和报价依据</strong>。正式选型、报价、给客户任何技术承诺时，<strong>具体型号与参数一律以公司最新版产品说明书 / 产品手册、正式选型资料，以及客户的二次图纸（BOM）为准</strong>；数字对不上或拿不准，回来找技术确认，别照着本手册向客户拍参数、拍配置。</p>
   </div>
 
   <!-- ============ 现场直达 + 上手路线 ============ -->
@@ -538,7 +676,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
         <li><strong>两条技术路线，先分清客户走哪条（极重要）</strong>：
           <ul>
             <li><strong>传统 / 分立元件</strong>：用一个个电磁继电器（电流、电压、时间、中间、信号继电器）按逻辑接线搭出保护和控制，看得见、好维修——<strong>这正是我们这类分立继电器产品的主战场。</strong></li>
-            <li><strong>微机综合保护（综保 / 微机保护）</strong>：把采集、判断、出口集成进一块带芯片的装置，一个盒子顶一套逻辑，走板卡和装置、基本不用分立继电器。<strong>只做微机综保整机的厂不是你的主力目标</strong>（但综保的出口、操作回路仍可能要少量中间继电器，可以问一句）。</li>
+            <li><strong>微机综合保护（综保 / 微机保护）</strong>：把采集、判断和一部分出口集成进一块带芯片的装置。它主要拿走"采样 + 判断逻辑 + 部分出口"，<strong>但断路器操作回路（防跳、跳/合位监视、回路监视）、位置重动、安全硬联锁、老柜改造和冗余备份，仍常在装置外另配独立继电器</strong>——所以"用了综保"不等于一颗都不用，也不能说综保一定替代不了，哪层被集成、哪层外配以客户二次图为准（分层对照见 3.1.3，独立继电器反而更稳的场景见 3.1.4）。<strong>只做综保整机、装置外回路一点都不外配的厂不是主力目标，其余都值得顺着二次图问一圈。</strong></li>
           </ul>
         </li>
       </ul>
@@ -790,7 +928,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
         <thead><tr><th>家族</th><th>大类</th><th>代表型号</th><th>一句话</th></tr></thead>
         <tbody>
           <tr><td class="m-name">继电器</td><td>单位置继电器</td><td>RC / RC-F / RC-V / RC-M / RC-P / RAI / RAI-V</td><td>信号放大、隔离、多路输出的"多路开关"</td></tr>
-          <tr><td class="m-name">继电器</td><td>双位置继电器</td><td>RDP / RDP-E / RDP-S / RDP-L</td><td>记住合/跳两个位置，失电不忘</td></tr>
+          <tr><td class="m-name">继电器</td><td>双位置继电器</td><td>RDP / RDP-E / RDP-S / RDP-L / RDP-PTCD</td><td>记住合/跳两个位置，失电不忘（PTCD 用于 PT 二次电压重动）</td></tr>
           <tr><td class="m-name">继电器</td><td>量度继电器</td><td>RMY / RMY-K / RMY-T / RML / RML-F / RML-F-DC</td><td>电压电流的"监视器"，过欠压/过流保护</td></tr>
           <tr><td class="m-name">继电器</td><td>断路器保护继电器</td><td>RL-TBJ / RL-TBJ-DW / RL-I / RL-HBJ / RL-THW / RL-UI / RL-CBS / RL-PSS</td><td>防跳、位置监视、回路监视，断路器的"保镖"</td></tr>
           <tr><td class="m-name">继电器</td><td>集成继电器模块</td><td>RN-FT / RN-FB</td><td>防跳+SF6闭锁二合一 / 非全相保护</td></tr>
@@ -806,18 +944,18 @@ td .m-spec{color:var(--muted);font-size:12.5px}
       </table></div>
 
       <h3 class="sub">2.1 继电器家族（型号最多、柜内用量最大）</h3>
-      <p style="font-size:13px;color:var(--dim);margin:2px 0 8px">下面的电流、时间、路数只帮你记住"谁大谁快、大概什么量级"，方便跟客户对得上话；<strong>精确参数、可选规格以最新产品说明书 / 合订册为准，选型报价别只照这里抄。</strong></p>
-      <div class="callout callout-brand"><p><strong>先搞懂继电器到底是什么（30 秒）：</strong>它就是一个"用弱电控制强电、用一路信号控制多路通断"的电磁开关——内部一圈<strong>线圈</strong>，一通电产生磁力，把金属<strong>触点</strong>吸合或释放，触点那头接的电路就跟着接通/断开。<strong>为什么柜里非用它不可：</strong>保护装置、PLC 出来的信号很弱，带不动跳闸线圈、指示灯、警铃这些负载，而且一路信号往往要同时去好几个地方，必须靠继电器把信号<strong>放大、隔离、一分多路</strong>，所以它在二次回路里用量最大。另有<strong>固态继电器（SSR，半导体通断、无机械触点、动作快但怕过载发热）</strong>。柜内控制回路用量最大的仍是电磁继电器；继电器按动作原理的完整四类分法（电磁 / 磁保持 / 静态 / 固态）和每个型号的归属，见下面的对照表。</p></div>
+      <p style="font-size:13px;color:var(--dim);margin:2px 0 8px">下面的电流、时间、路数只帮你记住"谁大谁快、大概什么量级"，方便跟客户对得上话；<strong>精确参数、可选规格以最新产品说明书 / 产品手册为准，选型报价别只照这里抄。</strong></p>
+      <div class="callout callout-brand"><p><strong>先搞懂继电器到底是什么（30 秒）：</strong>它就是一个"用弱电控制强电、用一路信号控制多路通断"的电磁开关——内部一圈<strong>线圈</strong>，一通电产生磁力，把金属<strong>触点</strong>吸合或释放，触点那头接的电路就跟着接通/断开。<strong>为什么柜里非用它不可：</strong>保护装置、PLC 出来的信号很弱，带不动跳闸线圈、指示灯、警铃这些负载，而且一路信号往往要同时去好几个地方，必须靠继电器把信号<strong>放大、隔离、一分多路</strong>，所以它在二次回路里用量最大。另有<strong>固态继电器（SSR，半导体通断、无机械触点、动作快但怕过载发热）——这种全无触点的我们不做（见下方原理表第④类）</strong>。柜内控制回路用量最大的仍是电磁继电器；继电器按动作原理的完整四类分法（电磁 / 磁保持 / 静态 / 固态）和每个型号的归属，见下面的对照表。</p></div>
 
       <p style="margin:12px 2px 6px;font-weight:600">▼ 继电器按"动作原理"怎么分（客户说电磁式 / 磁保持 / 静态 / 固态，你要接得住）</p>
-      <p style="font-size:13px;color:var(--dim);margin:0 2px 6px">先分清两套维度：前面 RC、RDP、RL 这些是按"<strong>干什么用</strong>"（功能）分；电磁式、磁保持、静态是按"<strong>靠什么动作</strong>"（原理）分，两套维度不能硬对。下表逐系列对照合订册归类，<strong>能确定对应的写明型号，拿不准的不写死、以最新说明书 / 技术答复为准。</strong></p>
+      <p style="font-size:13px;color:var(--dim);margin:0 2px 6px">先分清两套维度：前面 RC、RDP、RL 这些是按"<strong>干什么用</strong>"（功能）分；电磁式、磁保持、静态是按"<strong>靠什么动作</strong>"（原理）分，两套维度不能硬对。下表按各系列的实际结构逐类归位，<strong>能确定对应的写明型号，拿不准的不写死、以最新说明书 / 技术答复为准。</strong></p>
       <div class="tbl"><table>
-        <thead><tr><th>按动作原理</th><th>靠什么动作 / 特点</th><th>我们对应的型号（已对照合订册）</th><th>销售怎么记</th></tr></thead>
+        <thead><tr><th>按动作原理</th><th>靠什么动作 / 特点</th><th>我们对应的型号</th><th>销售怎么记</th></tr></thead>
         <tbody>
-          <tr><td class="m-name">① 电磁式（非保持 / 单位置，有触点）</td><td>线圈通电产生磁力吸合衔铁、带动机械触点，断电靠弹簧弹回；要<strong>持续通电</strong>才保持、一断电就回默认位（单稳态），<strong>无需辅助电源</strong>、靠线圈自身工作。合订册对 RC 的原话就是"非保持型单位置继电器"</td><td>中间 / 接口：RC、RC-F、RC-V、RC-PTCD、RC-M、RC-P、RAI、RAI-V；断路器保护：RL-TBJ、RL-TBJ-Y、RL-I、RL-HBJ、RL-THW、RL-CBS、RL-PSS、RL-PSS-H、RL-UI；电磁型电源切换 RVS、RVS-NF、RVS-DC；无源时间 RT-NP、RT-E-NP（合订册标"无源、无需辅助电源"）；防跳+低气压闭锁 <strong>RN-FT</strong>（动作 / 返回电压、毫秒级动作、无电子电路，属电磁式集成）</td><td>柜内用量最大的基本盘，客户说"普通电磁 / 有触点 / 机械式 / 单位置 / 无源继电器"就是它</td></tr>
-          <tr><td class="m-name">② 磁保持 / 永磁（双位置 / 双稳态）</td><td>内部有<strong>永久磁铁</strong>，给一个正 / 反<strong>脉冲</strong>就切到合或分，随后线圈断电、靠永磁力锁住状态，<strong>断电也不变</strong>，省电、线圈不长期发热；分单线圈（正反电流）和双线圈（动作 / 复位各一线圈）。合订册原文"双位置磁保持类型"</td><td><strong>RDP、RDP-E、RDP-S、RDP-L、RDP-PTCD</strong> 双位置全系；<strong>RVSD 的"双位置型"</strong>（S/R 动作复位线圈、失电自保持）——注意 RVSD 同时有"单位置型"，那一种失电自动返回、属电磁式，下单要问清</td><td>"双位置"是<strong>功能名</strong>，"磁保持 / 永磁 / 双稳态"是<strong>原理名</strong>，说的是同一类；客户要"脉冲驱动、断电保持"就是它</td></tr>
-          <tr><td class="m-name">③ 静态 / 电子式（数字电路，需辅助电源，出口仍可带机械触点）</td><td>内部用<strong>数字电路 / 单片机</strong>实时采集、计算、整定后再驱动出口，<strong>必须接辅助电源</strong>，带数码管 / 显示 / 通讯；单独 PDF 里 RML、RMY-T 就是"辅助电源 + 数码管整定 + MODBUS + 出口继电器接点"。<strong>注意：内部是电子的，但出口接点往往仍是机械触点（不是无触点）</strong></td><td>需辅助电源的数字式量度 <strong>RML、RML-F、RML-F-DC、RMY、RMY-DC、RMY-T</strong>；电子时间 RT、RT-X（需辅助电源、多模式 / 可编程）；智能电源切换模块 <strong>RMS</strong>（实时监测、过 / 欠压、RS485）；集成模块 RN-FB（辅助电源 + 时间整定 + 数码管）、RN-DK-A / RN-DK-C（电机控制）</td><td>"静态继电器"=电子脑子 + 机械出口，<strong>我们有量度 / 模块这条线</strong>。注意量度里 <strong>RMY-K / RMY-K-N 是"无源拨盘型、无需辅助电源"</strong>，不属此类、内部结构以说明书为准；FA 报警器、温湿度 / 风机控制器、变送器（TE/TT/TS/THS/TG、SS 信号隔离器 / 安全栅）、开关电源也是电子装置，但不叫"继电器"</td></tr>
-          <tr><td class="m-name">④ 固态 SSR / 光电（光耦）继电器——我们不做</td><td>从输入到输出<strong>全程半导体 / 光耦合、完全没有机械触点和运动部件</strong>，动作快、无火花、寿命长，但怕过载发热、有微小漏电流；PhotoMOS 是 MOSFET 输出的光耦继电器。合订册全文无此类产品</td><td><strong>无——我们的继电器产品线不做全无触点的固态 / 光电开关</strong>（别和第③类"静态"混：静态出口还有机械触点，固态是真的一个触点都没有）</td><td>客户指定要"固态 / SSR / 光耦 / PhotoMOS 继电器"，<strong>别当场说我们有</strong>，记下来回公司找技术确认，以公司答复为准</td></tr>
+          <tr><td class="m-name">① 电磁式（非保持 / 单位置，有触点）</td><td>线圈通电产生磁力吸合衔铁、带动机械触点，断电靠弹簧弹回；要<strong>持续通电</strong>才保持、一断电就回默认位（单稳态），<strong>无需辅助电源</strong>、靠线圈自身工作，行业里就叫"非保持型单位置继电器"</td><td>中间 / 接口：RC、RC-F、RC-V、RC-PTCD、RC-M、RC-P、RAI、RAI-V；断路器保护：RL-TBJ、RL-TBJ-Y、RL-I、RL-HBJ、RL-THW、RL-CBS、RL-PSS、RL-PSS-H、RL-UI；电磁型电源切换 RVS、RVS-NF、RVS-DC；无源时间 RT-NP、RT-E-NP（无源、无需辅助电源）；防跳+低气压闭锁 <strong>RN-FT</strong>（动作 / 返回电压、毫秒级动作、无电子电路，属电磁式集成）</td><td>柜内用量最大的基本盘，客户说"普通电磁 / 有触点 / 机械式 / 单位置 / 无源继电器"就是它</td></tr>
+          <tr><td class="m-name">② 磁保持 / 永磁（双位置 / 双稳态）</td><td>内部有<strong>永久磁铁</strong>，给一个正 / 反<strong>脉冲</strong>就切到合或分，随后线圈断电、靠永磁力锁住状态，<strong>断电也不变</strong>，省电、线圈不长期发热；分单线圈（正反电流）和双线圈（动作 / 复位各一线圈），也就是"双位置磁保持类型"</td><td><strong>RDP、RDP-E、RDP-S、RDP-L、RDP-PTCD</strong> 双位置全系；<strong>RVSD 的"双位置型"</strong>（S/R 动作复位线圈、失电自保持）——注意 RVSD 同时有"单位置型"，那一种失电自动返回、属电磁式，下单要问清</td><td>"双位置"是<strong>功能名</strong>，"磁保持 / 永磁 / 双稳态"是<strong>原理名</strong>，说的是同一类；客户要"脉冲驱动、断电保持"就是它</td></tr>
+          <tr><td class="m-name">③ 静态 / 电子式（数字电路，需辅助电源，出口仍可带机械触点）</td><td>内部用<strong>数字电路 / 单片机</strong>实时采集、计算、整定后再驱动出口，<strong>必须接辅助电源</strong>，带数码管 / 显示 / 通讯；RML、RMY-T 这类就是"辅助电源 + 数码管整定 + MODBUS + 出口继电器接点"。<strong>注意：内部是电子的，但出口接点往往仍是机械触点（不是无触点）</strong></td><td>需辅助电源的数字式量度 <strong>RML、RML-F、RML-F-DC、RMY、RMY-DC、RMY-T</strong>；电子时间 RT、RT-X（需辅助电源、多模式 / 可编程）；智能电源切换模块 <strong>RMS</strong>（实时监测、过 / 欠压、RS485）；集成模块 RN-FB（辅助电源 + 时间整定 + 数码管）、RN-DK-A / RN-DK-C（电机控制）</td><td>"静态继电器"=电子脑子 + 机械出口，<strong>我们有量度 / 模块这条线</strong>。注意量度里 <strong>RMY-K / RMY-K-N 是"无源拨盘型、无需辅助电源"</strong>，不属此类、内部结构以说明书为准；FA 报警器、温湿度 / 风机控制器、变送器（TE/TT/TS/THS/TG、SS 信号隔离器 / 安全栅）、开关电源也是电子装置，但不叫"继电器"</td></tr>
+          <tr><td class="m-name">④ 固态 SSR / 光电（光耦）继电器——我们不做</td><td>从输入到输出<strong>全程半导体 / 光耦合、完全没有机械触点和运动部件</strong>，动作快、无火花、寿命长，但怕过载发热、有微小漏电流；PhotoMOS 是 MOSFET 输出的光耦继电器。我们产品线没有这类产品</td><td><strong>无——我们的继电器产品线不做全无触点的固态 / 光电开关</strong>（别和第③类"静态"混：静态出口还有机械触点，固态是真的一个触点都没有）</td><td>客户指定要"固态 / SSR / 光耦 / PhotoMOS 继电器"，<strong>别当场说我们有</strong>，记下来回公司找技术确认，以公司答复为准</td></tr>
         </tbody>
       </table></div>
       <div class="callout callout-warn"><p><strong>几组最容易搅在一起的词，都是自家型号、务必分清：</strong><br>① <strong>电磁式 / 静态 / 固态三者别混</strong>：电磁式靠线圈机械动作；静态（RML 等需辅助电源的数字式量度）靠数字电路判断、但出口仍是机械触点；固态 SSR 连出口都是半导体、全机无触点，我们不做。<br>② <strong>磁保持 ≠ 电气自保持</strong>：RDP 靠<strong>永久磁铁</strong>保持，线圈只通一下脉冲、平时不耗电；RL-HBJ"电流启动并自保持"是靠<strong>自身辅助触点把线圈锁住、持续通电</strong>（电气自保持 / seal-in），本质还是电磁式、线圈一直带电——名字都带"保持"，原理两码事。<br>③ <strong>单稳态 ≠ 双稳态</strong>：普通电磁继电器是单稳态（通电吸合、断电弹回，只有一个稳定位）；磁保持是双稳态（合、分两个位置断电都能保持），"双位置继电器"正由此得名。<br>④ 客户嘴里的"<strong>永磁继电器</strong>"有时指方向敏感的<strong>极化继电器</strong>，听到先确认对方是不是要"给个脉冲就保持、不用一直通电"那种，拿不准回公司问技术，别凭名字报型号。<br>⑤ <strong>同一系列里也可能分电磁 / 电子，别按系列名"想当然"</strong>：时间继电器 RT-NP / RT-E-NP 是<strong>无源</strong>（电磁类）、RT / RT-X <strong>需辅助电源</strong>（电子类）；电源切换 RVS 是<strong>电磁</strong>立即切换、RMS 是带监测和通讯的<strong>电子模块</strong>；RN-FT 是<strong>电磁式</strong>、RN-FB 是<strong>电子式</strong>；RVSD 分<strong>单位置（电磁、失电返回）/ 双位置（磁保持、失电保持）</strong>；量度 RMY-K 无源拨盘、RML 带辅助电源数字式。<strong>判据就一条：要不要单独接辅助电源、有没有数码管 / 整定 / 通讯——要的是电子类，不要、靠线圈直接动作的是电磁类；拿不准一律以说明书 / 技术答复为准。</strong></p></div>
@@ -834,7 +972,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
         <li><strong>触点</strong>：继电器里真正通断电的金属片。"常开（NO/H）/常闭（NC/D）/转换（Z）"= 不工作时断开/导通/公共端切换。客户问"几常开几常闭"，你要答得上来——型号后缀里的 2Z、4H 就是这个意思（如 RC-V 2H/4H/2Z）。<strong>接点类型表示法：H-常开，D-常闭，Z-转换。</strong></li>
         <li><strong>触点容量</strong>：触点能安全通断的最大电流/电压，如 8A 250VAC。<strong>客户选型第一问常常就是触点容量</strong>——带多大负载、什么负载类型（阻性/感性）。感性负载（线圈、电机）通断瞬间电流是额定的几倍到十几倍，所以同一对触点带灯泡没问题、带接触器线圈就要降容用。</li>
         <li><strong>抗干扰继电器（RAI / RAI-V）</strong>：强电磁环境（变频器旁、矿下、试验场）用的加强版——<strong>启动功率 &gt;5W、防反接、防烧、持续 220VAC 工频不误动、动作电压（55%~65%）UN、动作时间 10~35ms</strong>。<strong>RAI-V 直流负载型（动作电压 55%~80%UN，可切直流负载，10A 220VDC；交流档 12A 250VAC）</strong>。</li>
-        <li><strong>双位置继电器（RDP 系列）</strong>：记住"合闸位置/跳闸位置"两个状态，失电也不忘。用于位置指示和回路监视。分四档：<strong>RDP</strong>（脉冲控制，线圈不可持续通电；动作/复位线圈不可同时上电）、<strong>RDP-E</strong>（互锁型，脉冲/持续通电均可）、<strong>RDP-S</strong>（单线圈，每通电一次翻转一次状态，5A）、<strong>RDP-L</strong>（LOCKOUT 型，带就地复位和指示灯）。<strong>触点电流别记混：RDP / RDP-E 默认 5A、可选 8A（型号末尾加 -8A），RDP-S 只有 5A，RDP-L 为 8A。</strong></li>
+        <li><strong>双位置继电器（RDP 系列）</strong>：记住"合闸位置/跳闸位置"两个状态，失电也不忘。用于位置指示和回路监视。分四档：<strong>RDP</strong>（脉冲控制，线圈不可持续通电；动作/复位线圈不可同时上电）、<strong>RDP-E</strong>（互锁型，脉冲/持续通电均可）、<strong>RDP-S</strong>（单线圈，每通电一次翻转一次状态，5A）、<strong>RDP-L</strong>（LOCKOUT 型，带就地复位和指示灯）；另有 <strong>RDP-PTCD 双位置 PT 重动继电器</strong>（磁保持，用在电压回路：PT 二次电压经它的接点送交流小母线，接点随 PT 高压侧刀闸的辅助接点一起投切，防止 PT 反向充电——别和 RVSD 的"双母线电压切换"报混：PTCD 管单组 PT 的重动投切，RVSD 管两段母线之间切换）。<strong>触点电流别记混：RDP / RDP-E 默认 5A、可选 8A（型号末尾加 -8A），RDP-S 只有 5A，RDP-L 为 8A。</strong></li>
         <li><strong>防跳继电器（RL-TBJ）</strong>："跳"=跳闸。防止断路器在故障时反复分合（跳跃）烧毁，电流启动、电压保持。<strong>断路器厂/操作机构厂的刚需</strong>。</li>
         <li><strong>直流操作继电器（RL-TBJ-DW）</strong>：用于断路器保护回路，防跳跃 + 跳合闸位置指示，8A 250VAC。</li>
         <li><strong>电流启动继电器（RL-I）</strong>：电流启动，8A 250VAC。</li>
@@ -863,7 +1001,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
         <li><strong>电量变送器（TE）</strong>：把电压/电流变成 4-20mA 或 RS485，配电柜"遥测"上传用。</li>
         <li><strong>温度变送器（TT）</strong>：接 PT100、CU50 等测温电阻，把温度变成 4-20mA 远传后台。</li>
         <li><strong>信号变送器（TS）</strong>：输入 4-20mA、RS485，输出 4-20mA、RS485——做<strong>信号隔离与变换</strong>的（转换信号制式、隔离干扰）。<strong>注意区分：TT 管"温度→4-20mA"，TS 管"信号→信号"（隔离/变换），别搞混。</strong></li>
-        <li><strong>温湿度变送器（THS）</strong>：把柜内温湿度变成标准信号上传后台，后缀 <strong>-I = 4-20mA、-S = RS485</strong>（如 THS-I、THS-S），供电 9~30VDC。<strong>注意现行型号是 THS（旧选型资料曾写作 TTH，以产品合订册 THS 为准）。</strong></li>
+        <li><strong>温湿度变送器（THS）</strong>：把柜内温湿度变成标准信号上传后台，后缀 <strong>-I = 4-20mA、-S = RS485</strong>（如 THS-I、THS-S），供电 9~30VDC。<strong>注意现行型号是 THS（旧资料曾写作 TTH，现行统一为 THS）。</strong></li>
         <li><strong>挡位变送器（TG）</strong>：把有载调压变压器的挡位变成 4-20mA 远传——电网调度要看主变在几挡。</li>
         <li><strong>RS485 / MODBUS</strong>：工业通信的"普通话"。变送器带 RS485 = 可以直接挂到客户的通信管理机上，走 MODBUS 协议被后台读取。<strong>客户说"要上后台""走通信"= 问带不带 RS485</strong>。</li>
       </ul>
@@ -935,26 +1073,125 @@ td .m-spec{color:var(--muted);font-size:12.5px}
     </div>
   </section>
 
-  <!-- ============ 三 竞品与邻居产品 ============ -->
+  <!-- ============ 三 技术替代·同行品牌·配套邻居 ============ -->
   <section class="block reveal" id="ch3">
     <div class="section-inner">
-      <h2 class="section-title"><span class="sec-no">三</span>竞品与"邻居"产品<span style="font-family:var(--sans);font-size:12.5px;font-weight:500;color:var(--dim)">听得懂别人在用什么</span></h2>
+      <h2 class="section-title"><span class="sec-no">三</span>技术替代、同行品牌与配套邻居<span style="font-family:var(--sans);font-size:12.5px;font-weight:500;color:var(--dim)">谁把料做没 · 谁抢同一颗料 · 谁带你走量</span></h2>
+
+      <h3 class="sub">3.0 先分清三种关系：技术替代、同行品牌、配套邻居</h3>
+      <p>客户张口就是"KYN28 二次室""直流屏控母""凝露加热""我们一直用某牌子"——这一章先把柜里、回路里的各种东西，按"它跟我们是什么关系"分成三类。分清楚了，才知道眼前这个东西该<strong>防、该拼、还是该搭车</strong>，也不会把两种完全不同的"竞争"混成一锅粥。</p>
+      <div class="tbl"><table>
+        <thead><tr><th>关系</th><th>它是什么</th><th>对继电器用量的影响</th><th>你该怎么动</th></tr></thead>
+        <tbody>
+          <tr><td class="m-name">技术替代<br>（替代路线）</td><td>不是同行厂家，而是<strong>另一条技术路线</strong>——用芯片、程序把原来一堆继电器干的活集成掉（代表：微机保护、PLC）</td><td>把一部分继电器<strong>"做没"</strong>，单柜颗数变少；但替代不干净，操作、出口、硬联锁这层仍要独立件</td><td>不跟它拼算法 / 逻辑，专攻它<strong>"装置之外"</strong>仍要配的接点扩展、操作回路、硬接线后备</td></tr>
+          <tr><td class="m-name">同行品牌<br>（同业竞品）</td><td>做<strong>同类继电器</strong>、抢<strong>同一颗料位</strong>的别家品牌（宏发、正泰、菲尼克斯、和泉这类，详见 3.3）</td><td>同一颗料二选一，<strong>此消彼长</strong></td><td>拼专用型号谱系、认证、交期、服务，送样上机做 B 点备份，不贬低对手</td></tr>
+          <tr><td class="m-name">配套邻居<br>（共生件）</td><td>它本身不是继电器，但它的设备 / 回路里<strong>必须装</strong>继电器（断路器、接触器、SVG、UPS 这类）</td><td>它出货越多，继电器<strong>跟着走量</strong></td><td>把它当客户 / 渠道，打进它的 BOM，它扩产你增量</td></tr>
+        </tbody>
+      </table></div>
+      <div class="callout callout-info">
+        <p><strong>一句话分清：</strong>技术替代是"<strong>把这颗料做没</strong>"（拼的是路线），同行品牌是"<strong>抢这颗料</strong>"（拼同款谁更好），配套邻居是"<strong>要用这颗料</strong>"（它是你的下游）。平时嘴里说的"竞品"，严格讲只对应第二类"同行品牌"；第一类别叫竞品，叫技术替代，两类的应对思路完全不同。</p>
+      </div>
+
+      <h3 class="sub">3.1 技术替代：微机保护和 PLC，到底替代了什么、替代不了什么</h3>
+      <p>这两样<strong>不是另一家继电器厂</strong>，而是两条"用电子和程序替代硬接线继电器"的路线。新人最怕两种极端：要么觉得"上了综保 / PLC，继电器就没戏了"，要么跟客户犟"这东西不可靠别用"——两种都是外行话。看清楚它的<strong>替代边界</strong>，边界之外全是你的单。</p>
+
+      <h3 class="sub" style="font-size:15px">3.1.1 微机保护装置（综保 / 微保）</h3>
+      <p><strong>它是什么：</strong>把过流、过压、差动这类"<strong>测量 + 保护判断</strong>"写进程序的电子装置，一台替代传统一整套保护继电器，还带通讯、能上后台，成套厂的中高压柜里大量使用。</p>
+      <p><strong>它替代的是哪一层：</strong>主要是"<strong>动脑判断</strong>"那一层——量度、保护逻辑、定值计算、故障录波和通讯上报（对应量度 RML / RMY 类在"判断"环节的部分场景）。</p>
+      <p><strong>它替代不干净、仍要独立继电器的地方（重点，逐条记）：</strong></p>
       <ul>
-        <li><strong>微机保护装置（微保）</strong>：用芯片程序实现保护功能的"电脑版继电器"，一块屏替代几十个继电器。<strong>成套厂大量用它，所以你排除微保用户——但注意：干变本体厂即使用微保测温保护，风机启停和简单联锁仍常保留独立温控器。</strong></li>
-        <li><strong>RC-P / 可拔插组件</strong>：国际品牌（如菲尼克斯 Phoenix Contact、魏德米勒 Weidmüller）做的插拔式接口继电器，插在底座上可不停电更换。成套厂图纸常用——我们的 RC-P 就是对标替代它。</li>
-        <li><strong>PLC</strong>：可编程逻辑控制器，"工业电脑"。它和继电器是部分竞争、部分共存关系（终端执行回路仍需继电器隔离放大）。</li>
-        <li><strong>接触器</strong>：长得像继电器、但用来通断<strong>大电流电机</strong>的"大力士"。别和继电器混淆：继电器传信号，接触器带电机。</li>
-        <li><strong>断路器 / 负荷开关 / 隔离开关</strong>：断路器能断故障电流；负荷开关只能断正常电流；隔离开关只做可见断口没有灭弧能力。<strong>它们的操作机构里都有二次回路=继电器客户。</strong></li>
-        <li><strong>互感器（CT/PT）</strong>：把大电流/高电压按比例缩小给仪表保护用的小变压器。CT=电流，PT=电压。<strong>变比</strong>：如 600/5 = 一次600A变二次5A。客户说"配600/5的CT"就是这个意思。</li>
-        <li><strong>SVG / SVC</strong>：无功补偿装置（动态/静态），电容器+电抗器+控制柜的组合，柜内继电器用量大。</li>
-        <li><strong>UPS / EPS / HVDC</strong>：不间断电源/应急电源/高压直流——数据中心配套电源，二次元件大户。</li>
-        <li><strong>PCS / BMS</strong>：储能变流器 / 电池管理系统。储能行业两大核心设备，都带大量控制柜。</li>
-        <li><strong>DTU / FTU / TTU</strong>：配网自动化终端（站所/馈线/配变），配电自动化客户的主产品。</li>
-        <li><strong>四遥</strong>：遥测、遥信、遥控、遥调——电网远程监控的四种功能，是"电力物联网"的老词。<strong>遥测=变送器的活、遥信=信号继电器/报警器的活——听到"四遥"就想到变送器+信号类两条线。</strong></li>
+        <li><strong>① 出口接点不够、容量小</strong>：装置自带的开出接点组数有限、多为信号级小容量，真要去跳分合闸线圈、点亮信号、做多路闭锁和录波，得靠中间继电器 RC 做<strong>接点扩展（一组变多组）、容量放大、电气隔离</strong>。</li>
+        <li><strong>② 断路器操作回路是硬接线</strong>：防跳 RL-TBJ、跳 / 合位监视 RL-THW、跳合闸回路监视 RL-CBS、电源监视 RL-PSS、SF6 低气压闭锁 RN-FT，属于<strong>操动机构 / 操作箱回路</strong>，讲究可靠、抗干扰、失电安全，传统就是独立专用继电器。即便部分综保内置操作回路，也常因接点不够、要冗余、老柜改造而外配——<strong>以客户二次图为准，别默认"上了综保就全集成"</strong>。</li>
+        <li><strong>③ 位置信号要重动 / 扩展</strong>：断路器、刀闸的一副辅助接点，往往要同时送给信号、闭锁、录波、后台好几路，用 RDP 双位置 / 重动继电器把一对接点扩展成多路，装置没有那么多物理接点。</li>
+        <li><strong>④ 强干扰隔离 + 失电兜底</strong>：分合闸线圈断电瞬间有反向电动势，电子口娇气，机械继电器做硬隔离更耐造；装置死机或失电时，关键报警、跳闸、联锁要有<strong>不依赖程序的硬接线后备</strong>（电源监视、故障报警接点这类）。</li>
+        <li><strong>⑤ 大量柜体根本不用综保</strong>：普通环网柜、充气柜、端子箱 / 汇控柜、双电源柜、风机水泵 / 消防 / 电梯控制柜，要么没有保护算法需求，要么要硬接线毫秒级动作（如双电源切换 RVS），用继电器反而更省、更可靠、更好维护。</li>
       </ul>
 
-      <h3 class="sub">3.1 客户嘴里的品牌梯队与国产替代打法（听到牌子不慌）</h3>
-      <p>客户说"我们一直用 XX 的"，你要先知道对方在哪个档位，再谈怎么切。下面是工业/电力柜里最常被提到的接口与继电器品牌，<strong>只做认知，任何场合都不贬低对手</strong>。</p>
+      <h3 class="sub" style="font-size:15px">3.1.2 PLC（可编程逻辑控制器）</h3>
+      <p><strong>它是什么：</strong>工业控制计算机，用程序代替"一堆中间继电器搭出来的联锁、顺序、定时逻辑"。</p>
+      <p><strong>它替代的是哪一层：</strong>"<strong>逻辑运算</strong>"那一层——原来用一排 RC 搭的与或非、互锁、顺控、定时，写进程序能省掉一批中间继电器。</p>
+      <p><strong>它替代不干净的地方：</strong></p>
+      <ul>
+        <li><strong>① 输出点带不动负载</strong>：PLC 输出是晶体管或小型继电器点、容量小，带接触器线圈、电磁阀、指示灯、电机，都得经中间继电器 RC 或接触器做"<strong>小控大</strong>"。</li>
+        <li><strong>② 安全相关要硬接线</strong>：急停、安全联锁、关键跳闸为满足可靠性，规范上常要求<strong>不进程序、用硬接线直接实现</strong>（程序会死机、扫描有周期），这部分继电器省不掉。</li>
+        <li><strong>③ 简单固定逻辑不划算</strong>：就几个联锁、逻辑永不变的柜子，上 PLC 要配电源模块、要编程、要通讯，成本和故障点都比一排继电器高，客户反而选硬接线。</li>
+        <li><strong>④ 现场要好维护</strong>：继电器坏了换一颗、电工都会；PLC 要会读程序，偏远 / 无人值守站点更认硬接线。</li>
+      </ul>
+      <div class="callout callout-warn"><p><strong>两个坑别踩：</strong>① 别跟客户说"综保 / PLC 不可靠、别用"，这是外行话；正确表达是"<strong>装置管判断和逻辑，操作、出口这一层用独立继电器更稳妥、接点也够、还好检修</strong>"。② 越是规范的盘厂越懂"分层"——接点扩展、操作回路本就是标准外配，你讲得越专业越有的聊。<strong>现场就问三句切进去：装置几路开出 / 接点多大？操作回路是装置自带还是外配？位置信号要送几路？</strong></p></div>
+
+      <h3 class="sub" style="font-size:15px">3.1.3 一套二次回路分几层：哪层被程序拿走、哪层继电器还在（最该吃透的一张表）</h3>
+      <p>跟客户聊"综保 / PLC 会不会把继电器替代完"，别笼统回答。把一套控制 / 保护回路<strong>从上到下拆成功能层</strong>，一层一层看：谁干的、能不能被集成、独立继电器还在不在，一目了然。</p>
+      <div class="tbl"><table>
+        <thead><tr><th>功能层</th><th>这层干什么</th><th>综保 / PLC 能不能集成</th><th>仍要独立继电器的原因 / 对应件</th></tr></thead>
+        <tbody>
+          <tr><td class="m-name">① 采样测量层</td><td>CT/PT 把大电流、高电压按比例变小，送进装置测量</td><td>由互感器 + 装置采样完成</td><td>这层本来就不用继电器；量度、变送靠互感器二次侧取信号（配套关系）</td></tr>
+          <tr><td class="m-name">② 判断 / 逻辑层</td><td>过流过压、差动等保护判断，以及联锁、顺控、定时逻辑</td><td><strong>被替代最多的一层</strong>：程序替代了传统电磁式保护继电器、以及用一排中间继电器搭出来的逻辑</td><td>简单、固定、永不改的逻辑仍常用硬接线（成本低、不依赖程序）</td></tr>
+          <tr><td class="m-name">③ 出口执行层</td><td>把装置判断结果变成实际通断，去跳 / 合断路器、点亮信号、驱动负载</td><td>装置只有少量、小容量的开出接点</td><td><strong>基本要外配</strong>：RC 做接点扩展（一组变多组）、容量放大、强弱电隔离</td></tr>
+          <tr><td class="m-name">④ 断路器操作回路层</td><td>防跳、跳 / 合位监视、跳合闸回路完好监视、控制电源监视、SF6 气压闭锁</td><td>部分综保 / 操作箱内置一部分，但路数、冗余、老柜改造常要外配</td><td>操动机构强干扰、要求失电安全，传统走硬接线：RL-TBJ、RL-THW、RL-CBS、RL-PSS、RN-FT，<strong>具体以客户二次图为准</strong></td></tr>
+          <tr><td class="m-name">⑤ 位置信号 / 重动层</td><td>断路器、刀闸的一副辅助接点，要同时送信号、闭锁、录波、后台多路</td><td>装置物理接点有限，吃不下这么多路</td><td>RDP 双位置 / 重动继电器把一副接点扩展、重动成多路并保持状态</td></tr>
+          <tr><td class="m-name">⑥ 电源与切换层</td><td>两路电源失电毫秒级自动切换、控制电源失电报警</td><td>一般不走程序（程序有扫描周期、会死机，来不及也不放心）</td><td>RVS / RMS 双电源切换、RL-PSS 电源监视，硬接线直接动作</td></tr>
+          <tr><td class="m-name">⑦ 安全硬联锁层</td><td>急停、安全联锁、关键跳闸的最后一道，要求任何时候都可靠</td><td>规范上常要求<strong>不进程序、硬接线直连</strong></td><td>独立继电器做硬接线后备，装置死机 / 失电时仍能动作（失电安全 fail-safe）</td></tr>
+        </tbody>
+      </table></div>
+      <div class="callout callout-info"><p><strong>一句防外行话的澄清：</strong>综保 / PLC <strong>里面其实也有继电器</strong>（装置自带的出口 / 操作继电器），但那是<strong>装在装置内部、路数和容量固定、不单独对外供货</strong>的小件。我们做的是<strong>装置之外、导轨上独立安装</strong>的继电器——客户要加路数、换大容量、做隔离 / 冗余、老柜改造、或装置不带操作回路时，外配的就是这一类。所以别说"综保里没有继电器"，准确说法是"<strong>装置内置的接点不够用 / 不合适，操作和出口这一层要独立外配</strong>"。</p></div>
+
+      <h3 class="sub" style="font-size:15px">3.1.4 电子时代，独立继电器反而更稳的六个场景（被问"为什么不全用程序"时这么答）</h3>
+      <ul>
+        <li><strong>① 成本</strong>：就几个固定联锁 / 切换，上一套装置要配电源、组态、调试，一排继电器更便宜，客户算账常选硬接线。</li>
+        <li><strong>② 可靠性 / 失电安全</strong>：继电器动作只靠线圈和触点，不依赖程序、不依赖通讯，掉电 / 死机不影响硬接线回路按设计返回或动作（fail-safe）。</li>
+        <li><strong>③ 抗干扰</strong>：分合闸线圈、变频器、雷击浪涌环境电磁干扰强，机械触点做物理隔离，比娇贵的电子口更耐冲击。</li>
+        <li><strong>④ 好维护</strong>：继电器坏了换一颗，现场电工都会、备件通用、不用接电脑读程序；装置 / PLC 要专业人员组态，偏远无人值守站更认硬接线。</li>
+        <li><strong>⑤ 交付快</strong>：硬接线即接即用，不用编程、不用管软件版本，急单、改造、抢修时优势明显。</li>
+        <li><strong>⑥ 短时耐受</strong>：机械触点对短时过载、浪涌电流的承受能力强于半导体输出口，出口带线圈类感性负载更稳。</li>
+      </ul>
+      <div class="callout callout-warn"><p><strong>顺带分清综保和 PLC（别在客户面前混）：</strong><strong>综保</strong>面向<strong>电力系统保护</strong>——测电压电流、算过流 / 差动等故障、动作是去跳断路器保一次设备安全，要符合电力行业标准；<strong>PLC</strong>面向<strong>工业过程控制</strong>——管生产线 / 设备的逻辑、顺控、联锁动作。两者都"用程序"，但行业、认证、I/O 结构不同。另外行业在推<strong>一二次融合</strong>（把保护、操作、通讯做进开关本体的智能柜），集成度更高，这是趋势不用抵触；我们的增量在<strong>装置外配、老柜改造、备件更换，以及大量根本不用综保 / PLC 的简单柜体</strong>。</p></div>
+
+      <h3 class="sub">3.2 配套邻居（共生件）：谁出货，谁就带你走量</h3>
+      <p>配套邻居不抢继电器的单，反而是继电器的"载体"——它们的主设备、柜子、回路里必须装继电器。<strong>邻居越火、出货越多，你的件跟着走量。</strong>做这类客户，本质是把继电器设计进它的标配 BOM。</p>
+
+      <h3 class="sub" style="font-size:15px">3.2.1 开关类邻居（主设备，必有二次回路）</h3>
+      <ul>
+        <li><strong>断路器</strong>：能接通、承载并切断故障短路电流，是开关柜核心。它的操动机构里全是分合闸、防跳、位置监视、闭锁等二次回路，<strong>是继电器最刚性的需求来源</strong>。</li>
+        <li><strong>负荷开关</strong>：只能分合正常负荷电流、不能切短路电流，操动机构里同样有二次回路（环网柜主力开关）。</li>
+        <li><strong>隔离开关（刀闸）</strong>：只提供可见断口、没有灭弧能力；<strong>电动操作型</strong>才有电机控制回路（RN-DK 机构控制模块就是配它的电动机构），手动型不用。</li>
+      </ul>
+
+      <h3 class="sub" style="font-size:15px">3.2.2 控制与测量类邻居（小控大、取信号）</h3>
+      <ul>
+        <li><strong>接触器</strong>：外形和继电器很像，但用来通断大电流（电机、加热等负载）。两者是经典<strong>前后级配合、不是竞争</strong>：继电器接点小（信号级），先去控制接触器线圈；接触器主触点大，再去带负载——这就是"<strong>小控大</strong>"。一句话分开：<strong>继电器传信号，接触器带负载</strong>，客户搞混时你要能讲清。</li>
+        <li><strong>互感器（CT / PT，新标 TA / TV）</strong>：把大电流 / 高电压按比例缩小，给仪表、保护、量度继电器用。CT=电流、PT=电压；<strong>变比</strong>如 600/5 = 一次 600A 变二次 5A。它的二次侧正是量度继电器、变送器、仪表的输入来源——<strong>有量度 / 变送 / 测量的柜子必配互感器，是天然配套关系</strong>。</li>
+      </ul>
+
+      <h3 class="sub" style="font-size:15px">3.2.3 成套 / 系统类邻居（控制柜多，继电器用量大户）</h3>
+      <ul>
+        <li><strong>SVG / SVC</strong>：动态 / 静态无功补偿装置，由电容器、电抗器加一面面控制柜组成，<strong>每面控制柜都要操作、联锁、切换、信号继电器</strong>，用量大。</li>
+        <li><strong>UPS / EPS / HVDC</strong>：不间断电源 / 应急电源 / 高压直流，数据中心和关键负荷配套，内部整流、逆变、旁路切换都要控制与切换元件，是二次元件大户。</li>
+        <li><strong>PCS / BMS</strong>：储能变流器 / 电池管理系统，储能电站两大核心，外加汇流、升压、温控一堆控制柜，都带二次回路。</li>
+        <li><strong>DTU / FTU / TTU</strong>：配网自动化终端（站所 / 馈线 / 配变），本身是终端设备，但内部和外接的操作、信号、电源回路仍要独立继电器做出口与隔离。</li>
+        <li><strong>四遥</strong>：遥测、遥信、遥控、遥调——电网远程监控的四种功能。<strong>遥测是变送器的活（TE/TT/THS），遥信是信号继电器 / 报警器的活（RC/FA）</strong>——听到"四遥"就想到变送器 + 信号两条线。</li>
+      </ul>
+
+      <h3 class="sub" style="font-size:15px">3.2.4 一张表估清：每类邻居大概带哪几路件、什么量级</h3>
+      <p>跟邻居客户谈，先要能<strong>估出单台 / 单柜大概用多少二次件</strong>，才好排客户优先级、算年容量。下表只给<strong>量级和配套关系</strong>，帮你建立"谁大谁小、谁走量"的感觉；<strong>真实颗数完全取决于客户的二次图纸和 BOM（一台一设计），报价、报量一律以 BOM 逐颗核对，别拿这张表的量级去拍数。</strong></p>
+      <div class="tbl"><table>
+        <thead><tr><th>邻居类型</th><th>它的回路里要装哪些二次件</th><th>单台 / 单柜量级（仅估大小）</th><th>主要对应我们的件</th></tr></thead>
+        <tbody>
+          <tr><td class="m-name">断路器操动机构</td><td>防跳、跳 / 合位监视、回路完好监视、电源监视、位置重动；SF6 柜加低气压闭锁，分相大断路器加非全相</td><td>单台数只到十几只专用件，按相数 / 间隔数叠加，最刚性</td><td>RL-TBJ、RL-THW、RL-CBS、RL-PSS、RDP、RN-FT、RN-FB、RC</td></tr>
+          <tr><td class="m-name">负荷开关 / 环网柜、电动刀闸</td><td>位置指示与联锁、防凝露；电动机构加电机正反转控制</td><td>单柜数量不多，但柜型走量大、靠柜数薄利多销</td><td>RC、RDP、THC；电动机构 RN-DK-A/C（手动不用）</td></tr>
+          <tr><td class="m-name">接触器（电机 / 负载回路）</td><td>中间继电器先控接触器线圈，再由接触器主触点带负载（小控大）</td><td>一路电机 / 负载通常配 1 只控制继电器，按回路数叠加</td><td>RC（配合客户自配的接触器）</td></tr>
+          <tr><td class="m-name">互感器 CT/PT</td><td>本身不带继电器，但二次侧要接量度、变送、仪表</td><td>有几路测量 / 保护就配几只量度或变送</td><td>RML/RMY、TE/TT/THS</td></tr>
+          <tr><td class="m-name">SVG / SVC 无功补偿</td><td>功率单元加一面面控制柜：操作、联锁、切换、信号、风机温控</td><td>一套多面柜，按面叠加，用量大户</td><td>RC、RT、RVS、THC、FA</td></tr>
+          <tr><td class="m-name">UPS / EPS / HVDC 电源</td><td>整流 / 逆变 / 旁路切换、并机联锁、状态信号</td><td>单系统十几只到数十只，功率越大路数越多</td><td>RVS/RMS、RC、RT、YDSP</td></tr>
+          <tr><td class="m-name">PCS / BMS 储能</td><td>变流、电池管理外加汇流 / 升压 / 温控多面控制柜</td><td>一个储能舱多面柜，量级随容量堆，新兴增量</td><td>RC、RVS、THC/DTC、TE/TT、FA</td></tr>
+          <tr><td class="m-name">配网终端 DTU/FTU/TTU</td><td>终端开出接点小，外配继电器做出口放大、隔离、重动</td><td>按间隔 / 回路，每路若干只</td><td>RC、RDP</td></tr>
+          <tr><td class="m-name">直流屏 / 通信电源</td><td>控母合母切换、绝缘监察、双电源、模块监控与信号</td><td>一面屏若干只切换 / 监视 / 信号件</td><td>RVS/RMS、RC、RL-PSS、FA</td></tr>
+          <tr><td class="m-name">箱变 / 汇控柜 / 端子箱</td><td>防凝露加热、双电源、操作与信号一整套</td><td>单个箱体 / 间隔一套，随站点数量走量</td><td>THC、RVS、RL/RN 系列、YDSP</td></tr>
+        </tbody>
+      </table></div>
+      <div class="callout callout-info"><p><strong>这张表怎么用（三步估容量）：</strong>① 按邻居类型估<strong>单台 / 单柜量级</strong>；② 乘客户的月产 / 年产台套数，得到你的<strong>年容量盘子</strong>（精确算法见第四章用量估算器）；③ 真正跟进时拿客户<strong>二次图纸 / BOM 逐颗对</strong>，把量级变成实际型号和数量。<strong>记住：量级只用来排优先级、找话题，绝不拿来报价或拍配置。</strong></p></div>
+
+      <h3 class="sub">3.3 同行品牌（真正的同业竞品）与国产替代打法（听到牌子不慌）</h3>
+      <p>这一类才是严格意义上的"<strong>竞品</strong>"：和我们做同类继电器、抢同一颗料位的别家品牌。客户说"我们一直用 XX 的"，你先判断对方在哪个档位，再谈怎么切。下面是工业 / 电力柜里最常被提到的接口与继电器品牌，<strong>只做认知、任何场合都不贬低对手</strong>——踩同行只会显得自己不专业。</p>
       <div class="tbl"><table>
         <thead><tr><th>梯队</th><th>代表品牌（客户可能提到）</th><th>特点 / 客户为什么用它</th></tr></thead>
         <tbody>
@@ -963,7 +1200,9 @@ td .m-spec{color:var(--muted);font-size:12.5px}
           <tr><td class="m-name">电力二次专业厂</td><td>我们，以及一批同类型电力继电器专业厂</td><td>围绕开关柜、断路器、直流屏的操作与保护回路做专用型号，谱系全、贴合电力标准，响应和交期快</td></tr>
         </tbody>
       </table></div>
-      <div class="callout callout-brand"><p><strong>我们的替代打法（只讲自己真实有的）：</strong>① <strong>型号谱系全</strong>——防跳 RL-TBJ、低气压闭锁 RN-FT、非全相 RN-FB、抗干扰 RAI 这些电力专用件，通用品牌往往要东拼西凑，我们一站式配齐；② <strong>认证与报告齐全</strong>——CCC/CE/CB 齐全、型式试验报告完整（电网入网资质以公司有效证书为准，不随口说"已入网"）；③ <strong>国产替代交期与服务快</strong>——给同参数对比表 + 免费送样上机，先做"同等替代 / B 点备份"，用数据说话（接话方式见第 15 章"我们一直用进口的"那一行）。</p></div>
+      <div class="callout callout-brand">
+        <p><strong>我们的替代打法（只讲自己真实有的）：</strong>① <strong>型号谱系全</strong>——防跳 RL-TBJ、低气压闭锁 RN-FT、非全相 RN-FB、抗干扰 RAI 这些电力专用件，通用品牌往往要东拼西凑，我们一站式配齐；② <strong>认证与报告齐全</strong>——CCC/CE/CB 齐全、型式试验报告完整（电网入网资质以公司有效证书为准，不随口说"已入网"）；③ <strong>国产替代交期与服务快</strong>——给同参数对比表 + 免费送样上机，先做"同等替代 / B 点备份"，用数据说话（接话方式见第 15 章"我们一直用进口的"那一行）。</p>
+      </div>
     </div>
   </section>
 
@@ -1141,7 +1380,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
           </ul>
         </li>
         <li><strong>风电场</strong>：<strong>机舱</strong>（变桨、偏航、主控柜——<strong>我们在这：控制柜 RC 中间继电器、TT 温度变送器测齿轮箱/发电机温度、THC 防凝露</strong>）；<strong>塔筒</strong>（电缆、升降机控制、环境监测——<strong>我们在这：THS 温湿度变送器、THC 驱潮</strong>）；<strong>箱变 + 升压站</strong>（同光伏）。</li>
-        <li><strong>储能电站</strong>：先认三个缩写——<strong>PCS</strong>＝储能变流器（Power Conversion System，交直流变换）、<strong>BMS</strong>＝电池管理系统（Battery Management System，管每簇电池）、<strong>EMS</strong>＝能量管理系统（Energy Management System，全站调度）。<strong>PCS 舱</strong>（变流器+控制柜——<strong>我们在这：控制柜 RC 继电器、温度变送器、YDSP 开关电源</strong>）；<strong>电池舱</strong>（电池簇 + BMS，怕热怕湿怕烟雾——<strong>我们在这：THS 温湿度变送器、THC 驱潮、FA 信号报警器（温度/烟雾告警联动）</strong>）；<strong>升压站/箱变</strong>（同上）。</li>
+        <li><strong>储能电站</strong>：先认三个缩写——<strong>PCS</strong>＝储能变流器（Power Conversion System，交直流变换）、<strong>BMS</strong>＝电池管理系统（Battery Management System，管每簇电池）、<strong>EMS</strong>＝能量管理系统（Energy Management System，全站调度）。<strong>PCS 舱</strong>（变流器+控制柜——<strong>我们在这：控制柜 RC 继电器、温度变送器、YDSP 开关电源</strong>）；<strong>电池舱</strong>（电池簇 + BMS，怕热怕湿怕烟雾——<strong>我们在这：THS 温湿度变送器、THC 驱潮、FA 信号报警器（温度/烟雾告警联动）</strong>）；<strong>升压站/箱变</strong>（同上）。<strong>储能的用量为什么比同规模传统配网大（估容量时心里有数）：</strong>电池是一簇一簇并起来的，<strong>每一簇都有 BMS 从控，要供电、要测温和上传</strong>，所以温湿度/温度测点、信号报警、控制继电器会<strong>随电池簇数、模组数叠加</strong>；PCS 常多台并联，每台都有自己的控制、供电和切换回路，<strong>控制继电器、开关电源随 PCS 台数叠加</strong>；每个预制舱还有舱级环控（防凝露、驱潮、烟雾告警）和一套舱内直流供电。所以估储能客户别只按"几个舱"毛估，要问清<strong>电池簇数、PCS 台数、舱数</strong>三个量——真实颗数仍以舱内二次图 / BOM 为准，这里只帮你看懂"用量从哪多出来"。</li>
         <li><strong>充电桩 / 充电站</strong>：<strong>交流桩</strong>（小功率，控制板+计量——<strong>我们在这：TE 电量变送器（计量）、YDSP</strong>）；<strong>直流快充桩</strong>（整流模块+控制板，模块发热大——<strong>我们在这：TT 温度变送器（模块温度）、YDSP 辅助电源、THC</strong>）；<strong>充电场站箱变</strong>（同上）。<strong>客户做充电桩/充电堆=电源类+温度类产品的稳定客户。</strong></li>
         <li><strong>氢能/制氢（新赛道，提前占位）</strong>：电解槽+整流电源+控制柜——<strong>我们在这：整流柜温控、YDSP、变送器。目前量小，但客户跑起来后先入为主。</strong></li>
         <li><strong>新能源一句话总结</strong>：这些场景本质都是"柜子+测温+供电+通信"的组合，<strong>我们的五大类产品（继电器/变送器/温控/信号报警/电源）在每一个环节都有位置</strong>——见到新能源集成商，按"柜内供电 YDSP + 测温 TT/THS + 防凝露 THC + 控制继电器 RC"一整套报。</li>
@@ -1168,7 +1407,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
           <tr><td class="m-name">中间继电器 RC/RC-F/RC-V/RC-M</td><td>开关柜二次室、直流屏、汇控柜、控制箱</td><td>信号放大、回路隔离、多路输出（RC-F 快速 ≤7ms、RC-V 直流负载）</td><td>"二次室""出口继电器""触点不够用""要快动作"</td></tr>
           <tr><td class="m-name">可拔插 RC-P</td><td>同上+成套柜</td><td>不停电检修更换、体积小（2Z=10A、4Z=5A）</td><td>"不停电更换""接口继电器""柜子太挤"</td></tr>
           <tr><td class="m-name">抗干扰 RAI/RAI-V</td><td>变频柜旁、矿山、试验场</td><td>强电磁环境可靠动作（启动功率&gt;5W、防反接防烧、10~35ms）</td><td>"变频器干扰""EMC 要求高""误动"</td></tr>
-          <tr><td class="m-name">双位置 RDP/RDP-E/RDP-S/RDP-L</td><td>需记住两态/失电保持的回路、直流屏</td><td>两态位置保持与重动、联锁（专做断路器跳/合位 TWJ/HWJ 监视用 RL-THW）</td><td>"位置保持""失电不忘""双稳态"（专要跳/合位监视→RL-THW）</td></tr>
+          <tr><td class="m-name">双位置 RDP/RDP-E/RDP-S/RDP-L/RDP-PTCD</td><td>需记住两态/失电保持的回路、直流屏</td><td>两态位置保持与重动、联锁（专做断路器跳/合位 TWJ/HWJ 监视用 RL-THW）</td><td>"位置保持""失电不忘""双稳态"（专要跳/合位监视→RL-THW）</td></tr>
           <tr><td class="m-name">防跳 RL-TBJ</td><td>断路器/机构控制回路</td><td>防合闸跳跃（电流启动电压保持）</td><td>"防跳回路""跳跃"</td></tr>
           <tr><td class="m-name">直流操作 RL-TBJ-DW</td><td>直流操作断路器回路</td><td>防跳+跳合闸位置指示</td><td>"直流操作""防跳带位置指示"</td></tr>
           <tr><td class="m-name">电流启动/保持 RL-I/RL-HBJ/RL-UI</td><td>断路器保护回路</td><td>电流启动、合闸保持、电压启动电流保持</td><td>"电流启动""保持回路""出口保持"</td></tr>
@@ -1288,15 +1527,15 @@ td .m-spec{color:var(--muted);font-size:12.5px}
         <tbody>
           <tr><td class="m-name">中置柜 KYN28（一面）</td><td>防跳 RL-TBJ 1 组、跳/合位监视 RL-THW 1 组（或 RL-TBJ-DW 一体）、中间继电器若干、温湿度控制器 1~2，必要时配开关电源</td><td>按"每面一组操作回路 + 每个隔室一组防凝露"估，面数 × 单面用量</td></tr>
           <tr><td class="m-name">环网柜 / 充气柜（一面）</td><td>三工位位置重动（双位置/中间继电器组合，常见 2 只）、小型可拔插中间继电器、SF6 柜加气压低闭锁、温湿度；电动三工位机构另加 RN-DK-C</td><td>三工位是三态、单只双位置表不全，按间隔数 × 组合只数估，以图为准；电动机构每单元另加 1 只 RN-DK-C，手动机构不加</td></tr>
-          <tr><td class="m-name">直流屏 / 一体化电源（一套）</td><td>控母/合母电压监视、双位置、信号报警器、开关电源与冗余模块</td><td>按"一套屏一组监控 + 供电"整单估，配套率高</td></tr>
+          <tr><td class="m-name">直流屏 / 一体化电源（一套）</td><td>控母/合母电压监视、双位置、信号报警器、开关电源与冗余模块</td><td>一套屏一组监控 + 供电打底，<strong>馈线信号、开关电源按馈出回路数叠加</strong>（拆解见下表），配套率高</td></tr>
           <tr><td class="m-name">干式变压器（一台）</td><td>干变温控器 1 台（配 PT100），带风机的再加风机断线监视</td><td>基本 1:1，年产能多少台干变 ≈ 多少台温控器</td></tr>
-          <tr><td class="m-name">光伏 / 储能舱（一舱）</td><td>温湿度防凝露、温度变送、舱内开关电源、控制回路中间继电器</td><td>按舱数估，整舱配套一单配齐</td></tr>
+          <tr><td class="m-name">光伏 / 储能舱（一舱）</td><td>温湿度防凝露、温度变送、舱内开关电源、控制回路中间继电器</td><td>先按舱数打底，<strong>储能再按电池簇数、PCS 台数叠加</strong>（见下表与 4.8），整舱配套一单配齐</td></tr>
         </tbody>
       </table></div>
       <div class="callout callout-brand"><p>用法：<strong>年产能 × 单台用量级 = 年需求量级</strong>，再乘单价就是这客户一年的潜在盘子。谈的时候用"你们一年大概多少面柜/多少台"把这个数问出来，比闷头报价更能判断优先级（配合 1.8 客户类型、1.12 拓客优先级看）。</p></div>
 
       <p style="margin:14px 2px 6px;font-weight:600">▼ 动手算：年产能 → 年用量 → 年金额（在下面格子里直接填，自动算）</p>
-      <div class="callout callout-warn"><p><strong>先定方案路线，再估数量（这步偏差最大）：</strong>先问客户走"分立继电器常规方案"还是"微机综保 / 一二次融合"。下面默认值都按<strong>常规分立方案</strong>给；一旦用综保，一面柜的中间、量度继电器可能从 6 只降到 1~2 只甚至不用，路线没问清，估得再细也不准。</p></div>
+      <div class="callout callout-warn"><p><strong>先定方案路线，再估数量（这步偏差最大）：</strong>先问客户走"分立继电器常规方案"还是"微机综保 / 一二次融合"。下面默认值都按<strong>常规分立方案</strong>给；一旦用综保，一面柜的中间、量度继电器可能从 6 只降到 1~2 只甚至不用，<strong>但防跳、跳/合位监视这些操作回路件不在"被压缩"之列，要按下表另算</strong>；路线没问清，估得再细也不准。</p></div>
       <p style="margin:12px 2px 6px;font-weight:600">单台用量怎么数才准（默认值的依据，拿客户二次图照着核）</p>
       <div class="tbl"><table>
         <thead><tr><th>设备</th><th>数量按什么数</th><th>主要变量 / 最容易算错的地方</th></tr></thead>
@@ -1353,7 +1592,8 @@ td .m-spec{color:var(--muted);font-size:12.5px}
             <tr class="est-row"><td contenteditable="true">光伏 / 储能舱</td><td contenteditable="true">温湿度控制器（THC）</td><td class="num"><input class="qty" type="number" min="0" step="any" inputmode="decimal" value="2" placeholder="按分区 2~4"></td><td class="num"><input class="cap" type="number" min="0" step="any" inputmode="numeric" placeholder="年产舱数"></td><td class="num"><input class="price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="公司报价"></td><td class="num out-qty">—</td><td class="num out-amt">—</td></tr>
             <tr class="est-row"><td contenteditable="true">光伏 / 储能舱</td><td contenteditable="true">温度变送器（TT）</td><td class="num"><input class="qty" type="number" min="0" step="any" inputmode="decimal" value="4" placeholder="按测温点 3~8"></td><td class="num"><input class="cap" type="number" min="0" step="any" inputmode="numeric" placeholder="年产舱数"></td><td class="num"><input class="price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="公司报价"></td><td class="num out-qty">—</td><td class="num out-amt">—</td></tr>
             <tr class="est-row"><td contenteditable="true">光伏 / 储能舱</td><td contenteditable="true">开关电源（YDSP）</td><td class="num"><input class="qty" type="number" min="0" step="any" inputmode="decimal" value="1" placeholder="每个控制柜1"></td><td class="num"><input class="cap" type="number" min="0" step="any" inputmode="numeric" placeholder="年产舱数"></td><td class="num"><input class="price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="公司报价"></td><td class="num out-qty">—</td><td class="num out-amt">—</td></tr>
-            <tr class="est-row"><td contenteditable="true">低压抽屉柜 GCS/GCK/MNS</td><td contenteditable="true">中间/时间继电器（RC/RT）</td><td class="num"><input class="qty" type="number" min="0" step="any" inputmode="decimal" value="8" placeholder="按抽屉/回路数,非满配"></td><td class="num"><input class="cap" type="number" min="0" step="any" inputmode="numeric" placeholder="年产面数"></td><td class="num"><input class="price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="公司报价"></td><td class="num out-qty">—</td><td class="num out-amt">—</td></tr>
+            <tr class="est-row"><td contenteditable="true">光伏 / 储能舱</td><td contenteditable="true">控制/中间继电器（RC，按 PCS、控制柜）</td><td class="num"><input class="qty" type="number" min="0" step="any" inputmode="decimal" placeholder="按PCS/控制柜,以图为准"></td><td class="num"><input class="cap" type="number" min="0" step="any" inputmode="numeric" placeholder="年产舱数"></td><td class="num"><input class="price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="公司报价"></td><td class="num out-qty">—</td><td class="num out-amt">—</td></tr>
+          <tr class="est-row"><td contenteditable="true">低压抽屉柜 GCS/GCK/MNS</td><td contenteditable="true">中间/时间继电器（RC/RT）</td><td class="num"><input class="qty" type="number" min="0" step="any" inputmode="decimal" value="8" placeholder="按抽屉/回路数,非满配"></td><td class="num"><input class="cap" type="number" min="0" step="any" inputmode="numeric" placeholder="年产面数"></td><td class="num"><input class="price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="公司报价"></td><td class="num out-qty">—</td><td class="num out-amt">—</td></tr>
           </tbody>
         </table></div>
         <div class="est-actions">
@@ -1665,7 +1905,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
         <li><strong>MTBF（平均无故障时间）</strong>：可靠性指标，小时数越大越可靠。继电器常标机械寿命/电寿命（如 10⁷ 次机械、10⁵ 次电气）——<strong>客户问寿命报这两个数</strong>。</li>
         <li><strong>AQL（可接受质量水平）</strong>：抽检判定标准，客户来料抽检按它执行。</li>
         <li><strong>开箱合格率 / 上机直通率</strong>：客户拆箱即不良 / 上产线一次通过的比例。这两个数字难看，IQC 直接退货。</li>
-        <li><strong>质保期 / 保修期</strong>：本公司产品标准质保期为购买或交货后 <strong>1 年</strong>（产品合订册"注意事项"明确），合同可另行约定更长（如 24 个月），<strong>以合同条款为准、别空口承诺两年</strong>。质保起算点也要谈：发货日起 or 到货签收日起——差几个月，务必写进合同。</li>
+        <li><strong>质保期 / 保修期</strong>：本公司产品标准质保期为购买或交货后 <strong>1 年</strong>，合同可另行约定更长（如 24 个月），<strong>以合同条款为准、别空口承诺两年</strong>。质保起算点也要谈：发货日起 or 到货签收日起——差几个月，务必写进合同。</li>
       </ul>
     </div>
   </section>
@@ -1688,6 +1928,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
         <li><strong>ISO9001 / ISO14001 / ISO45001</strong>：质量/环境/职业健康安全管理体系。<strong>审厂第一道查的就是这三张</strong>，年审记录要齐。你有 ISO9001、ISO14001。</li>
         <li><strong>专精特新 / 小巨人 / 瞪羚企业</strong>：工信部/地方给成长型企业的官方评级——<strong>看到目标客户有这些头衔=官方盖章的优质成长客户。</strong></li>
         <li><strong>国家高新技术企业</strong>：科技部认定的技术型企业资质，属于企业综合资质，招投标里可能加分——听到客户提这个词，知道是在讲企业资质门槛即可。</li>
+        <li><strong>对外报证的统一口径</strong>：上面每张证都有<strong>覆盖的产品品类和有效期</strong>，投标或对客户承诺前，先回公司核对证书在有效期内、且覆盖你要报的型号；拿不准就只讲"我们做了对应型式试验、可以提供报告"，别把"在办、过期、不覆盖该品类"说成"已有"。</li>
       </ul>
     </div>
   </section>
@@ -1707,7 +1948,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
         <li><strong>围标 / 串标</strong>：几家串通围住价格——<strong>违法，别碰</strong>。客户暗示"找两家陪标"，直接拒绝。</li>
         <li><strong>联合体投标</strong>：两家组队一起投（如你 + 成套厂）。</li>
         <li><strong>授权委托书 / 法人授权</strong>：投标代表要带的法律文件。</li>
-        <li><strong>中标候选人公示</strong>：第一名的"预备"状态，<strong>3 天内没人质疑才算真中标</strong>。</li>
+        <li><strong>中标候选人公示</strong>：第一名的"预备"状态，依法必须招标的项目<strong>公示期不少于 3 日，期内无异议、无投诉才算真中标</strong>。</li>
         <li><strong>中标通知书</strong>：正式成交确认，之后才签合同。<strong>"我们中了"要等这张纸才算数。</strong></li>
       </ul>
 
@@ -1735,7 +1976,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
           <tr><td class="m-name">"发个选型手册/样本"</td><td>拿资料比对，还没到谈价</td><td>最好当面送+当场问应用场景</td></tr>
           <tr><td class="m-name">"我们图纸定型了"</td><td>BOM锁死，换元件很难</td><td>转攻他们"下一代产品"或备件渠道</td></tr>
           <tr><td class="m-name">"有没有业绩？"</td><td>问你产品在哪些同类设备上用过</td><td>讲清产品用在哪类设备/柜型、关键参数和型式试验报告，应用案例按公司允许的口径介绍</td></tr>
-          <tr><td class="m-name">"能用微保替代吗"</td><td>客户懂行，在权衡方案</td><td>讲独立温控器在风机联动/回路监视上的不可替代性</td></tr>
+          <tr><td class="m-name">"能用微保替代吗"</td><td>客户懂行，在权衡技术路线</td><td>先问他要替代哪一层：保护判断综保能做，但出口执行、操作回路（防跳/位置/回路监视）、位置重动、硬联锁仍常在装置外配独立继电器；温控、防凝露本就在保护之外、独立成系统。分层讲（见 3.1），别一句"替代不了"顶回去，也别全盘认下，最后落到以二次图为准</td></tr>
           <tr><td class="m-name">"先用国产试试"</td><td>想降本但怕质量</td><td>送样+同参数对比表+批产验证记录</td></tr>
           <tr><td class="m-name">"这单走采购平台"</td><td>有SRM/电子商城</td><td>立即要平台名称，回去注册</td></tr>
           <tr><td class="m-name">"问下我们技术"</td><td>决策在工程师手里</td><td>改约技术交流，别再缠采购</td></tr>
@@ -1761,6 +2002,8 @@ td .m-spec{color:var(--muted);font-size:12.5px}
           <tr><td class="m-name">"并网/备自投要检同期"</td><td>合闸前核对两侧压差、角差、频差</td><td>推 RMY-T 同步检查继电器</td></tr>
           <tr><td class="m-name">"柜子要能报出事故信号"</td><td>需要故障汇总+光字牌</td><td>推 FA 信号报警器，问几路输入</td></tr>
           <tr><td class="m-name">"这台是分相操作的"</td><td>220kV+ 分相断路器</td><td>推 RN-FB 非全相保护</td></tr>
+          <tr><td class="m-name">"要无源的 / 不要辅助电源"</td><td>不要外接工作电源、线圈得电就动作、失电状态也要确定</td><td>对应电磁式 / 磁保持（RC、RL、RVS、RDP 这类）；需辅助电源的电子型（整定式 RML/RMY、电子时间、RN-DK）不满足，别报错类别（原理分类见 2.1）</td></tr>
+          <tr><td class="m-name">"触点能带多大负载"</td><td>问触点额定电流和负载性质，不只是线圈电压</td><td>先问带什么负载、AC 还是 DC：阻性按 5A/8A 档选，感性（线圈、电机）和直流断弧更吃力、要降额，不够就加一级中间继电器扩容</td></tr>
         </tbody>
       </table></div>
     </div>
@@ -1853,7 +2096,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
         <div class="flash"><div class="term">断路器机构</div><div class="def">弹簧储能+分合闸线圈，防跳/双位置的"家"</div></div>
         <div class="flash"><div class="term">防跳</div><div class="def">防止断路器故障时反复分合烧毁，RL-TBJ 的招牌</div></div>
         <div class="flash"><div class="term">TWJ/HWJ</div><div class="def">跳位/合位监视，专用件是 RL-THW（要和防跳合一用 RL-TBJ-DW）；RDP 双位置只做通用两态保持，别混报</div></div>
-        <div class="flash"><div class="term">电磁式继电器</div><div class="def">线圈通电吸合衔铁带动机械触点、断电弹簧弹回、要持续通电（单稳态，合订册叫"非保持型单位置"）；RC/RAI/RL 全系、RVS 电磁切换、无源 RT-NP/RT-E-NP、RN-FT 都是，共同点是无需辅助电源、靠线圈直接动作</div></div>
+        <div class="flash"><div class="term">电磁式继电器</div><div class="def">线圈通电吸合衔铁带动机械触点、断电弹簧弹回、要持续通电（单稳态，也就是"非保持型单位置"）；RC/RAI/RL 全系、RVS 电磁切换、无源 RT-NP/RT-E-NP、RN-FT 都是，共同点是无需辅助电源、靠线圈直接动作</div></div>
         <div class="flash"><div class="term">磁保持（永磁）继电器</div><div class="def">靠永久磁铁保持，给正/反脉冲就切换、线圈平时断电、状态断电不变（双稳态、省电不发热）；对应 RDP/E/S/L/PTCD 双位置全系，以及 RVSD 的双位置型</div></div>
         <div class="flash"><div class="term">单稳态 / 双稳态</div><div class="def">普通电磁继电器=单稳态，断电弹回原位只有一个稳定位；磁保持=双稳态，合/分两个位置断电都保持，"双位置继电器"因此得名</div></div>
         <div class="flash"><div class="term">磁保持 ≠ 自保持</div><div class="def">RDP 磁保持靠永磁、线圈只通脉冲不常带电；RL-HBJ 自保持靠自身辅助触点锁住线圈持续通电，仍是电磁式，名字都带"保持"但原理不同</div></div>
@@ -1905,7 +2148,7 @@ td .m-spec{color:var(--muted);font-size:12.5px}
         <div class="flash"><div class="term">干变温控</div><div class="def">干变配的温控箱：测三相绕组温度，到点启风机、再高报警、最高跳闸 = DTC 干变温控器</div></div>
         <div class="flash"><div class="term">电缆分支箱 DFW</div><div class="def">路边把一路电缆分成几路的铁箱子，配网改造量大，负荷开关+位置指示用小型继电器</div></div>
         <div class="flash"><div class="term">一二次融合</div><div class="def">把一次开关和二次 DTU/保护做成一体（环网箱、柱上开关），国网主推方向，分立元件被压缩——见到心里有数</div></div>
-        <div class="flash"><div class="term">微机综保 vs 分立继电器</div><div class="def">综保=一块芯片搞定保护（走板卡、不用你的件）；传统屏柜用分立继电器搭逻辑才是你的菜，先分清客户走哪条路</div></div>
+        <div class="flash"><div class="term">微机综保 vs 分立继电器</div><div class="def">综保把采样、判断和一部分出口集成进一块装置，会压缩一部分中间/量度继电器；但操作回路、位置重动、硬联锁、老柜改造仍常在装置外配独立继电器。先问客户走哪条路线、再对着二次图数，别一听综保就判定没机会（分层见 3.1.3）</div></div>
       </div>
     </div>
   </section>
@@ -2038,41 +2281,96 @@ window.addEventListener('scroll', onScroll, {passive:true});
 backTop.addEventListener('click', function(){ window.scrollTo({top:0, behavior:'smooth'}); });
 onScroll();
 
-/* ============ Search ============ */
-var searchInput = document.getElementById('searchInput');
-var searchResults = document.getElementById('searchResults');
-var searchIdx = sections.map(function(s){
-  return { id:s.id, title:(s.querySelector('.section-title')||{}).textContent || s.id, text:s.textContent.replace(/\s+/g,' ') };
-});
-searchInput.addEventListener('input', function(){
-  var q = searchInput.value.trim().toLowerCase();
-  searchResults.innerHTML = '';
-  if(!q){ searchResults.classList.remove('show'); return; }
-  var hits = searchIdx.filter(function(s){ return s.text.toLowerCase().indexOf(q) >= 0; }).slice(0, 12);
-  if(!hits.length){
-    searchResults.innerHTML = '<div class="sr-empty">没有匹配结果，试试别的词</div>';
-    searchResults.classList.add('show');
-    return;
-  }
-  hits.forEach(function(s){
-    var div = document.createElement('div');
-    div.className = 'sr-item';
-    var i = s.text.toLowerCase().indexOf(q);
-    var start = Math.max(0, i - 34), snip = (start>0?'…':'') + s.text.slice(start, start + 72) + '…';
-    var hl = s.title.replace(new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'ig'), '<b>$1</b>');
-    div.innerHTML = '<b>' + hl + '</b><span class="sr-snip">' + snip + '</span>';
-    div.addEventListener('click', function(){
-      document.getElementById(s.id).scrollIntoView({behavior:'smooth'});
-      searchResults.classList.remove('show');
-      searchInput.value = '';
+/* ============ Search（细粒度：定位到小节/速记卡/表行，多词匹配 + 键盘操作） ============ */
+(function(){
+  var input=document.getElementById('searchInput');
+  var box=document.getElementById('searchResults');
+  if(!input||!box) return;
+  function norm(t){ return (t||'').toLowerCase().replace(/[\s\-_/]/g,''); }
+  function escRe(t){ return t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
+  /* 建立细粒度索引：整章 + 每个小节标题/速记卡/表格行/提示块/最内层条目 */
+  var IDX=[];
+  document.querySelectorAll('section.block').forEach(function(sec){
+    var secTitle=((sec.querySelector('.section-title')||{}).textContent||sec.id).replace(/\s+/g,' ').trim();
+    IDX.push({el:sec,sub:secTitle,label:secTitle,raw:secTitle,ntext:norm(secTitle),nlabel:norm(secTitle),nsub:norm(secTitle)});
+    var curSub=secTitle;
+    sec.querySelectorAll('h3.sub,.flash,tbody tr,.callout,li').forEach(function(n){
+      var tag=n.tagName;
+      if(tag==='H3'){ curSub=n.textContent.replace(/\s+/g,' ').trim(); }
+      if(tag==='LI'){
+        if(n.querySelector('table,.flash,.callout,ul,ol')) return;  /* 只收最内层,避免嵌套重复 */
+        if(n.closest('.callout,.flash,table')) return;               /* 不与卡片/表行/提示块重复 */
+      }
+      var raw=(n.textContent||'').replace(/\s+/g,' ').trim();
+      if(raw.length<2) return;
+      var label=curSub;
+      if(n.classList&&n.classList.contains('flash')){ var t=n.querySelector('.term'); if(t) label=t.textContent.trim(); }
+      else if(tag==='TR'){ var c=n.querySelector('.m-name,th,td'); if(c) label=c.textContent.replace(/\s+/g,' ').trim(); }
+      else if(tag==='H3'){ label=curSub; }
+      var head=curSub+' '+secTitle;
+      IDX.push({el:n,sub:curSub,label:label,raw:raw,ntext:norm(raw),nlabel:norm(label),nsub:norm(head)});
     });
-    searchResults.appendChild(div);
   });
-  searchResults.classList.add('show');
-});
-document.addEventListener('click', function(e){
-  if(!e.target.closest('.search-wrap')) searchResults.classList.remove('show');
-});
+  var hits=[],active=-1;
+  function render(){
+    box.innerHTML=''; active=-1;
+    var q=input.value.trim();
+    if(!q){ box.classList.remove('show'); return; }
+    var kws=q.toLowerCase().split(/\s+/).filter(Boolean);
+    var nk=kws.map(norm);
+    hits=IDX.filter(function(it){ return nk.every(function(k){ return it.ntext.indexOf(k)>=0; }); })
+      .map(function(it){
+        var sc=nk.length;
+        if(nk.every(function(k){return it.nlabel.indexOf(k)>=0;})) sc+=10;  /* 名字命中排最前 */
+        if(nk.every(function(k){return it.nsub.indexOf(k)>=0;})) sc+=5;
+        if(it.raw.length<60) sc+=3; else if(it.raw.length<180) sc+=1;       /* 越聚焦越靠前 */
+        it._sc=sc; return it;
+      }).sort(function(a,b){ return b._sc-a._sc; });
+    if(!hits.length){
+      box.innerHTML='<div class="sr-empty">没有匹配结果，换个词试试：可输型号（如 RDP、RN-DK-C）、词条（如 防跳、三工位）或场景（如 凝露、备自投）</div>';
+      box.classList.add('show'); return;
+    }
+    hits.slice(0,30).forEach(function(it,i){
+      var low=it.raw.toLowerCase(), pos=low.indexOf(kws[0]); if(pos<0) pos=0;
+      var st=Math.max(0,pos-28), snip=(st>0?'…':'')+it.raw.slice(st,st+92)+'…';
+      kws.slice().sort(function(a,b){return b.length-a.length;}).forEach(function(k){
+        if(!k) return;
+        try{ snip=snip.replace(new RegExp('('+escRe(k)+')','ig'),'<b>$1</b>'); }catch(e){}
+      });
+      var d=document.createElement('div'); d.className='sr-item'; d.dataset.i=i;
+      d.innerHTML='<span class="sr-tag">'+it.sub+'</span><span class="sr-name">'+it.label+'</span><span class="sr-snip">'+snip+'</span>';
+      box.appendChild(d);
+    });
+    if(hits.length>30){
+      var f=document.createElement('div'); f.className='sr-count';
+      f.textContent='共 '+hits.length+' 处，只显示前 30；多输一两个词可缩小范围';
+      box.appendChild(f);
+    }
+    box.classList.add('show');
+  }
+  function paintActive(){
+    var arr=box.querySelectorAll('.sr-item');
+    arr.forEach(function(d,i){ d.classList.toggle('active',i===active); if(i===active) d.scrollIntoView({block:'nearest'}); });
+  }
+  function go(i){
+    var it=hits[i]; if(!it) return;
+    var sb=document.getElementById('sidebar'); if(sb) sb.classList.remove('open');
+    try{ it.el.scrollIntoView({behavior:'smooth',block:'center'}); }catch(e){ it.el.scrollIntoView(); }
+    it.el.classList.remove('sr-flash-hit'); void it.el.offsetWidth; it.el.classList.add('sr-flash-hit');
+    setTimeout(function(){ it.el.classList.remove('sr-flash-hit'); },1750);
+    box.classList.remove('show'); input.value=''; input.blur();
+  }
+  input.addEventListener('input',render);
+  input.addEventListener('keydown',function(e){
+    var n=Math.min(30,hits.length);
+    if(e.key==='ArrowDown'){ e.preventDefault(); if(!n)return; active=(active+1+n)%n; paintActive(); }
+    else if(e.key==='ArrowUp'){ e.preventDefault(); if(!n)return; active=(active-1+n)%n; paintActive(); }
+    else if(e.key==='Enter'){ e.preventDefault(); if(n) go(active>=0?active:0); }
+    else if(e.key==='Escape'){ box.classList.remove('show'); input.blur(); }
+  });
+  box.addEventListener('click',function(e){ var d=e.target.closest('.sr-item'); if(d) go(parseInt(d.dataset.i,10)); });
+  document.addEventListener('click',function(e){ if(!e.target.closest('.search-wrap')) box.classList.remove('show'); });
+})();
 
 /* ============ Checklist interactivity ============ */
 document.querySelectorAll('.checklist input[type="checkbox"]').forEach(function(cb){
@@ -2081,5 +2379,45 @@ document.querySelectorAll('.checklist input[type="checkbox"]').forEach(function(
   });
 });
 </script>
+
+<script>
+(function(){
+  /* 阅读进度条 */
+  try{
+    var rp=document.getElementById('readingProgress');
+    function upd(){
+      var d=document.documentElement;
+      var st=window.pageYOffset||d.scrollTop||document.body.scrollTop||0;
+      var h=(d.scrollHeight||document.body.scrollHeight)-(d.clientHeight||0);
+      rp.style.width=(h>0?Math.min(100,(st/h*100)):0)+'%';
+    }
+    window.addEventListener('scroll',upd,{passive:true});
+    window.addEventListener('resize',upd);
+    upd();
+  }catch(e){}
+  /* 目录高亮跟随滚动 */
+  try{
+    var links=document.querySelectorAll('.sidebar-nav .nav-link[href^="#"]');
+    var items=[]; links.forEach(function(a){
+      var el=document.getElementById(a.getAttribute('href').slice(1));
+      if(el) items.push({link:a,sec:el});
+    });
+    if('IntersectionObserver' in window && items.length){
+      var current=null;
+      var io=new IntersectionObserver(function(entries){
+        entries.forEach(function(en){
+          if(en.isIntersecting){
+            if(current) current.link.classList.remove('active');
+            current=items.find(function(s){return s.sec===en.target;});
+            if(current) current.link.classList.add('active');
+          }
+        });
+      },{rootMargin:'-12% 0px -75% 0px'});
+      items.forEach(function(s){io.observe(s.sec);});
+    }
+  }catch(e){}
+})();
+</script>
+
 </body>
 </html>
