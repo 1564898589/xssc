@@ -311,7 +311,9 @@ td .m-spec{color:var(--muted);font-size:12.5px}
   .section-title{font-size:22px}
 }
 /* Reveal */
-.reveal{opacity:0;transform:translateY(14px);transition:opacity .55s ease,transform .55s ease}
+/* Visible by default: mobile embedded browsers may delay IntersectionObserver for long sections. */
+.reveal{opacity:1;transform:none;transition:opacity .55s ease,transform .55s ease}
+.reveal.reveal-pending{opacity:0;transform:translateY(14px)}
 .reveal.visible{opacity:1;transform:none}
 /* ============ Quick bar 现场直达 ============ */
 .quick-bar{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0}
@@ -2262,7 +2264,12 @@ var revealObs = new IntersectionObserver(function(entries){
     if(e.isIntersecting){ e.target.classList.add('visible'); revealObs.unobserve(e.target); }
   });
 }, {threshold:.04});
-document.querySelectorAll('.reveal').forEach(function(el){ revealObs.observe(el); });
+document.querySelectorAll('.reveal').forEach(function(el){
+  el.classList.add('reveal-pending');
+  revealObs.observe(el);
+  /* Safety net for mobile webviews that delay or skip observer callbacks. */
+  setTimeout(function(){ el.classList.remove('reveal-pending'); el.classList.add('visible'); }, 900);
+});
 
 /* ============ Active nav + back-top ============ */
 var sections = Array.prototype.slice.call(document.querySelectorAll('section.block'));
@@ -2421,3 +2428,5 @@ document.querySelectorAll('.checklist input[type="checkbox"]').forEach(function(
 
 </body>
 </html>
+
+
