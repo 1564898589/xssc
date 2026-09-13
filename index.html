@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>销售速查手册 · 名词与产品扫盲</title>
-    <meta name="description" content="销售行业速查手册：行业名词、产品扫盲、设备场景、商务流程、话术与速记卡。">
+<title>sinouse 电力电气行业百科手册 · 看懂行业、设备、产品与客户语言</title>
+    <meta name="description" content="sinouse 电力电气行业百科手册：行业基础、产品百科、设备百科、客户类型、应用场景、行业术语、商务流程与销售话术，支持全文搜索与术语弹窗，销售现场即查即用。">
 <style>
 /* ============ Design Tokens ============ */
 :root{
@@ -485,8 +485,857 @@ tbody tr:hover{background:color-mix(in srgb,var(--brand-soft) 72%,transparent)}
 }
 
 </style>
+
+<style id="sn-ency-layer">
+/* ============================================================
+   sinouse 百科手册视觉升级层
+   在原有设计令牌基础上叠加：粒子宇宙首页、sinouse 立体品牌字、
+   百科词条卡、术语弹窗、全局搜索、复制按钮、销售工具区。
+   ============================================================ */
+
+/* ---------- 首页：深空宇宙背景（覆盖原绿色渐变） ---------- */
+.hero{
+  background:radial-gradient(1200px 620px at 78% -10%,rgba(56,120,190,.28),transparent 62%),
+             radial-gradient(900px 520px at 8% 110%,rgba(18,128,92,.22),transparent 60%),
+             linear-gradient(165deg,#05080f 0%,#0a1424 46%,#0b1d24 100%);
+  min-height:520px;
+}
+.hero .hero-inner{position:relative;z-index:3}
+.hero-canvas{
+  position:absolute; inset:0; width:100%; height:100%;
+  z-index:1; pointer-events:none; display:block;
+}
+.hero-glow{
+  position:absolute; inset:0; z-index:2; pointer-events:none;
+  background:
+    radial-gradient(560px 300px at 22% 34%,rgba(90,200,160,.10),transparent 70%),
+    radial-gradient(700px 380px at 82% 20%,rgba(110,180,255,.10),transparent 70%);
+}
+.hero .grain{z-index:2;opacity:.045}
+/* 标题下的品牌渐变短线 */
+.hero-rule{
+  width:64px;height:2px;border-radius:2px;margin:18px 0 4px;
+  background:linear-gradient(90deg,#7fe0b0,#6fc7ff);
+  box-shadow:0 0 12px rgba(111,199,255,.45);
+}
+
+/* ---------- sinouse 品牌立体字 ---------- */
+.brand-wrap{perspective:900px; margin-bottom:6px; display:block}
+.hero .hero-kicker{margin-top:18px}
+.brand-3d{
+  position:relative; transform-style:preserve-3d;
+  transition:transform .25s cubic-bezier(.2,.7,.2,1);
+  will-change:transform; line-height:1;
+}
+.brand-word{
+  display:block; font-family:var(--sans); font-weight:800;
+  font-size:clamp(46px,7.4vw,84px); letter-spacing:.06em; line-height:1.02;
+  background:linear-gradient(180deg,#fdfeff 0%,#dceafb 26%,#9dc2e6 50%,#eaf4ff 74%,#8fb6d8 100%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  filter:drop-shadow(0 3px 3px rgba(0,0,0,.55));
+}
+.brand-echo{
+  position:absolute; inset:0; display:block; pointer-events:none;
+  color:transparent; -webkit-text-stroke:1px rgba(150,205,255,.20);
+  transform:translate3d(2px,3px,-26px) scale(.995); filter:blur(1.5px);
+}
+.hero-kicker{margin-top:16px; background:rgba(120,190,255,.10); border-color:rgba(150,205,255,.32); color:#bfe0ff}
+.hero-title{
+  font-family:var(--serif); font-weight:700; line-height:1.2; color:#f4f8fb;
+  font-size:clamp(25px,3.8vw,42px); margin:16px 0 8px; text-wrap:balance;
+}
+.hero-sub{
+  font-size:clamp(15px,2vw,19px); font-weight:600; color:#9fd8bc;
+  letter-spacing:.14em; margin-bottom:12px;
+}
+.hero p.lead{color:#b9cbd8}
+
+/* ---------- 首页十大入口 ---------- */
+.hero-entries{
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(158px,1fr));
+  gap:10px; margin-top:28px; max-width:760px; position:relative; z-index:3;
+}
+.he{
+  display:flex; align-items:center; gap:10px; padding:11px 13px;
+  border-radius:12px; text-decoration:none; font-size:13.5px; font-weight:600;
+  color:#e8f1f7; background:rgba(255,255,255,.11);
+  border:1px solid rgba(160,205,255,.20);
+  transition:background .16s,transform .16s,border-color .16s;
+}
+.he b{
+  flex:0 0 auto; width:26px; height:26px; border-radius:8px; display:flex;
+  align-items:center; justify-content:center; font-size:12.5px; font-weight:800;
+  color:#0b1d24; background:linear-gradient(150deg,#9fe8c6,#4fbf93);
+  box-shadow:0 2px 8px rgba(30,120,85,.35);
+}
+.he:hover{background:rgba(255,255,255,.13); border-color:rgba(160,205,255,.45); transform:translateY(-2px)}
+.he:focus-visible{outline:2px solid #6fc7ff; outline-offset:2px}
+
+/* ---------- 章节内通用工具条 / 筛选 ---------- */
+.lib-toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:14px 0 4px}
+.lib-filter{
+  flex:1 1 220px; min-width:180px; max-width:340px;
+  padding:9px 12px; font-size:13.5px; font-family:inherit;
+  border:1px solid var(--line-strong); border-radius:9px;
+  background:var(--surface-2); color:var(--ink); outline:none;
+}
+.lib-filter:focus{border-color:var(--brand)}
+.chipbar{display:flex;flex-wrap:wrap;gap:6px}
+.chip{
+  border:1px solid var(--line-strong); background:var(--surface); color:var(--muted);
+  font-size:12px; font-weight:600; border-radius:999px; padding:4px 11px; cursor:pointer;
+  font-family:inherit; transition:all .14s;
+}
+.chip:hover{border-color:var(--brand); color:var(--brand)}
+.chip.on{background:var(--brand); border-color:var(--brand); color:#fff}
+.lib-empty{padding:16px;color:var(--dim);font-size:13px}
+/* 长页面性能：离屏区块按需渲染，显著降低滚动与鼠标负载 */
+section.block{content-visibility:auto;contain-intrinsic-size:auto 900px}
+
+/* ---------- 百科词条卡 ---------- */
+.lib-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;margin:14px 0;align-items:start}
+.lib-card{
+  position:relative; overflow:hidden;
+  background:var(--surface); border:1px solid var(--line); border-radius:12px;
+  padding:15px 17px; box-shadow:var(--shadow); scroll-margin-top:80px;
+  display:flex; flex-direction:column;
+}
+.lib-card::before{ /* 悬停时顶部亮起一道品牌流光 */
+  content:""; position:absolute; left:16px; right:16px; top:0; height:2px; border-radius:2px;
+  background:linear-gradient(90deg,transparent,var(--brand-2),transparent);
+  opacity:0; transition:opacity .25s ease;
+}
+.lib-card:hover{box-shadow:var(--shadow-lg); border-color:color-mix(in srgb,var(--brand) 38%,var(--line))}
+.lib-card:hover::before{opacity:.85}
+.lib-card > header{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;margin-bottom:4px}
+.lib-card h4{font-size:15px;font-weight:800;margin:0;flex:0 0 auto}
+.lib-cat{font-size:11px;font-weight:700;color:var(--brand-ink);background:var(--brand-soft);border-radius:6px;padding:2px 8px;letter-spacing:.03em}
+.lib-models{width:100%;font-family:var(--mono);font-size:12px;color:var(--muted);margin:2px 0 4px;word-break:break-all}
+.lib-oneline{font-size:13.5px;color:var(--muted);line-height:1.7;margin:4px 0 8px;flex:1}
+.lib-actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:6px}
+.lib-btn{
+  display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:8px;
+  font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit;
+  border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);
+  transition:all .14s;
+}
+.lib-btn:hover{border-color:var(--brand);color:var(--brand)}
+.lib-btn.primary{background:var(--brand);border-color:var(--brand);color:#fff}
+.lib-btn.primary:hover{background:var(--brand-2)}
+.lib-btn:focus-visible{outline:2px solid var(--brand-2);outline-offset:2px}
+.lib-detail{margin-top:10px;border-top:1px dashed var(--line-strong);padding-top:8px}
+.kv{display:grid;grid-template-columns:88px 1fr;gap:6px 10px;margin:8px 0}
+.kv dt{font-size:12px;font-weight:700;color:var(--dim);padding-top:2px;white-space:nowrap}
+.kv dd{font-size:13px;color:var(--ink);line-height:1.65;margin:0;min-width:0}
+.kv dd .tag,.rel-chips .tag{
+  display:inline-block;font-size:11.5px;font-weight:600;color:var(--brand-ink);
+  background:var(--brand-soft);border-radius:6px;padding:2px 8px;margin:2px 4px 2px 0;
+  border:none;cursor:pointer;font-family:inherit;transition:all .13s;
+}
+.kv dd .tag:hover,.rel-chips .tag:hover{background:var(--brand);color:#fff}
+.kv dd .tag.plain{cursor:default}
+.kv dd .tag.plain:hover{background:var(--brand-soft);color:var(--brand-ink)}
+.rel-chips{margin-top:8px;padding-top:8px;border-top:1px dashed var(--line)}
+.rel-chips b{display:block;font-size:11px;color:var(--dim);letter-spacing:.1em;margin-bottom:4px}
+.confirm-note{
+  margin-top:8px;font-size:12px;line-height:1.6;color:var(--amber);
+  background:var(--amber-soft);border:1px dashed color-mix(in srgb,var(--amber) 45%,transparent);
+  border-radius:8px;padding:7px 10px;
+}
+/* 场景/设备/客户条目卡复用：横向宽卡 */
+.lib-wide{grid-column:1/-1}
+
+/* ---------- 术语解释弹窗 ---------- */
+.term-link{
+  border:none;background:none;padding:0;font:inherit;cursor:help;color:var(--brand-ink);
+  border-bottom:1px dashed color-mix(in srgb,var(--brand) 55%,transparent);
+  transition:color .12s,background .12s;border-radius:3px;
+}
+.term-link:hover{color:var(--brand);background:var(--brand-soft)}
+.term-link:focus-visible{outline:2px solid var(--brand-2);outline-offset:1px}
+.term-pop-backdrop{
+  position:fixed;inset:0;z-index:300;background:rgba(8,14,20,.45);
+  display:none;align-items:flex-end;justify-content:center;
+}
+.term-pop-backdrop.open{display:flex}
+.term-pop{
+  width:min(560px,100%); max-height:min(72vh,620px); overflow:auto;
+  background:var(--surface); color:var(--ink);
+  border:1px solid var(--line-strong); border-radius:16px 16px 0 0;
+  box-shadow:var(--shadow-lg); padding:18px 20px 20px;
+  animation:popUp .22s cubic-bezier(.2,.7,.2,1) both;
+}
+@keyframes popUp{from{transform:translateY(26px);opacity:0}to{transform:none;opacity:1}}
+@media(min-width:720px){
+  .term-pop-backdrop{align-items:center}
+  .term-pop{border-radius:16px;animation:popIn .18s ease-out both}
+  @keyframes popIn{from{transform:translateY(10px) scale(.98);opacity:0}to{transform:none;opacity:1}}
+}
+.term-pop h4{font-size:17px;font-weight:800;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-right:30px}
+.term-pop h4 .en{font-family:var(--mono);font-size:12px;color:var(--dim);font-weight:500}
+.term-pop .close-x{
+  position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:50%;
+  border:1px solid var(--line-strong);background:var(--surface);color:var(--muted);
+  cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;
+}
+.term-pop{position:relative}
+.term-pop .tp-sec{margin:10px 0 0}
+.term-pop .tp-sec b{display:block;font-size:11px;letter-spacing:.12em;color:var(--dim);margin-bottom:3px}
+.term-pop .tp-sec p{font-size:13.5px;line-height:1.75;margin:0}
+.term-pop .tp-sec.pop p{color:var(--muted)}
+.term-pop .tp-sec.pro p{font-size:13px;color:var(--ink)}
+.term-pop .rel-chips{margin-top:14px}
+
+/* ---------- 全局搜索模态 ---------- */
+.search-modal{
+  position:fixed;inset:0;z-index:280;display:none;
+  background:rgba(8,14,20,.55);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);
+  padding:8vh 16px 16px;
+}
+.search-modal.open{display:block}
+.sm-panel{
+  max-width:640px;margin:0 auto;background:var(--surface);color:var(--ink);
+  border:1px solid var(--line-strong);border-radius:16px;box-shadow:var(--shadow-lg);
+  overflow:hidden;display:flex;flex-direction:column;max-height:76vh;
+  animation:popIn .18s ease-out both;
+}
+.sm-head{display:flex;gap:10px;align-items:center;padding:13px 15px;border-bottom:1px solid var(--line)}
+.sm-head svg{width:17px;height:17px;color:var(--dim);flex:0 0 auto}
+#smInput{
+  flex:1;border:none;outline:none;background:none;font:inherit;font-size:15px;color:var(--ink);min-width:0;
+}
+.sm-kbd{
+  flex:0 0 auto;font-family:var(--mono);font-size:11px;color:var(--dim);
+  border:1px solid var(--line-strong);border-radius:6px;padding:2px 7px;
+}
+.sm-cats{display:flex;gap:6px;flex-wrap:wrap;padding:9px 15px;border-bottom:1px solid var(--line)}
+.sm-results{flex:1;overflow:auto;padding:6px 8px 10px}
+.sm-foot{padding:8px 15px;border-top:1px solid var(--line);font-size:11px;color:var(--dim);display:flex;gap:14px;flex-wrap:wrap}
+.sm-item{padding:9px 11px;border-radius:10px;cursor:pointer}
+.sm-item:hover,.sm-item.active{background:var(--brand-soft)}
+.sm-item .sr-tag{margin-right:6px}
+.sm-item .sr-name{display:inline;font-weight:700;font-size:13.5px}
+.sm-item .sr-snip{display:block;margin-top:3px}
+.sm-item .sm-jump{
+  float:right;font-size:11px;font-weight:700;color:var(--brand);
+  border:1px solid color-mix(in srgb,var(--brand) 45%,transparent);
+  border-radius:6px;padding:1px 8px;background:var(--surface);
+}
+
+/* ---------- 复制按钮 / 轻提示 ---------- */
+.sn-copy{
+  display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:7px;
+  font-size:11.5px;font-weight:700;cursor:pointer;font-family:inherit;
+  border:1px solid var(--line-strong);background:var(--surface);color:var(--muted);
+  transition:all .14s;vertical-align:middle;
+}
+.sn-copy:hover{border-color:var(--brand);color:var(--brand)}
+.sn-copy:focus-visible{outline:2px solid var(--brand-2);outline-offset:1px}
+.callout .sn-copy{position:absolute;top:10px;right:12px}
+.toast{
+  position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(16px);
+  z-index:400;background:#1d2a26;color:#eafaf2;border:1px solid rgba(255,255,255,.14);
+  padding:10px 18px;border-radius:999px;font-size:13px;font-weight:600;
+  box-shadow:0 10px 30px rgba(0,0,0,.35);opacity:0;pointer-events:none;
+  transition:opacity .22s,transform .22s;display:flex;gap:10px;align-items:center;max-width:92vw;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast button{
+  border:none;background:linear-gradient(150deg,#4fbf93,#2e9e6e);color:#fff;font-weight:700;
+  font-size:12.5px;border-radius:999px;padding:5px 13px;cursor:pointer;font-family:inherit;
+}
+.chk-tools{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 2px}
+
+/* ---------- 百科总览 / 多入口查询 ---------- */
+.ency-q{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;margin:14px 0}
+.ency-q button{
+  display:flex;align-items:center;gap:9px;padding:12px 14px;border-radius:12px;
+  border:1px solid var(--line);background:var(--surface);color:var(--ink);
+  font-size:13.5px;font-weight:700;cursor:pointer;font-family:inherit;text-align:left;
+  box-shadow:var(--shadow);transition:all .15s;
+}
+.ency-q button:hover{border-color:var(--brand);transform:translateY(-2px);color:var(--brand-ink)}
+.ency-q button:focus-visible{outline:2px solid var(--brand-2);outline-offset:2px}
+.ency-q .qic{flex:0 0 auto;width:28px;height:28px;border-radius:9px;display:flex;align-items:center;justify-content:center;background:var(--brand-soft);color:var(--brand);font-size:14px}
+/* 章节直达小按钮（中文文案，替代裸锚点） */
+.go-chip{
+  display:inline-block;margin-left:6px;padding:2px 11px;border-radius:999px;
+  font-size:12px;font-weight:700;color:var(--brand-ink);background:var(--brand-soft);
+  border:1px solid color-mix(in srgb,var(--brand) 25%,transparent);
+  text-decoration:none;white-space:nowrap;transition:background .14s,color .14s,border-color .14s;
+}
+.go-chip:hover{background:var(--brand);color:#fff;border-color:var(--brand)}
+.go-chip:focus-visible{outline:2px solid var(--brand-2);outline-offset:2px}
+
+/* ---------- 销售现场工具 ---------- */
+.tool-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin:14px 0}
+.tool-card{
+  background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  padding:15px 17px;box-shadow:var(--shadow);
+}
+.tool-card h4{font-size:14.5px;font-weight:800;margin:0 0 8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tool-card h4 .dot{width:8px;height:8px;border-radius:50%;background:var(--brand);flex:0 0 auto}
+.tool-card p,.tool-card li{font-size:13px;color:var(--muted);line-height:1.7}
+.tool-card ul{margin:6px 0 10px;padding-left:20px}
+.tool-card .mini-tbl{font-size:12.5px}
+.tool-link{font-size:12.5px;font-weight:700;color:var(--brand);text-decoration:none}
+.tool-link:hover{text-decoration:underline}
+
+/* ---------- 继续阅读提示 / 键盘提示 ---------- */
+.kbd-hint{font-size:11.5px;color:var(--dim);margin-top:10px}
+.kbd-hint kbd{font-family:var(--mono);border:1px solid var(--line-strong);border-radius:5px;padding:0 5px;font-size:10.5px;background:var(--surface-2)}
+
+/* ---------- 响应式 ---------- */
+@media(max-width:760px){
+  .hero{min-height:440px;padding-top:64px}
+  .hero-entries{grid-template-columns:repeat(2,1fr)}
+  .lib-grid{grid-template-columns:1fr}
+  .kv{grid-template-columns:76px 1fr}
+  .search-modal{padding:0}
+  .sm-panel{max-width:100%;height:100%;max-height:100%;border-radius:0;border:none}
+  .kbd-hint{display:none}
+}
+/* ---------- 减弱动效 ---------- */
+@media (prefers-reduced-motion:reduce){
+  .brand-3d{transition:none!important;transform:none!important}
+  .hero-inner{animation:none!important}
+  .he,.lib-btn,.chip,.ency-q button,.sn-copy{transition:none!important}
+  .term-pop,.sm-panel{animation:none!important}
+}
+/* ---------- 打印 ---------- */
+@media print{
+  .hero{background:#fff!important;min-height:auto!important;padding:16px 0 6px!important}
+  .hero-canvas,.hero-glow,.hero-entries,.brand-wrap,.kbd-hint,.ency-q,
+  .lib-toolbar,.lib-actions,.sn-copy,.term-pop-backdrop,.search-modal,.toast,
+  .chk-tools,.tool-link{display:none!important}
+  .hero-title,.hero-sub{color:#111!important}
+  .hero-sub{-webkit-text-fill-color:#111;color:#111!important}
+  .lib-detail{display:block!important}
+  .lib-card,.tool-card{box-shadow:none!important;break-inside:avoid}
+  .term-link{color:#111!important;border-bottom:none!important}
+  .go-chip{border:none!important;background:none!important;padding:0!important;color:#111!important}
+  section.block{content-visibility:visible!important}
+}
+</style>
+
+<style id="sn-intro-layer">
+/* ============================================================
+   sinouse 欢迎页（Intro / 开机动画）
+   电流脉冲 → 金属字逐字母亮起 → 进度 → 进入按钮 → 光波接棒粒子宇宙
+   含：跳过按钮、Enter 进入、sessionStorage 二次访问加速、
+       无 JS 兜底（9s 自动放行）、prefers-reduced-motion 降级
+   ============================================================ */
+html{background:#070b12} /* 全局底色恒为深空色：欢迎页之下任何中间态都不会露出错位内容 */
+html.intro-lock{overflow:hidden}
+html.im-jump section.block{content-visibility:visible!important} /* 锚点跳转瞬间：全量渲染拿真实布局 */ /* 欢迎页期间锁定文档滚动 */
+.splash{
+  position:fixed;inset:0;z-index:500;
+  display:flex;align-items:center;justify-content:center;
+  background:
+    radial-gradient(1000px 520px at 72% 16%,rgba(56,120,190,.17),transparent 62%),
+    radial-gradient(820px 500px at 16% 88%,rgba(18,128,92,.15),transparent 62%),
+    linear-gradient(170deg,#04070d 0%,#081120 52%,#0a1a20 100%);
+  /* 无 JS 兜底：9 秒后自动放行，绝不困住用户；JS 正常时由 .safe 双保险取消 */
+  animation:inAuto .6s ease 9s forwards;
+}
+.splash.safe{animation:none!important}
+@keyframes inAuto{to{opacity:0;visibility:hidden;pointer-events:none}}
+.splash::after{ /* 暗角 */
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(120% 92% at 50% 42%,transparent 52%,rgba(0,0,0,.52) 100%);
+}
+.splash::before{ /* 退场时向上掠过的光缝 */
+  content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;z-index:3;
+  background:linear-gradient(90deg,transparent 6%,#7fe0b0 38%,#6fc7ff 62%,transparent 94%);
+  box-shadow:0 0 22px 3px rgba(127,224,176,.45);
+  opacity:0;pointer-events:none;
+}
+.splash.leave::before{opacity:1;animation:inSeam .8s cubic-bezier(.55,.05,.35,1) forwards}
+@keyframes inSeam{0%{transform:translateY(0);opacity:1}100%{transform:translateY(-104vh);opacity:.9}}
+
+/* CSS 星空（两层微光星点） */
+.in-stars{position:absolute;inset:0;pointer-events:none;
+  background-image:
+    radial-gradient(1px 1px at 8% 18%,rgba(255,255,255,.85),transparent 60%),
+    radial-gradient(1px 1px at 22% 64%,rgba(190,225,255,.7),transparent 60%),
+    radial-gradient(1.5px 1.5px at 31% 12%,rgba(255,255,255,.6),transparent 60%),
+    radial-gradient(1px 1px at 44% 82%,rgba(160,220,190,.7),transparent 60%),
+    radial-gradient(1px 1px at 58% 28%,rgba(255,255,255,.75),transparent 60%),
+    radial-gradient(1.5px 1.5px at 67% 72%,rgba(190,225,255,.55),transparent 60%),
+    radial-gradient(1px 1px at 76% 9%,rgba(255,255,255,.7),transparent 60%),
+    radial-gradient(1px 1px at 88% 46%,rgba(160,220,190,.6),transparent 60%),
+    radial-gradient(1px 1px at 94% 84%,rgba(255,255,255,.65),transparent 60%),
+    radial-gradient(1.5px 1.5px at 15% 88%,rgba(190,225,255,.5),transparent 60%);
+  animation:inTwinkle 4.5s ease-in-out infinite alternate;
+}
+.in-stars::after{content:"";position:absolute;inset:0;
+  background-image:
+    radial-gradient(1px 1px at 17% 38%,rgba(255,255,255,.55),transparent 60%),
+    radial-gradient(1px 1px at 38% 52%,rgba(190,225,255,.5),transparent 60%),
+    radial-gradient(1.5px 1.5px at 52% 8%,rgba(255,255,255,.5),transparent 60%),
+    radial-gradient(1px 1px at 63% 90%,rgba(160,220,190,.5),transparent 60%),
+    radial-gradient(1px 1px at 81% 62%,rgba(255,255,255,.6),transparent 60%),
+    radial-gradient(1px 1px at 92% 20%,rgba(190,225,255,.55),transparent 60%),
+    radial-gradient(1px 1px at 4% 70%,rgba(255,255,255,.5),transparent 60%),
+    radial-gradient(1.5px 1.5px at 48% 94%,rgba(190,225,255,.45),transparent 60%);
+  animation:inTwinkle 6s 1.2s ease-in-out infinite alternate-reverse;
+}
+@keyframes inTwinkle{from{opacity:.55}to{opacity:1}}
+
+/* 星云漂移：两团柔光极缓移动，营造纵深（无 blur 滤镜，纯渐变，GPU 友好） */
+.in-nebula{position:absolute;inset:-8%;pointer-events:none;
+  background:
+    radial-gradient(640px 380px at 70% 28%,rgba(64,140,220,.13),transparent 66%),
+    radial-gradient(560px 340px at 24% 68%,rgba(28,160,110,.11),transparent 66%);
+  animation:inDrift 26s ease-in-out infinite alternate;
+}
+@keyframes inDrift{from{transform:translate3d(-1.4%,-1%,0) scale(1)}to{transform:translate3d(1.4%,1.2%,0) scale(1.035)}}
+
+/* 胶片颗粒：极低透明度静态噪点，去掉"数码平涂感" */
+.grain{position:absolute;inset:0;pointer-events:none;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:160px 160px;
+}
+
+/* 镜头落定：整组内容以 1.025→1 缓慢收拢，像摄影机对焦 */
+.in-stage{
+  position:relative;z-index:2;text-align:center;padding:0 22px;transform:translateY(-2vh);
+  animation:inSettle 1.5s cubic-bezier(.2,.7,.2,1);
+}
+@keyframes inSettle{0%{transform:translateY(-2vh) scale(1.025)}100%{transform:translateY(-2vh) scale(1)}}
+
+/* 品牌落定瞬间的能量环（one-shot ping） */
+.in-brand{position:relative}
+.in-ring{
+  position:absolute;left:50%;top:50%;width:340px;height:340px;border-radius:50%;
+  border:1px solid rgba(140,200,255,.55);opacity:0;pointer-events:none;
+  transform:translate(-50%,-50%) scale(.35);
+  animation:inPing 1.4s 1.3s cubic-bezier(.2,.6,.2,1);
+  box-shadow:0 0 30px rgba(111,199,255,.18) inset;
+}
+@keyframes inPing{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.35)}
+  18%{opacity:.6}
+  100%{opacity:0;transform:translate(-50%,-50%) scale(1.45)}
+}
+.in-bolt{width:46px;height:46px;margin:0 auto 20px;display:block;filter:drop-shadow(0 0 10px rgba(127,224,176,.55))}
+.in-bolt path{
+  fill:none;stroke:#7fe0b0;stroke-width:2.6;stroke-linejoin:round;stroke-linecap:round;
+  stroke-dasharray:210;stroke-dashoffset:210;
+  animation:inDraw 1s .25s cubic-bezier(.6,0,.3,1) forwards;
+}
+@keyframes inDraw{to{stroke-dashoffset:0}}
+.in-brand{
+  font-weight:800;font-size:clamp(54px,9vw,104px);letter-spacing:.06em;line-height:1;
+  filter:drop-shadow(0 0 26px rgba(120,190,255,.28)) drop-shadow(0 4px 3px rgba(0,0,0,.55));
+}
+/* 渐变与裁剪必须放在字母 span 自身：子元素上的 filter 会破坏父级 background-clip:text 的绘制 */
+.in-brand span:not(.in-ring){
+  display:inline-block;
+  background:linear-gradient(180deg,#fdfeff 0%,#dceafb 26%,#9dc2e6 50%,#eaf4ff 74%,#8fb6d8 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  opacity:0;transform:translateY(26px);filter:blur(8px);
+  animation:inLetter .7s cubic-bezier(.2,.7,.2,1) forwards;
+  animation-delay:calc(.55s + var(--i)*.07s);
+}
+@keyframes inLetter{
+  0%{opacity:0;transform:translateY(26px);filter:blur(8px)}
+  62%{opacity:1;filter:blur(0) drop-shadow(0 0 16px rgba(150,205,255,.7))}
+  100%{opacity:1;transform:none;filter:blur(0) drop-shadow(0 0 0 rgba(150,205,255,0))}
+}
+.in-sub{
+  margin:16px 0 0;font-size:clamp(15px,2.2vw,21px);font-weight:700;color:#9fd8bc;
+  letter-spacing:.42em;text-indent:.42em;opacity:0;animation:inFade .8s 1.25s forwards;
+}
+.in-en{
+  margin:10px 0 0;font-family:var(--mono);font-size:10.5px;letter-spacing:.32em;
+  color:rgba(160,200,235,.55);text-transform:uppercase;opacity:0;animation:inFade .8s 1.45s forwards;
+}
+@keyframes inFade{to{opacity:1}}
+/* 电流脉冲线 */
+.in-line{
+  position:relative;width:min(320px,64vw);height:1px;margin:30px auto 0;
+  background:linear-gradient(90deg,transparent,rgba(140,200,255,.5),transparent);
+  opacity:0;animation:inFade .6s .2s forwards;
+}
+.in-line::after{
+  content:"";position:absolute;top:-1.5px;width:4px;height:4px;border-radius:50%;
+  background:#9fe8c6;box-shadow:0 0 10px 2px rgba(127,224,176,.85);
+  animation:inPulse 1.6s linear infinite;
+}
+@keyframes inPulse{0%{left:-2%;opacity:0}12%{opacity:1}88%{opacity:1}100%{left:102%;opacity:0}}
+/* 进度 */
+.in-progress{
+  margin-top:26px;display:flex;align-items:center;justify-content:center;gap:12px;
+  font-family:var(--mono);font-size:12px;color:#9db8cc;opacity:0;animation:inFade .6s 1.6s forwards;
+  transition:opacity .45s;
+}
+.in-track{width:180px;height:2px;border-radius:2px;background:rgba(255,255,255,.12);overflow:hidden;display:inline-block}
+.in-fill{display:block;height:100%;width:0%;border-radius:2px;background:linear-gradient(90deg,#2e9e6e,#6fc7ff);box-shadow:0 0 8px rgba(111,199,255,.7);transition:width .12s linear}
+/* 进入按钮 */
+.in-enter{margin-top:30px;opacity:0;pointer-events:none;transform:translateY(10px);transition:opacity .5s ease,transform .5s ease}
+.splash.ready .in-enter{opacity:1;pointer-events:auto;transform:none}
+/* 就绪后收起脉冲线与进度：须同时取消 inFade 的 forwards 填充，否则填充优先级更高 */
+.splash.ready .in-line,.splash.ready .in-progress{opacity:0;animation:none;pointer-events:none}
+.in-enter button{
+  font-family:var(--sans);font-size:15px;font-weight:800;letter-spacing:.24em;text-indent:.24em;color:#eaf6ff;
+  background:linear-gradient(150deg,rgba(36,146,100,.95),rgba(24,110,150,.95));
+  border:1px solid rgba(160,220,255,.35);border-radius:999px;padding:13px 44px;cursor:pointer;
+  transition:transform .15s;
+  animation:inBreath 2.2s ease-out infinite;
+}
+.in-enter button:hover{transform:translateY(-2px)}
+.in-enter button:focus-visible{outline:2px solid #9fd8ff;outline-offset:3px}
+@keyframes inBreath{
+  0%{box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 0 0 0 rgba(111,199,255,.30)}
+  70%{box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 0 0 16px rgba(111,199,255,0)}
+  100%{box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 0 0 0 rgba(111,199,255,0)}
+}
+.in-hint{margin:14px 0 0;font-size:11px;color:rgba(150,180,205,.55);letter-spacing:.12em}
+/* 跳过 */
+.in-skip{
+  position:absolute;top:16px;right:18px;z-index:3;background:none;border:none;cursor:pointer;
+  color:rgba(170,200,225,.5);font-size:12px;letter-spacing:.18em;padding:8px 10px;font-family:var(--sans);
+  transition:color .15s;
+}
+.in-skip:hover{color:#cfe6ff}
+.in-skip:focus-visible{outline:2px solid #6fc7ff;outline-offset:2px;border-radius:6px}
+/* 退场 */
+.splash.leave{opacity:0;visibility:hidden;pointer-events:none;animation:none;transition:opacity .55s ease,visibility .55s}
+.splash.leave .in-stage{transform:translateY(-26px) scale(.985);opacity:0;filter:blur(6px);transition:all .45s cubic-bezier(.5,0,.2,1)}
+/* 二次访问（fast）：节奏压缩但保留完整叙事，不显得"一闪而过" */
+.splash.fast .in-bolt path{animation-delay:.1s;animation-duration:.6s}
+.splash.fast .in-brand span:not(.in-ring){animation-delay:calc(.3s + var(--i)*.05s);animation-duration:.55s}
+.splash.fast .in-sub{animation-delay:.6s}
+.splash.fast .in-en{animation-delay:.72s}
+.splash.fast .in-line{animation-delay:.1s}
+.splash.fast .in-progress{animation-delay:.8s}
+/* 减弱动效：直接呈现静态品牌与按钮 */
+@media (prefers-reduced-motion:reduce){
+  .splash{animation:none;transition:opacity .2s,visibility .2s}
+  .in-bolt path{animation:none;stroke-dashoffset:0}
+  .in-brand span:not(.in-ring){animation:none;opacity:1;transform:none;filter:none}
+  .in-sub,.in-en,.in-line,.in-progress{animation:none;opacity:1}
+  .in-line::after{animation:none}
+  .in-stars,.in-stars::after{animation:none;opacity:.7}
+  .in-nebula{animation:none}
+  .in-ring{animation:none;opacity:0}
+  .in-stage{animation:none}
+  .grain{display:none}
+  .splash.leave .in-stage{transition:none;transform:none}
+}
+@media print{.splash{display:none!important}}
+</style>
+<style id="sn-im-layer">
+/* ============================================================
+   互动模型层：KYN28 柜体交互模型 / 保护动作链 / 电的旅程 / 干变温控
+   ============================================================ */
+.im-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.im-tab{padding:9px 16px;border-radius:10px;border:1px solid var(--line-strong);background:var(--surface);color:var(--muted);font-weight:700;font-size:13.5px;cursor:pointer;font-family:inherit;transition:background .15s,color .15s,border-color .15s}
+.im-tab.on{background:var(--brand);border-color:var(--brand);color:#fff}
+.im-tab:focus-visible{outline:2px solid var(--brand-2);outline-offset:2px}
+.im-panel{border:1px solid var(--line);border-radius:14px;background:var(--surface);box-shadow:var(--shadow);padding:18px}
+.im-panel[hidden]{display:none}
+.im-hint{font-size:12px;color:var(--dim);margin:0 0 10px}
+/* ---- 模型① 布局 ---- */
+.im-flex{display:flex;gap:22px;flex-wrap:wrap}
+.im-flex-a{flex:1 1 340px;min-width:0}
+.im-flex-b{flex:1 1 270px;min-width:260px}
+.im-ops{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 6px;align-items:center}
+.im-op{padding:8px 14px;border-radius:9px;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);font-weight:700;font-size:12.5px;cursor:pointer;font-family:inherit;transition:all .15s}
+.im-op:hover{border-color:var(--brand);color:var(--brand)}
+.im-op.primary{background:var(--brand);border-color:var(--brand);color:#fff}
+.im-op.on{background:var(--brand);border-color:var(--brand);color:#fff}
+.im-op:focus-visible{outline:2px solid var(--brand-2);outline-offset:2px}
+.im-status{font-size:12.5px;color:var(--brand-ink);font-weight:700;width:100%}
+.im-status.warn{color:var(--amber)}
+/* ---- SVG 模型 ---- */
+.im-svg{width:100%;max-width:470px;height:auto;display:block;margin:0 auto}
+.im-shell{fill:var(--surface-2);stroke:var(--line-strong);stroke-width:2.5}
+.im-bay{fill:color-mix(in srgb,var(--surface) 55%,var(--brand-soft));stroke:var(--line);stroke-width:1.5}
+.im-lab{font-size:12px;font-weight:800;fill:var(--dim)}
+.im-txt{font-size:10px;fill:var(--dim)}
+.im-txt2{font-size:10px;font-weight:700;fill:var(--ink)}
+.im-part{fill:color-mix(in srgb,var(--surface-2) 70%,var(--brand-soft));stroke:var(--line-strong);stroke-width:1.3}
+.im-comp{cursor:pointer}
+.im-comp:hover .im-part,.im-comp:hover .im-ct{filter:brightness(1.18)}
+.im-comp.sel .im-part,.im-comp.sel .im-ct{stroke:var(--brand);stroke-width:2.6}
+.im-ct{fill:var(--surface);stroke:var(--line-strong);stroke-width:5}
+.im-cable{fill:none;stroke:#6b7a89;stroke-width:6;stroke-linecap:round}
+.im-wire{stroke:#9aa8b6;stroke-width:3;stroke-linecap:round;transition:stroke .3s}
+.im-wire.live{stroke:#e3a93c;filter:drop-shadow(0 0 4px rgba(227,169,60,.85))}
+.im-shutter{fill:color-mix(in srgb,var(--line-strong) 70%,var(--surface));stroke:var(--line-strong);stroke-width:1;transition:transform .35s ease}
+.lampR{fill:#7a3b36;stroke:var(--line-strong);stroke-width:1;transition:all .25s}
+.lampG{fill:#2f5d43;stroke:var(--line-strong);stroke-width:1;transition:all .25s}
+.lampR.on{fill:#e6493f;filter:drop-shadow(0 0 6px rgba(230,73,63,.95))}
+.lampG.on{fill:#3fae62;filter:drop-shadow(0 0 6px rgba(63,174,98,.95))}
+.im-busA{fill:#d9b93c}.im-busB{fill:#59b36a}.im-busC{fill:#cf6a5a}
+.im-bus.live{filter:drop-shadow(0 0 5px rgba(217,185,60,.75))}
+.im-part.hot{fill:#e8a13c;stroke:#c77f1f;filter:drop-shadow(0 0 6px rgba(232,161,60,.8))}
+#imCart{transition:transform .4s cubic-bezier(.2,.7,.2,1)}
+.im-shutter{transition:transform .35s ease}
+/* ---- 保护动作链 ---- */
+.pc-ctl{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:2px 0 14px}
+.pc-btn{padding:9px 20px;border-radius:10px;border:1px solid var(--brand);background:var(--brand);color:#fff;font-weight:800;font-size:13.5px;cursor:pointer;font-family:inherit}
+.pc-btn:hover{filter:brightness(1.08)}
+.pc-btn.ghost{background:var(--surface);color:var(--muted);border-color:var(--line-strong);font-weight:700}
+.pc-ms{font-family:var(--mono);font-size:17px;font-weight:800;color:var(--brand-ink)}
+.pc-note{font-size:11.5px;color:var(--dim)}
+.pc-chain{display:flex;flex-wrap:wrap;gap:10px}
+.pc-step{flex:1 1 158px;min-width:150px;border:1.5px solid var(--line-strong);border-radius:10px;background:var(--surface-2);padding:12px 11px 10px;position:relative;cursor:pointer;opacity:.5;transition:all .22s}
+.pc-step .ms{position:absolute;top:-9px;right:9px;font-family:var(--mono);font-size:10px;background:var(--surface-2);border:1px solid var(--line-strong);border-radius:5px;padding:0 5px;color:var(--muted)}
+.pc-step b{font-size:13px;color:var(--ink)}
+.pc-step p{margin:5px 0 6px;font-size:11.5px;color:var(--muted);line-height:1.55}
+.pc-step.on{opacity:1;border-color:var(--brand);background:var(--brand-soft);box-shadow:0 0 0 2px color-mix(in srgb,var(--brand) 22%,transparent)}
+.pc-step.on .ms{color:var(--brand-ink);border-color:var(--brand)}
+/* ---- 电的旅程 ---- */
+.im-way{display:flex;flex-wrap:wrap;gap:14px;align-items:stretch}
+.im-stop{flex:1 1 106px;min-width:104px;border:1px solid var(--line-strong);border-radius:10px;background:var(--surface-2);padding:12px 8px 10px;text-align:center;cursor:pointer;position:relative;transition:border-color .15s,background .15s,transform .15s}
+.im-stop:hover{border-color:var(--brand);transform:translateY(-2px)}
+.im-stop.on{border-color:var(--brand);background:var(--brand-soft)}
+.im-stop b{display:block;font-size:13px;color:var(--ink)}
+.im-stop i{display:block;font-style:normal;font-family:var(--mono);font-size:10.5px;color:var(--brand-ink);margin-top:4px}
+.im-stop .im-arrow{position:absolute;right:-14px;top:50%;transform:translateY(-50%);color:var(--dim);font-size:15px;pointer-events:none}
+.im-stop.key{border-color:var(--brand)}
+.im-stop.key::after{content:"★ 主战场";position:absolute;top:-9px;left:50%;transform:translateX(-50%);font-size:9.5px;font-weight:700;background:var(--brand);color:#fff;border-radius:999px;padding:1px 8px;white-space:nowrap}
+/* ---- 干变温控 ---- */
+.im-dtc{display:flex;flex-wrap:wrap;gap:22px;align-items:flex-start}
+.im-dtc-left{flex:1 1 280px;min-width:0}
+.im-dtc-right{flex:0 0 240px;text-align:center;border:1px dashed var(--line-strong);border-radius:12px;padding:16px 14px}
+.dt-v{font-family:var(--mono);color:var(--brand-ink);font-weight:700}
+.dt-slider{width:100%;margin:6px 0 4px;accent-color:var(--brand)}
+.dt-lamp{display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border-radius:10px;border:1px solid var(--line);margin:8px 0;opacity:.45;transition:opacity .2s,border-color .2s,background .2s;text-align:left}
+.dt-lamp.on{opacity:1;border-color:var(--brand);background:var(--brand-soft)}
+.dt-lamp .led{flex:0 0 auto;width:12px;height:12px;border-radius:50%;background:var(--line-strong);margin-top:4px}
+.dt-lamp.on .led{background:var(--brand);box-shadow:0 0 10px var(--brand)}
+.dt-lamp b{font-size:13px}
+.dt-fan{width:64px;height:64px;border-radius:50%;border:2px solid var(--line-strong);position:relative;margin:0 auto;overflow:hidden}
+.dt-fan::before{content:"";position:absolute;inset:6px;border-radius:50%;background:conic-gradient(var(--brand-soft) 0 18deg,transparent 18deg 45deg,var(--brand-soft) 45deg 63deg,transparent 63deg 90deg,var(--brand-soft) 90deg 108deg,transparent 108deg 135deg,var(--brand-soft) 135deg 153deg,transparent 153deg 180deg,var(--brand-soft) 180deg 198deg,transparent 198deg 225deg,var(--brand-soft) 225deg 243deg,transparent 243deg 270deg,var(--brand-soft) 270deg 288deg,transparent 288deg 315deg,var(--brand-soft) 315deg 333deg,transparent 333deg 360deg);animation:dt-spin 900ms linear infinite;animation-play-state:paused}
+.dt-fan.on::before{animation-play-state:running}
+@keyframes dt-spin{to{transform:rotate(360deg)}}
+/* ---- 响应式 / 动效 / 打印 ---- */
+.im-detail{margin-top:14px;border-top:1px dashed var(--line-strong);padding-top:12px}
+.im-detail h4{font-size:15px;font-weight:800;margin:0 0 6px}
+.im-detail .im-desc{font-size:13.5px;color:var(--muted);margin:0 0 8px;line-height:1.7}
+@media (prefers-reduced-motion:reduce){
+  .dt-fan::before{animation:none}
+  .im-stop:hover,.im-cab:hover{transform:none}
+  #imCart,.im-shutter{transition:none}
+}
+@media (max-width:760px){
+  .im-dtc-right{flex:1 1 100%}
+}
+@media print{
+  .im-tabs,.im-hint,.pc-ctl,.im-ops{display:none!important}
+  .im-panel[hidden]{display:block!important}
+  .im-panel{box-shadow:none!important;border-color:#ccc!important}
+  .pc-step{opacity:1!important}
+  .dt-lamp{opacity:1!important}
+}
+</style>
+
+
+<style id="sn-gis-layer">
+/* ============================================================
+   互动模型⑤ GIS 汇控柜
+   ============================================================ */
+.gis-svg{width:100%;max-width:560px;height:auto;display:block;margin:0 auto}
+.gis-frame{fill:var(--surface-2);stroke:var(--line-strong);stroke-width:2}
+.gis-bay{fill:color-mix(in srgb,var(--surface) 55%,var(--brand-soft));stroke:var(--line);stroke-width:1.5}
+.gis-tank{fill:color-mix(in srgb,var(--surface-2) 60%,var(--brand-soft));stroke:var(--line-strong);stroke-width:1.6}
+.gis-gas{fill:rgba(141,230,210,.16)}
+.gis-lab{font-size:12px;font-weight:800;fill:var(--dim)}
+.gis-lab2{font-size:11px;font-weight:700;fill:var(--muted)}
+.gis-txt{font-size:10px;font-weight:700;fill:var(--ink)}
+.gis-part{fill:color-mix(in srgb,var(--surface-2) 70%,var(--brand-soft));stroke:var(--line-strong);stroke-width:1.3}
+.gis-comp{cursor:pointer}
+.gis-comp:hover .gis-part,.gis-comp:hover .gis-ct{filter:brightness(1.18)}
+.gis-comp.sel .gis-part,.gis-comp.sel .gis-ct{stroke:var(--brand);stroke-width:2.6}
+.gis-ct{fill:var(--surface);stroke:var(--line-strong);stroke-width:5}
+.gis-cond{stroke:#8fa2b5;stroke-width:4;stroke-linecap:round}
+.gis-conn{stroke:#9aa8b6;stroke-width:2.5;stroke-dasharray:5 4;fill:none}
+.gis-pole{stroke:var(--line-strong);stroke-width:1;transition:fill .25s,filter .25s}
+.gis-pole.on{fill:#e6493f;filter:drop-shadow(0 0 5px rgba(230,73,63,.9))}
+.gis-relay{transition:stroke .25s,filter .25s}
+.gis-relay.alarm{stroke:#e8a13c;stroke-width:2.4;filter:drop-shadow(0 0 5px rgba(232,161,60,.7))}
+.gis-relay.lock{stroke:#e6493f;stroke-width:2.6;filter:drop-shadow(0 0 6px rgba(230,73,63,.85))}
+.gis-needle{stroke:#e6493f;stroke-width:3;stroke-linecap:round;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.gis-zone-ok{stroke:#3fae62;fill:none;stroke-width:6;stroke-linecap:round}
+.gis-zone-warn{stroke:#e8a13c;fill:none;stroke-width:6;stroke-linecap:round}
+.gis-zone-lock{stroke:#e6493f;fill:none;stroke-width:6;stroke-linecap:round}
+@media (prefers-reduced-motion:reduce){.gis-needle{transition:none}}
+@media (max-width:760px){.gis-svg{max-width:100%}}
+@media print{.gis-needle{transition:none}}
+</style>
+
 </head>
 <body>
+<script>window.__snErrs=window.__snErrs||[];window.addEventListener("error",function(e){window.__snErrs.push(String(e.message)+" @line"+e.lineno);});</script>
+<script>
+/* 锚点跳转接管：content-visibility 按需渲染会让离屏区块以估算高度占位，
+   原生锚点滚动会落在漂移后的位置；这里强制渲染目标区块并对齐校准 */
+(function(){
+  document.addEventListener("click",function(e){
+    var a=e.target.closest?e.target.closest("a[href^=\"#\"]"):null;
+    if(!a)return;
+    var href=a.getAttribute("href");
+    if(!href||href.length<2)return;
+    var el=document.getElementById(href.slice(1));
+    if(!el)return;
+    e.preventDefault();
+    try{ jumpTo(el); }catch(err){ try{ el.scrollIntoView(); }catch(e2){} }
+    try{history.pushState(null,"",href);}catch(err){}
+  });
+  function jumpTo(el){
+    var root=document.documentElement;
+    root.style.scrollBehavior="auto";           /* 普通滚动 API 即为瞬时，全浏览器兼容 */
+    try{
+      if(!el.style.containIntrinsicSize){
+        root.classList.add("im-jump");          /* 兜底：个别区块未测量时全量渲染 */
+        void document.body.offsetHeight;
+      }
+    }catch(e){}
+    el.style.contentVisibility="visible";       /* 目标区块确保渲染 */
+    try{ window.scrollTo(0, Math.max(0, window.scrollY + el.getBoundingClientRect().top - 24)); }catch(e){}
+    setTimeout(function(){
+      /* 二次校正：目标 = 当前滚动位置 + 视口内偏移（绝对坐标，修正渐进渲染的小幅漂移） */
+      try{ window.scrollTo(0, Math.max(0, window.scrollY + el.getBoundingClientRect().top - 24)); }catch(e){}
+    },120);
+    setTimeout(function(){ el.style.contentVisibility=""; },450);
+  }
+})();
+</script>
+<!-- ============ 欢迎页 Intro ============ -->
+<div class="splash" id="intro" role="dialog" aria-modal="true" aria-label="欢迎进入 sinouse 电力电气行业百科手册">
+  <div class="in-stars" aria-hidden="true"></div>
+  <div class="in-nebula" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+  <button type="button" class="in-skip" id="inSkip">跳过 →</button>
+  <div class="in-stage">
+    <svg class="in-bolt" viewBox="0 0 48 48" aria-hidden="true">
+      <path d="M27 3 12 27h9l-3 18 18-23h-9l4-19z"/>
+    </svg>
+    <div class="in-brand" aria-label="sinouse"><span class="in-ring" aria-hidden="true"></span><span style="--i:0">s</span><span style="--i:1">i</span><span style="--i:2">n</span><span style="--i:3">o</span><span style="--i:4">u</span><span style="--i:5">s</span><span style="--i:6">e</span></div>
+    <p class="in-sub">电力电气行业百科手册</p>
+    <p class="in-en">Power &amp; Electrical Knowledge Base</p>
+    <div class="in-line" aria-hidden="true"></div>
+    <div class="in-progress" aria-hidden="true">
+      <span class="in-track"><span class="in-fill" id="inFill"></span></span>
+      <span id="inPct">0%</span>
+    </div>
+    <div class="in-enter">
+      <button type="button" id="inEnter">进入手册</button>
+      <p class="in-hint">按 Enter 进入 · 进去后 Ctrl+K 全局搜索</p>
+    </div>
+  </div>
+</div>
+<script>
+/* 欢迎页逻辑：进度模拟 → 就绪 → 进入/跳过。
+   兜底：无 JS 时 CSS 9s 自动放行；减弱动效直接就绪。 */
+(function(){
+  var intro=document.getElementById('intro');
+  if(!intro)return;
+  /* 欢迎页永远从页面顶部开场：接管浏览器滚动恢复并把所有滚动容器归零，
+     上次阅读位置改由页内的「继续阅读」提示负责恢复 */
+  try{if('scrollRestoration' in history)history.scrollRestoration='manual';}catch(e){}
+  function pinTop(){
+    try{
+      if(window.scrollY)window.scrollTo(0,0);
+      var se=document.scrollingElement;if(se&&se.scrollTop)se.scrollTop=0;
+      if(document.documentElement.scrollTop)document.documentElement.scrollTop=0;
+      if(document.body&&document.body.scrollTop)document.body.scrollTop=0;
+    }catch(e){}
+  }
+  pinTop();
+  /* 浏览器的滚动位置恢复可能在上述重置之后异步到达——欢迎页期间持续钉在顶部 */
+  document.addEventListener('scroll',pinTop,true);
+  window.addEventListener('load',pinTop);
+  var pinTimer=setInterval(pinTop,150);
+  document.documentElement.classList.add('intro-lock');
+  var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var seen=false;
+  try{seen=sessionStorage.getItem('sn-intro')==='1';}catch(e){}
+  if(seen)intro.classList.add('fast');
+  document.documentElement.classList.add('intro-lock');
+  var fill=document.getElementById('inFill'),pct=document.getElementById('inPct');
+  /* 趁欢迎页遮着屏幕，把全部区块的真实高度量一遍并钉进 contain-intrinsic-size：
+     之后滚动/跳转全部基于精确布局，不再有渲染漂移 */
+  window.__snMeasure=function(){
+    try{
+      var root=document.documentElement;
+      root.classList.add("im-jump");
+      void document.body.offsetHeight;
+      var secs=document.querySelectorAll("section.block");
+      for(var i=0;i<secs.length;i++){ secs[i].style.containIntrinsicSize="auto "+secs[i].offsetHeight+"px"; }
+      void document.body.offsetHeight;
+      root.classList.remove("im-jump");
+    }catch(e){}
+  };
+  var p=0,done=false,loaded=false,t0=Date.now();
+  window.addEventListener('load',function(){loaded=true;setTimeout(function(){if(window.__snMeasure&&!done)window.__snMeasure();},250);});
+  function finish(){
+    if(done)return;done=true;
+    /* JS 正常运行：双保险取消 9s 无 JS 兜底 */
+    intro.classList.add('safe');
+    intro.style.animation='none';
+    fill.style.width='100%';pct.textContent='100%';
+    setTimeout(function(){
+      intro.classList.add('ready');
+      var b=document.getElementById('inEnter');if(b)b.focus({preventScroll:true});
+    },RM?80:420);
+  }
+  function tick(){
+    if(done)return;
+    var elapsed=Date.now()-t0;
+    var cap=(loaded&&elapsed>(seen?800:1800))?100:90;
+    p=Math.min(cap,p+Math.max(.6,(100-p)*.075)+Math.random()*1.4);
+    if(p>=100){finish();return;}
+    fill.style.width=p.toFixed(1)+'%';pct.textContent=Math.floor(p)+'%';
+    setTimeout(tick,RM?40:70);
+  }
+  tick();
+  function enter(){
+    if(intro.classList.contains('leave'))return;
+    if(window.__snMeasure)window.__snMeasure(); /* 遮罩背后完成全量布局测量 */
+    try{sessionStorage.setItem('sn-intro','1');}catch(e){}
+    intro.classList.add('leave');
+    document.documentElement.classList.remove('intro-lock');
+    /* 主视觉接棒：重播入场动画，并在中心触发粒子光波 */
+    setTimeout(function(){
+      try{
+        var hi=document.querySelector('.hero-inner');
+        if(hi&&!RM){hi.style.animation='none';void hi.offsetWidth;hi.style.animation='';}
+        var hero=document.getElementById('hero');
+        if(hero){
+          var r=hero.getBoundingClientRect();
+          hero.dispatchEvent(new PointerEvent('pointerdown',
+            {clientX:r.left+r.width*.5,clientY:Math.max(60,r.top+r.height*.36),bubbles:true}));
+        }
+        var h=document.getElementById('hero');
+        if(h){h.setAttribute('tabindex','-1');h.focus({preventScroll:true});}
+      }catch(e){}
+    },RM?60:480);
+    setTimeout(function(){if(intro.parentNode)intro.parentNode.removeChild(intro);},RM?300:750);
+    document.removeEventListener('keydown',onKey);
+    document.removeEventListener('scroll',pinTop,true);
+    window.removeEventListener('load',pinTop);
+    clearInterval(pinTimer);
+  }
+  function onKey(e){
+    /* Enter / Esc 任何时刻都可直接跳过进入 */
+    if(e.key==='Enter'||e.key==='Escape'){e.preventDefault();enter();}
+  }
+  document.addEventListener('keydown',onKey);
+  document.getElementById('inEnter').addEventListener('click',enter);
+  document.getElementById('inSkip').addEventListener('click',enter);
+  /* 就绪后点击任意空白处也可进入；动画期间点击 = 跳过（跳过按钮除外，避免重复触发） */
+  intro.addEventListener('click',function(e){
+    if(e.target.closest('.in-skip'))return;
+    enter();
+  });
+  if(RM){finish();}
+})();
+</script>
 <div class="reading-progress" id="readingProgress" aria-hidden="true"></div>
 
 
@@ -496,13 +1345,11 @@ tbody tr:hover{background:color-mix(in srgb,var(--brand-soft) 72%,transparent)}
 
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-head">
-    <svg class="sidebar-logo" width="34" height="34" viewBox="0 0 48 48" fill="none" aria-label="公司 Logo">
-      <rect width="48" height="48" rx="10" fill="#0f5a3a"/>
-      <path d="M14 34V18l10-8 10 8v16" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M14 34h20M20 34v-9h8v9M24 10v6" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M24 34v6" stroke="#a9d8bd" stroke-width="2.5" stroke-linecap="round"/>
+    <svg class="sidebar-logo" width="34" height="34" viewBox="0 0 48 48" fill="none" aria-label="sinouse Logo">
+      <rect width="48" height="48" rx="10" fill="#0b1d24"/>
+      <path d="M26 6 12 27h9l-3 15 18-23h-9l4-13z" fill="#2e9e6e" stroke="#9fe8c6" stroke-width="1.6" stroke-linejoin="round"/>
     </svg>
-    <div class="sidebar-title">销售速查手册<small>内部学习 · 请勿外传</small></div>
+    <div class="sidebar-title">sinouse 百科手册<small>电力电气 · 内部参考资料</small></div>
   </div>
   <div class="sidebar-search">
     <div class="search-wrap">
@@ -513,15 +1360,31 @@ tbody tr:hover{background:color-mix(in srgb,var(--brand-soft) 72%,transparent)}
   </div>
   <nav class="sidebar-nav" id="sidebarNav">
     <div class="nav-group">
-      <div class="nav-group-title">入门必背</div>
+      <div class="nav-group-title">总览</div>
+      <a class="nav-link" href="#guide"><span class="n">路</span>新手使用路线</a>
+      <a class="nav-link" href="#encymap"><span class="n">图</span>百科总览 · 多入口查询</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">电力电气基础</div>
       <a class="nav-link" href="#basic"><span class="n">基</span>零基础电力扫盲</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">行业客户</div>
       <a class="nav-link" href="#ch1"><span class="n">一</span>客户行业分类词</a>
+      <a class="nav-link" href="#custlib"><span class="n">客</span>行业客户百科</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">产品百科</div>
+      <a class="nav-link" href="#prodlib"><span class="n">品</span>产品百科速览</a>
       <a class="nav-link" href="#ch2"><span class="n">二</span>自家产品相关词</a>
       <a class="nav-link" href="#ch3"><span class="n">三</span>替代·同行·配套邻居</a>
     </div>
     <div class="nav-group">
       <div class="nav-group-title">设备与场景</div>
+      <a class="nav-link" href="#devlib"><span class="n">设</span>设备百科</a>
       <a class="nav-link" href="#ch4"><span class="n">四</span>应用设备扫盲</a>
+      <a class="nav-link" href="#scenelib"><span class="n">景</span>应用场景百科</a>
+      <a class="nav-link" href="#interactive"><span class="n">模</span>互动模型</a>
     </div>
     <div class="nav-group">
       <div class="nav-group-title">商务与流程</div>
@@ -536,36 +1399,60 @@ tbody tr:hover{background:color-mix(in srgb,var(--brand-soft) 72%,transparent)}
       <a class="nav-link" href="#ch13"><span class="n">十三</span>招投标全流程</a>
     </div>
     <div class="nav-group">
-      <div class="nav-group-title">现场实战</div>
+      <div class="nav-group-title">销售实战</div>
       <a class="nav-link" href="#ch14"><span class="n">十四</span>黑话对照表</a>
       <a class="nav-link" href="#ch15"><span class="n">十五</span>异议应对</a>
       <a class="nav-link" href="#ch16"><span class="n">十六</span>场景话术</a>
+      <a class="nav-link" href="#tools"><span class="n">具</span>销售现场工具</a>
     </div>
     <div class="nav-group">
-      <div class="nav-group-title">附录</div>
+      <div class="nav-group-title">速查与工具</div>
+      <a class="nav-link" href="#termlib"><span class="n">术</span>行业术语百科</a>
       <a class="nav-link" href="#app1"><span class="n">附1</span>商业新词速记卡</a>
       <a class="nav-link" href="#app2"><span class="n">附2</span>设备场景速记卡</a>
       <a class="nav-link" href="#app3"><span class="n">附3</span>拜访前 Checklist</a>
     </div>
   </nav>
-  <div class="sidebar-foot">V8.5 · 内部学习参考<br>以公司官方说明书为准</div>
+  <div class="sidebar-foot">sinouse 电力电气行业百科 · V9.0<br>以公司官方说明书为准</div>
 </aside>
 
 <main class="content">
 
-  <!-- ============ HERO ============ -->
-  <header class="hero">
+  <!-- ============ HERO：sinouse 粒子宇宙 ============ -->
+  <header class="hero" id="hero">
+    <canvas class="hero-canvas" id="starCanvas" aria-hidden="true"></canvas>
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="grain" aria-hidden="true"></div>
     <div class="hero-inner">
-      <span class="hero-kicker">让电力更安全</span>
-      <h1>销售速查手册
-        <span class="sub">行业名词 · 产品扫盲 · 设备场景 · 商务流程</span>
-      </h1>
-      <p class="lead">跑客户时听到的词、客户报的身份、柜子里装的东西、谈单要用的流程与话术——一本随身速查，见客户前翻一翻，进会议室不慌。</p>
-      <div class="hero-meta">
-        <span>版本 <b>V8.5</b></span>
-        <span>适用 <b>全体销售 / 技术支持</b></span>
-        <span>用途 <b>拜访 · 交流 · 培训</b></span>
+      <div class="brand-wrap" id="brandWrap">
+        <div class="brand-3d" id="brand3d">
+          <span class="brand-echo" aria-hidden="true">sinouse</span>
+          <span class="brand-word">sinouse</span>
+        </div>
       </div>
+      <span class="hero-kicker">电力电气 · 二次元件 · 行业百科</span>
+      <h1 class="hero-title">sinouse 电力电气行业百科手册</h1>
+      <p class="hero-sub">看懂行业、设备、产品与客户语言</p>
+      <div class="hero-rule" aria-hidden="true"></div>
+      <p class="lead">从基础概念到设备应用，从产品选型到客户沟通，帮助销售人员快速建立完整的电力电气行业知识体系。新人看得懂，销售查得快，外出拜访直接用。</p>
+      <nav class="hero-entries" aria-label="百科入口">
+        <a class="he" href="#basic"><b>基</b>行业基础</a>
+        <a class="he" href="#custlib"><b>客</b>客户类型</a>
+        <a class="he" href="#prodlib"><b>品</b>产品百科</a>
+        <a class="he" href="#devlib"><b>设</b>设备百科</a>
+        <a class="he" href="#scenelib"><b>景</b>应用场景</a>
+        <a class="he" href="#termlib"><b>术</b>行业术语</a>
+        <a class="he" href="#ch9"><b>商</b>商务流程</a>
+        <a class="he" href="#ch16"><b>话</b>销售话术</a>
+        <button class="he" type="button" data-open-search><b>搜</b>快速搜索</button>
+        <a class="he" href="#app3"><b>备</b>拜访前 Checklist</a>
+      </nav>
+      <div class="hero-meta" style="margin-top:22px">
+        <span>版本 <b>V9.0</b></span>
+        <span>适用 <b>全体销售 / 技术支持</b></span>
+        <span>用途 <b>查询 · 拜访 · 交流</b></span>
+      </div>
+      <p class="kbd-hint">快捷键：<kbd>Ctrl</kbd>+<kbd>K</kbd> 或 <kbd>/</kbd> 全局搜索 · <kbd>Esc</kbd> 关闭弹窗 · 右上角 <kbd>☰</kbd> 打开目录</p>
     </div>
   </header>
 
@@ -590,7 +1477,7 @@ tbody tr:hover{background:color-mix(in srgb,var(--brand-soft) 72%,transparent)}
     <button class="print-btn" onclick="window.print()">打印 / 存 PDF</button>
   </div>
 
-  <div class="onboard">
+  <div class="onboard" id="guide">
     <div class="ob-head">新手怎么用这本手册<small>老手跳过</small></div>
     <div class="ob-cards">
       <div class="ob-card"><b>第 1 周 · 建立地图</b><span>完全没基础先看"基·零基础电力扫盲"（水电类比、电的旅程、故障时间线、图纸符号），再看一~四章：客户是谁 → 自家产品 → 设备在哪装。目标：客户报一个词，你能归类到"继电器 / 变送器 / 温控器"哪一栏。</span></div>
@@ -599,6 +1486,41 @@ tbody tr:hover{background:color-mix(in srgb,var(--brand-soft) 72%,transparent)}
     </div>
     <div class="ob-foot">日常：附1 速记卡每天扫 10 张；想快速变专业，先背 2.6 读型号 + 4.13 口诀；跑现场把附2 设备场景卡过一遍。</div>
   </div>
+
+  <!-- ============ 百科总览 · 多入口查询 ============ -->
+  <section class="block reveal" id="encymap">
+    <div class="section-inner">
+      <h2 class="section-title"><span class="sec-no">图</span>百科总览 · 多入口查询<span style="font-family:var(--sans);font-size:12.5px;font-weight:500;color:var(--dim)">同一个知识，多条路查到</span></h2>
+      <p class="intro">百科有六大门类（基础、产品、设备、客户、场景、术语）和两大实战区（商务流程、销售话术）。点下面任意入口开始查询；也可以按「客户说法」「销售问题」反查——听到客户一句话，直接找到应对产品和话术。</p>
+      <div class="ency-q" role="group" aria-label="多入口查询">
+        <button type="button" data-query="产品"><span class="qic">品</span>按产品查</button>
+        <button type="button" data-query="设备"><span class="qic">设</span>按设备查</button>
+        <button type="button" data-query="场景"><span class="qic">景</span>按场景查</button>
+        <button type="button" data-query="客户"><span class="qic">客</span>按客户类型查</button>
+        <button type="button" data-query="行业"><span class="qic">网</span>按行业查</button>
+        <button type="button" data-query="术语"><span class="qic">术</span>按术语查</button>
+        <button type="button" data-query="说法"><span class="qic">话</span>按客户说法查</button>
+        <button type="button" data-query="异议"><span class="qic">辩</span>按销售问题查</button>
+        <button type="button" data-open-search><span class="qic">搜</span>自由全文搜索</button>
+      </div>
+      <div class="grid2">
+        <div class="card"><h4><span class="dot"></span>六大百科门类</h4>
+          <p><strong>电力电气基础</strong>：电的概念、发输变配用、一次二次、图纸符号 <a class="go-chip" href="#basic">零基础电力扫盲 →</a></p>
+          <p><strong>客户百科</strong>：设计院、本体厂、成套厂、集成商、EPC、终端业主等打法 <a class="go-chip" href="#custlib">行业客户百科 →</a></p>
+          <p><strong>产品百科</strong>：继电器 / 变送器 / 温控 / 报警 / 电源五大产品线的统一条目 <a class="go-chip" href="#prodlib">产品档案速览 →</a></p>
+          <p><strong>设备百科</strong>：开关柜、断路器、变压器、直流屏、箱变等设备解剖 <a class="go-chip" href="#devlib">设备百科 →</a></p>
+          <p><strong>场景百科</strong>：变配电站到新能源 16 个应用场景 <a class="go-chip" href="#scenelib">应用场景百科 →</a></p>
+          <p><strong>术语百科</strong>：可搜索词条 + 全文术语点击弹窗 <a class="go-chip" href="#termlib">行业术语百科 →</a></p>
+        </div>
+        <div class="card"><h4><span class="dot"></span>两大实战区 + 现场工具</h4>
+          <p><strong>商务流程</strong>：制造模式、BOM、采购流程、财务回款、质量、资质、招投标 <a class="go-chip" href="#ch5">第五~十三章 →</a></p>
+          <p><strong>销售话术</strong>：黑话对照、异议应对、场景话术 <a class="go-chip" href="#ch14">第十四~十六章 →</a></p>
+          <p><strong>销售现场工具</strong>：身份判断、追问清单、报价确认、异议速答、会后跟进 <a class="go-chip" href="#tools">打开工具箱 →</a></p>
+          <p class="kbd-hint">提示：正文中绿色虚线下划线的词（如 <button type="button" class="term-link" data-term="防跳">防跳</button>）可点击弹出术语解释。</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- ============ 基 零基础电力扫盲 ============ -->
   <section class="block reveal" id="basic">
@@ -919,6 +1841,32 @@ tbody tr:hover{background:color-mix(in srgb,var(--brand-soft) 72%,transparent)}
     </div>
   </section>
 
+  <!-- ============ 行业客户百科 ============ -->
+  <section class="block reveal" id="custlib">
+    <div class="section-inner">
+      <h2 class="section-title"><span class="sec-no">客</span>行业客户百科<span style="font-family:var(--sans);font-size:12.5px;font-weight:500;color:var(--dim)">设计院 · 本体厂 · 成套厂 · 集成商 · EPC · 终端业主 · 渠道</span></h2>
+      <div class="callout callout-brand"><p>不同客户「谁选型、谁采购、谁拍板」完全不同。<strong>这一章把每类客户的决策链拆开：谁负责技术选型、谁负责采购、谁能卡准入、谁决定成交，以及对应的切入方式和推荐产品。</strong>配合第一章拓客优先级（P0~P4）和第七章角色图谱使用。</p></div>
+      <div class="lib-toolbar">
+        <input class="lib-filter" id="custFilter" type="text" placeholder="筛选客户类型：如 设计院 / EPC / 业主…" autocomplete="off" aria-label="筛选客户类型">
+      </div>
+      <div class="lib-grid" id="custGrid"></div>
+    </div>
+  </section>
+
+  <!-- ============ 产品百科速览 ============ -->
+  <section class="block reveal" id="prodlib">
+    <div class="section-inner">
+      <h2 class="section-title"><span class="sec-no">品</span>产品百科速览<span style="font-family:var(--sans);font-size:12.5px;font-weight:500;color:var(--dim)">6 大门类 · 13 小类 · 50+ 型号的统一档案</span></h2>
+      <div class="callout callout-brand"><p>每个产品一张统一档案卡：<strong>一句话 → 通俗 → 专业 → 安装位置 → 客户说法 → 追问清单 → 关联知识</strong>。「原文定位」按钮直接跳到 4.10 速查表中对应行；数字参数只帮你建立量级概念，<strong>正式选型报价一律以公司最新产品说明书为准</strong>。</p></div>
+      <div class="lib-toolbar">
+        <input class="lib-filter" id="prodFilter" type="text" placeholder="筛选产品：如 中间继电器 / 温控 / 变送…" autocomplete="off" aria-label="筛选产品">
+        <div class="chipbar" id="prodCats" role="group" aria-label="产品家族筛选"></div>
+      </div>
+      <div class="lib-grid" id="prodGrid"></div>
+      <p class="kbd-hint">产品细节、选型七问与替代打法见 <a href="#ch2">第二章 自家产品相关词</a> 与 <a href="#ch3">第三章 替代·同行·配套邻居</a>。</p>
+    </div>
+  </section>
+
   <!-- ============ 二 自家产品相关词 ============ -->
   <section class="block reveal" id="ch2">
     <div class="section-inner">
@@ -1205,6 +2153,18 @@ tbody tr:hover{background:color-mix(in srgb,var(--brand-soft) 72%,transparent)}
       <div class="callout callout-brand">
         <p><strong>我们的替代打法（只讲自己真实有的）：</strong>① <strong>型号谱系全</strong>——防跳 RL-TBJ、低气压闭锁 RN-FT、非全相 RN-FB、抗干扰 RAI 这些电力专用件，通用品牌往往要东拼西凑，我们一站式配齐；② <strong>认证与报告齐全</strong>——型式试验报告完整，CQC/CCC、CE/CB 按品类持证（覆盖品类、有效期与电网入网资质一律以公司有效证书为准，不随口说都有或已入网）；③ <strong>国产替代交期与服务快</strong>——给同参数对比表 + 免费送样上机，先做"同等替代 / B 点备份"，用数据说话（接话方式见第 15 章"我们一直用进口的"那一行）。</p>
       </div>
+    </div>
+  </section>
+
+  <!-- ============ 设备百科 ============ -->
+  <section class="block reveal" id="devlib">
+    <div class="section-inner">
+      <h2 class="section-title"><span class="sec-no">设</span>设备百科<span style="font-family:var(--sans);font-size:12.5px;font-weight:500;color:var(--dim)">开关柜 · 断路器 · 变压器 · 直流屏 · 箱变 · 环网柜 · 储能 · 光伏 · 充电桩</span></h2>
+      <div class="callout callout-brand"><p>客户嘴里说的每台设备，都是「一次本体 + 二次回路」的组合。<strong>这一章按统一骨架解剖设备：它是什么、解决什么问题、里面装什么、我们的产品装在哪、客户怎么描述它、拜访时盯什么。</strong>设备细节与应用位在第四章有更完整的展开，两边对照看。</p></div>
+      <div class="lib-toolbar">
+        <input class="lib-filter" id="devFilter" type="text" placeholder="筛选设备：如 开关柜 / 直流屏 / 储能…" autocomplete="off" aria-label="筛选设备">
+      </div>
+      <div class="lib-grid" id="devGrid"></div>
     </div>
   </section>
 
@@ -1646,6 +2606,241 @@ tbody tr:hover{background:color-mix(in srgb,var(--brand-soft) 72%,transparent)}
     </div>
   </section>
 
+  <!-- ============ 应用场景百科 ============ -->
+  <section class="block reveal" id="scenelib">
+    <div class="section-inner">
+      <h2 class="section-title"><span class="sec-no">景</span>应用场景百科<span style="font-family:var(--sans);font-size:12.5px;font-weight:500;color:var(--dim)">变配电站到新能源，16 个场景一次看全</span></h2>
+      <div class="callout callout-info"><p>每个场景回答四个问题：<strong>这里有什么设备、谁在采购、客户在担心什么、我们哪几路产品能上</strong>。拜访前按场景查这一章，进门就能说行话。</p></div>
+      <div class="lib-toolbar">
+        <input class="lib-filter" id="sceneFilter" type="text" placeholder="筛选场景：如 储能 / 数据中心 / 改造…" autocomplete="off" aria-label="筛选场景">
+      </div>
+      <div class="lib-grid" id="sceneGrid"></div>
+    </div>
+  </section>
+
+  <!-- ============ 互动模型 ============ -->
+  <section class="block reveal" id="interactive">
+    <div class="section-inner">
+      <h2 class="section-title"><span class="sec-no">模</span>互动模型<span style="font-family:var(--sans);font-size:12.5px;font-weight:500;color:var(--dim)">可操作的开关柜剖面 · 保护动作链演示 · 链路 · 温控</span></h2>
+      <div class="callout callout-brand"><p>五个可以「上手操作」的模型：<strong>① KYN28 柜体剖面——每个部件都能点，分合闸、摇手车、开加热器都是真的会动、会联锁；② 保护动作链——点「模拟短路」看故障后 0.1 秒发生了什么；③ 电的旅程；④ 干变温控三级联动；⑤ GIS 汇控柜——模拟 SF6 泄漏看 RN-FT 闭锁、模拟非全相看 RN-FB 跳三相。</strong>模型为原理示意，配置以客户二次图纸与产品说明书为准。</p></div>
+      <div class="im-tabs" role="tablist" aria-label="互动模型切换">
+        <button type="button" class="im-tab on" data-tab="im-model">① KYN28 柜体交互模型</button>
+        <button type="button" class="im-tab" data-tab="im-chain">② 保护动作链 0.1s</button>
+        <button type="button" class="im-tab" data-tab="im-journey">③ 电的旅程</button>
+        <button type="button" class="im-tab" data-tab="im-dtc">④ 干变温控三级联动</button>
+<button type="button" class="im-tab" data-tab="im-gis">⑤ GIS 汇控柜模型</button>
+      </div>
+
+      <!-- 模型① KYN28 -->
+      <div class="im-panel" id="im-model">
+        <div class="im-flex">
+          <div class="im-flex-a">
+            <svg id="imSvg" class="im-svg" viewBox="0 0 480 600" role="img" aria-label="KYN28 开关柜剖面交互模型">
+              <rect x="28" y="16" width="424" height="572" rx="10" class="im-shell"/>
+              <rect x="48" y="56" width="185" height="94" rx="6" class="im-bay"/>
+              <text x="140" y="73" class="im-lab">母线室</text>
+              <g id="imBus" class="im-comp" data-id="bus">
+                <rect x="64" y="86" width="152" height="9" rx="3" class="im-busA"/>
+                <rect x="64" y="103" width="152" height="9" rx="3" class="im-busB"/>
+                <rect x="64" y="120" width="152" height="9" rx="3" class="im-busC"/>
+              </g>
+              <rect x="245" y="56" width="187" height="94" rx="6" class="im-bay"/>
+              <text x="338" y="73" class="im-lab">二次仪表室</text>
+              <g id="imLamp" class="im-comp" data-id="lamp">
+                <circle id="lampHR" cx="274" cy="86" r="7" class="lampR on"/>
+                <circle id="lampHG" cx="296" cy="86" r="7" class="lampG"/>
+                <text x="330" y="91" class="im-txt">HR / HG</text>
+              </g>
+              <g class="im-comp" data-id="sa"><rect x="398" y="76" width="24" height="24" rx="4" class="im-part"/><text x="410" y="92" class="im-txt2" text-anchor="middle">SA</text></g>
+              <g class="im-comp" data-id="rc"><rect x="256" y="102" width="40" height="20" rx="3" class="im-part"/><text x="276" y="116" class="im-txt2" text-anchor="middle">RC</text></g>
+              <g class="im-comp" data-id="rltbj"><rect x="302" y="102" width="48" height="20" rx="3" class="im-part"/><text x="326" y="116" class="im-txt2" text-anchor="middle">RL-TBJ</text></g>
+              <g class="im-comp" data-id="rlthw"><rect x="356" y="102" width="52" height="20" rx="3" class="im-part"/><text x="382" y="116" class="im-txt2" text-anchor="middle">RL-THW</text></g>
+              <g class="im-comp" data-id="ydsp"><rect x="256" y="128" width="64" height="16" rx="3" class="im-part"/><text x="288" y="140" class="im-txt2" text-anchor="middle">YDSP</text></g>
+              <rect x="48" y="168" width="384" height="184" rx="6" class="im-bay"/>
+              <text x="70" y="186" class="im-lab">断路器室</text>
+              <rect id="imSh1" x="152" y="174" width="72" height="12" class="im-shutter"/>
+              <rect id="imSh2" x="256" y="174" width="72" height="12" class="im-shutter"/>
+              <g id="imCart" class="im-comp" data-id="cart">
+                <line id="imConnU" x1="186" y1="186" x2="186" y2="226" class="im-wire"/>
+                <line id="imConnL" x1="292" y1="186" x2="292" y2="226" class="im-wire"/>
+                <rect x="122" y="226" width="234" height="88" rx="8" class="im-part"/>
+                <rect x="152" y="238" width="172" height="48" rx="6" fill="#3c4c5c" data-id="vcb"/>
+                <text x="238" y="266" fill="#dfe9f4" font-size="13" text-anchor="middle" font-weight="700">VCB · VS1</text>
+                <text x="238" y="300" class="im-txt2" text-anchor="middle">断路器手车</text>
+                <circle cx="150" cy="304" r="7" fill="#5b6874"/><circle cx="328" cy="304" r="7" fill="#5b6874"/>
+              </g>
+              <rect x="48" y="372" width="384" height="200" rx="6" class="im-bay"/>
+              <text x="70" y="390" class="im-lab">电缆室</text>
+              <g class="im-comp" data-id="ct">
+                <circle cx="120" cy="436" r="14" class="im-ct"/><circle cx="178" cy="436" r="14" class="im-ct"/><circle cx="236" cy="436" r="14" class="im-ct"/>
+                <text x="178" y="468" class="im-txt2" text-anchor="middle">CT ×3</text>
+              </g>
+              <g class="im-comp" data-id="cable">
+                <path d="M120 452 C 120 502, 112 514, 106 556" class="im-cable"/>
+                <path d="M178 452 C 178 506, 172 518, 168 556" class="im-cable"/>
+                <path d="M236 452 C 236 502, 230 516, 230 556" class="im-cable"/>
+              </g>
+              <g class="im-comp" data-id="earths"><rect x="290" y="420" width="56" height="30" rx="5" class="im-part"/><text x="318" y="439" class="im-txt2" text-anchor="middle">接地开关</text></g>
+              <g class="im-comp" data-id="arrester"><rect x="368" y="410" width="30" height="54" rx="5" class="im-part"/><text x="383" y="441" class="im-txt2" text-anchor="middle">避雷器</text></g>
+              <g class="im-comp" data-id="term"><rect x="290" y="476" width="108" height="18" rx="4" class="im-part"/><text x="344" y="489" class="im-txt2" text-anchor="middle">端子排 XT</text></g>
+              <g class="im-comp" data-id="heater"><rect id="imHeaterBox" x="70" y="510" width="96" height="22" rx="5" class="im-part"/><text x="118" y="525" class="im-txt2" text-anchor="middle">加热器 · THC 控制</text></g>
+            </svg>
+            <div class="im-ops">
+              <button type="button" id="opBrk" class="im-op primary">分 闸</button>
+              <button type="button" id="opCart" class="im-op">手车：工作位置 →</button>
+              <button type="button" id="opHeat" class="im-op">加热器：关</button>
+              <span class="im-status" id="imStatus" aria-live="polite"></span>
+            </div>
+          </div>
+          <div class="im-flex-b">
+            <div class="im-detail" id="imCompDetail" style="margin-top:0;border-top:none;padding-top:0" aria-live="polite"></div>
+          </div>
+        </div>
+        <p class="kbd-hint" style="margin-top:14px">操作提示：点「合闸/分闸」看红绿灯与带电母线变化；点「手车」在 工作 → 试验 → 检修 间轮换（合闸状态下摇手车会先自动分闸——这就是五防联锁）；点击剖面里的任何色块查看部件说明与对应产品。初始状态默认为：合闸 · 工作位置 · 加热器关。</p>
+      </div>
+
+      <!-- 模型② 保护动作链 -->
+      <div class="im-panel" id="im-chain" hidden>
+        <div class="pc-ctl">
+          <button type="button" id="pcRun" class="pc-btn">▶ 模拟短路</button>
+          <button type="button" id="pcReset" class="pc-btn ghost">重 置</button>
+          <span class="pc-ms" id="pcMs">0 ms</span>
+          <span class="pc-note">从短路到信号上报的完整时序（时间累计为示意量级）</span>
+        </div>
+        <div class="pc-chain" id="pcChain"></div>
+        <div class="im-detail" id="pcDetail" aria-live="polite"></div>
+      </div>
+
+      <!-- 模型③ 电的旅程 -->
+      <div class="im-panel" id="im-journey" hidden>
+        <p class="im-hint">点击每一站，看「这里有什么 · 我们的机会在哪」</p>
+        <div class="im-way" id="imWay"></div>
+        <div class="im-detail" id="imWayDetail" aria-live="polite"></div>
+      </div>
+
+      <!-- 模型④ 干变温控 -->
+      <div class="im-panel" id="im-dtc" hidden>
+        <div class="im-dtc">
+          <div class="im-dtc-left">
+            <p style="font-weight:800;margin-bottom:6px">模拟绕组温度：<span class="dt-v">60℃</span></p>
+            <input type="range" min="40" max="160" value="60" class="dt-slider im-dtc-slider" aria-label="模拟绕组温度滑块">
+            <p class="kbd-hint">拖动滑块模拟升温。示例整定：告警 90℃ / 启风机 110℃ / 超温跳闸 130℃（实际以产品说明书与客户整定为准）。三级动作：先告警 → 再启风机 → 最后跳闸。</p>
+            <div style="margin-top:14px">
+              <div class="dt-lamp" data-stage="1"><span class="led"></span><div><b>一级 · 超温告警</b><div class="kbd-hint">≥90℃：DTC 输出告警接点 → 光字牌 / 后台提示</div></div></div>
+              <div class="dt-lamp" data-stage="2"><span class="led"></span><div><b>二级 · 启动风机</b><div class="kbd-hint">≥110℃：自动启动冷却风机强冷降温</div></div></div>
+              <div class="dt-lamp" data-stage="3"><span class="led"></span><div><b>三级 · 超温跳闸</b><div class="kbd-hint">≥130℃：输出跳闸接点直接跳开断路器</div></div></div>
+            </div>
+          </div>
+          <div class="im-dtc-right">
+            <div class="dt-fan" id="dtFan" aria-hidden="true"></div>
+            <p style="font-size:12px;color:var(--dim);margin-top:10px" id="dtStatus">干变正常运行</p>
+            <div class="rel-chips" style="margin-top:14px"><b>对应产品（点击查看档案）</b><div>
+              <button type="button" class="tag" data-im-prod="DTC">DTC 干变温控器</button>
+              <button type="button" class="tag" data-im-prod="TCC">TCC 风机报警器</button>
+              <button type="button" class="tag" data-term="PT100">PT100</button>
+            </div></div>
+          </div>
+        </div>
+      </div>
+      <!-- 模型⑤ GIS 汇控柜 -->
+      <div class="im-panel" id="im-gis" hidden>
+        <div class="im-flex">
+          <div class="im-flex-a">
+            <svg id="gisSvg" class="gis-svg" viewBox="0 0 560 620" role="img" aria-label="GIS 间隔与汇控柜交互模型">
+              <rect x="20" y="52" width="290" height="548" rx="10" class="gis-bay"/>
+              <text x="46" y="76" class="gis-lab">GIS 间隔（单线示意）</text>
+              <g class="gis-comp" data-gid="drum">
+                <rect x="44" y="96" width="242" height="56" rx="27" class="gis-tank"/>
+                <rect x="60" y="118" width="210" height="6" rx="3" class="gis-cond"/>
+                <circle cx="90" cy="121" r="4" class="gis-gas"/><circle cx="140" cy="115" r="4" class="gis-gas"/><circle cx="200" cy="122" r="4" class="gis-gas"/><circle cx="252" cy="116" r="4" class="gis-gas"/>
+              </g>
+              <text x="46" y="172" class="gis-lab2">SF6 母线气室（绝缘 + 灭弧气体全封闭在筒内）</text>
+              <g class="gis-comp" data-gid="bushing">
+                <rect x="300" y="34" width="26" height="74" rx="11" class="gis-part" transform="rotate(32 313 71)"/>
+                <text x="286" y="40" class="gis-txt">出线套管</text>
+              </g>
+              <path d="M186 152 L186 208" class="gis-cond"/>
+              <g class="gis-comp" data-gid="brk">
+                <rect x="118" y="208" width="96" height="124" rx="32" class="gis-tank"/>
+                <line x1="166" y1="222" x2="166" y2="258" class="gis-cond"/>
+                <line x1="166" y1="290" x2="166" y2="322" class="gis-cond"/>
+                <rect id="gisBrkContact" x="154" y="258" width="24" height="26" rx="5" fill="#5CC8B0"/>
+                <text x="166" y="248" class="gis-txt" text-anchor="middle" fill="#dfe9f4">断路器</text>
+              </g>
+              <text x="46" y="352" class="gis-lab2">断路器气室（SF6 灭弧 · 气压低要闭锁）</text>
+              <g class="gis-comp" data-gid="dis3">
+                <rect x="104" y="368" width="124" height="56" rx="8" class="gis-part"/>
+                <line x1="128" y1="382" x2="204" y2="382" class="gis-cond"/>
+                <line x1="166" y1="382" x2="166" y2="410" class="gis-cond"/>
+                <text x="166" y="402" class="gis-txt" text-anchor="middle">三工位开关</text>
+              </g>
+              <text x="46" y="444" class="gis-lab2">隔离合 — 分 — 接地合，一把刀三位置</text>
+              <g class="gis-comp" data-gid="ct">
+                <circle cx="166" cy="478" r="17" class="gis-ct"/>
+                <text x="166" y="483" class="gis-txt" text-anchor="middle">CT</text>
+              </g>
+              <g id="gisPoles">
+                <circle id="gisPA" cx="112" cy="530" r="11" class="gis-pole on"/>
+                <circle id="gisPB" cx="164" cy="530" r="11" class="gis-pole on"/>
+                <circle id="gisPC" cx="216" cy="530" r="11" class="gis-pole on"/>
+                <text x="112" y="534" class="gis-txt" text-anchor="middle" fill="#fff">A</text>
+                <text x="164" y="534" class="gis-txt" text-anchor="middle" fill="#fff">B</text>
+                <text x="216" y="534" class="gis-txt" text-anchor="middle" fill="#fff">C</text>
+              </g>
+              <text x="46" y="562" class="gis-lab2">分相机构（220kV+ 各相独立操作）</text>
+              <rect x="330" y="88" width="210" height="492" rx="10" class="gis-frame"/>
+              <text x="435" y="112" class="gis-lab" text-anchor="middle">汇控柜（LCC）</text>
+              <path d="M206 176 C 260 168, 330 158, 392 162" class="gis-conn"/>
+              <g class="gis-comp" data-gid="gauge">
+                <circle cx="435" cy="176" r="36" class="gis-part"/>
+                <path d="M407.4 151.1 A 36 36 0 0 1 417 143.2" class="gis-zone-lock"/>
+                <path d="M417 143.2 A 36 36 0 0 1 431.3 141.1" class="gis-zone-warn"/>
+                <path d="M431.3 141.1 A 36 36 0 0 1 464.5 149.3" class="gis-zone-ok"/>
+                <line id="gisNeedle" x1="435" y1="176" x2="435" y2="148" class="gis-needle"/>
+                <circle cx="435" cy="176" r="4" fill="var(--line-strong)"/>
+                <text x="435" y="230" class="gis-txt" text-anchor="middle">SF6 密度继电器</text>
+              </g>
+              <g class="gis-comp" data-gid="rnft"><rect id="gisRNFT" x="348" y="248" width="80" height="28" rx="4" class="gis-part gis-relay"/><text x="388" y="266" class="gis-txt" text-anchor="middle">RN-FT</text></g>
+              <g class="gis-comp" data-gid="rnfb"><rect id="gisRNFB" x="436" y="248" width="80" height="28" rx="4" class="gis-part gis-relay"/><text x="476" y="266" class="gis-txt" text-anchor="middle">RN-FB</text></g>
+              <g class="gis-comp" data-gid="rltbj"><rect x="348" y="288" width="80" height="28" rx="4" class="gis-part gis-relay"/><text x="388" y="306" class="gis-txt" text-anchor="middle">RL-TBJ</text></g>
+              <g class="gis-comp" data-gid="rlthw"><rect x="436" y="288" width="80" height="28" rx="4" class="gis-part gis-relay"/><text x="476" y="306" class="gis-txt" text-anchor="middle">RL-THW</text></g>
+              <g class="gis-comp" data-gid="rdp"><rect x="348" y="328" width="80" height="28" rx="4" class="gis-part gis-relay"/><text x="388" y="346" class="gis-txt" text-anchor="middle">RDP</text></g>
+              <g class="gis-comp" data-gid="thc"><rect x="436" y="328" width="80" height="28" rx="4" class="gis-part gis-relay"/><text x="476" y="346" class="gis-txt" text-anchor="middle">THC</text></g>
+              <g class="gis-comp" data-gid="ydsp"><rect x="348" y="368" width="80" height="28" rx="4" class="gis-part gis-relay"/><text x="388" y="386" class="gis-txt" text-anchor="middle">YDSP</text></g>
+              <g id="gisPoleLamp" class="gis-comp" data-gid="rnfb">
+                <circle id="gisLA" cx="448" cy="382" r="9" class="gis-pole on"/>
+                <circle id="gisLB" cx="472" cy="382" r="9" class="gis-pole on"/>
+                <circle id="gisLC" cx="496" cy="382" r="9" class="gis-pole on"/>
+                <text x="448" y="386" class="gis-txt" text-anchor="middle" fill="#fff">A</text>
+                <text x="472" y="386" class="gis-txt" text-anchor="middle" fill="#fff">B</text>
+                <text x="496" y="386" class="gis-txt" text-anchor="middle" fill="#fff">C</text>
+              </g>
+              <text x="435" y="416" class="gis-lab2" text-anchor="middle">三相位置监视（RN-FB）</text>
+              <g class="gis-comp" data-gid="lcc">
+                <rect x="348" y="436" width="168" height="120" rx="6" class="gis-part" style="opacity:.65"/>
+                <text x="432" y="482" class="gis-txt" text-anchor="middle">端子排 · 回路 · 联锁</text>
+                <text x="432" y="500" class="gis-txt" text-anchor="middle">加热驱潮 · 操作电源</text>
+              </g>
+            </svg>
+            <div class="im-ops">
+              <button type="button" id="gisBrk" class="im-op primary">分 闸</button>
+              <button type="button" id="gisLeak" class="im-op">模拟 SF6 泄漏</button>
+              <button type="button" id="gisFill" class="im-op">充气复位</button>
+              <button type="button" id="gisPole" class="im-op">模拟非全相</button>
+              <span class="im-status" id="gisStatus" aria-live="polite"></span>
+            </div>
+          </div>
+          <div class="im-flex-b">
+            <div class="im-detail" id="gisDetail" style="margin-top:0;border-top:none;padding-top:0" aria-live="polite"></div>
+          </div>
+        </div>
+        <p class="kbd-hint" style="margin-top:14px">操作提示：① 点「模拟 SF6 泄漏」——压力表指针回落，先报警、到闭锁值后 RN-FT 直接锁死分合闸回路（此时点分合闸会被拒绝），补气后解除；② 合闸运行中点「模拟非全相」——A/B 合、C 拒分，RN-FB 延时动作把三相全部跳开；③ 点击剖面色块查看部件说明与对应产品。压力数值为演示量级。</p>
+      </div>
+
+
+    </div>
+  </section>
+
   <!-- ============ 五 制造模式 ============ -->
   <section class="block reveal" id="ch5">
     <div class="section-inner">
@@ -2055,6 +3250,129 @@ tbody tr:hover{background:color-mix(in srgb,var(--brand-soft) 72%,transparent)}
     </div>
   </section>
 
+  <!-- ============ 销售现场工具 ============ -->
+  <section class="block reveal" id="tools">
+    <div class="section-inner">
+      <h2 class="section-title"><span class="sec-no">具</span>销售现场工具<span style="font-family:var(--sans);font-size:12.5px;font-weight:500;color:var(--dim)">不是考试 · 出发前和现场直接用 · 勾选自动保存</span></h2>
+      <div class="callout callout-brand"><p>这里是「用时即取」的工具箱：手机上打开对应卡片，勾选状态自动保存在本机，话术和清单可以一键复制发给同事。<strong>所有清单都只是现场提醒，最终以客户图纸、BOM 和公司正式资料为准。</strong></p></div>
+
+      <div class="tool-grid">
+        <div class="tool-card">
+          <h4><span class="dot"></span>客户身份快速判断</h4>
+          <p>对方一句话报身份，30 秒定位类型与优先级（详见 <a class="tool-link" href="#ch1">1.9 自称词速查</a>、<a class="tool-link" href="#ch1">1.12 拓客优先级</a>）：</p>
+          <div class="tbl mini-tbl"><table>
+            <thead><tr><th>对方说</th><th>身份</th><th>打法</th></tr></thead>
+            <tbody>
+              <tr><td>"我们做干变 / 直流屏 / 断路器的"</td><td>P0 本体厂</td><td>深聊约拜访，送样进 BOM</td></tr>
+              <tr><td>"我们是设计院"</td><td>P1 选型源头</td><td>送资料混脸熟，目标进图纸</td></tr>
+              <tr><td>"我们做储能舱 / 光伏集成"</td><td>P3 集成商</td><td>深聊，整舱配套一单配齐</td></tr>
+              <tr><td>"我们做开关柜 / 柜子的"</td><td>P4 成套厂</td><td>问清图纸谁画，先别急投入</td></tr>
+              <tr><td>"我们是 EPC / 总包"</td><td>项目渠道</td><td>跟项目走，盯中标公告</td></tr>
+              <tr><td>只问价、不谈技术</td><td>贸易商</td><td>留联系方式，不投入</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+
+        <div class="tool-card">
+          <h4><span class="dot"></span>客户需求追问清单<span style="font-size:11px;color:var(--dim);font-weight:500">（选型七问，出自 2.7）</span></h4>
+          <div class="checklist" data-ck="tool-ask">
+            <label><input type="checkbox"><span>线圈 / 辅助电源：AC 还是 DC？多少伏？（AC220 / DC220 / DC110）</span></label>
+            <label><input type="checkbox"><span>触点形式与对数：几常开几常闭？（H/D/Z）</span></label>
+            <label><input type="checkbox"><span>触点容量与负载：带多大电流？阻性还是感性？</span></label>
+            <label><input type="checkbox"><span>要实现的功能：放大 / 防跳 / 延时 / 双位置 / 切换 / 监视 / 变送？</span></label>
+            <label><input type="checkbox"><span>整定范围：过流过压整定多少、可调区间？</span></label>
+            <label><input type="checkbox"><span>动作时间 / 有无辅助电源：要 ≤7ms 快速型？无源型？</span></label>
+            <label><input type="checkbox"><span>输出制式 / 安装 / 认证：4-20mA 还是 RS485？要什么证？</span></label>
+          </div>
+          <p style="font-size:12px;color:var(--dim)">问不全就回公司找技术确认，别凭感觉报型号。</p>
+        </div>
+
+        <div class="tool-card">
+          <h4><span class="dot"></span>产品选型确认清单</h4>
+          <div class="checklist" data-ck="tool-select">
+            <label><input type="checkbox"><span>电压等级与交直流已确认（一次侧 / 二次侧分清）</span></label>
+            <label><input type="checkbox"><span>CT/PT 变比按二次值核对（如 600/5 按 5A 算）</span></label>
+            <label><input type="checkbox"><span>触点容量 ≥ 负载需求，感性负载已降容考虑</span></label>
+            <label><input type="checkbox"><span>整定范围覆盖客户整定值</span></label>
+            <label><input type="checkbox"><span>安装方式（导轨 / 嵌入 / 可拔插）与柜内空间确认</span></label>
+            <label><input type="checkbox"><span>通信制式（4-20mA / RS485 MODBUS）与后台对接确认</span></label>
+            <label><input type="checkbox"><span>所需认证（CCC / CQC / CE / 型式试验 / 入网）已核实证书有效</span></label>
+            <label><input type="checkbox"><span>参数拿不准的项已回公司技术确认，未凭手册直接承诺</span></label>
+          </div>
+        </div>
+
+        <div class="tool-card">
+          <h4><span class="dot"></span>报价前确认清单<span style="font-size:11px;color:var(--dim);font-weight:500">（六件事，出自第十章）</span></h4>
+          <div class="checklist" data-ck="tool-quote">
+            <label><input type="checkbox"><span>含税还是未税（13% 专票差 13 个点）</span></label>
+            <label><input type="checkbox"><span>运费谁出：含运还是到付，写进报价单</span></label>
+            <label><input type="checkbox"><span>账期 / 预付：新客户款到发货或预付 30%+</span></label>
+            <label><input type="checkbox"><span>开什么票、抬头开谁：三流一致</span></label>
+            <label><input type="checkbox"><span>质保与质保金：几年、押多少、何时释放</span></label>
+            <label><input type="checkbox"><span>货期：客户要的日期能否满足、超期怎么算</span></label>
+          </div>
+          <p style="font-size:12px;color:var(--dim)">报价单必填项逐条核对见 <a class="tool-link" href="#ch9">9.5</a>。</p>
+        </div>
+
+        <div class="tool-card">
+          <h4><span class="dot"></span>客户异议速答<span style="font-size:11px;color:var(--dim);font-weight:500">（完整版见第十五章）</span></h4>
+          <ul>
+            <li><strong>"太贵了"</strong> → 先问和谁比，拆参数给总成本账，量起来可谈年降。</li>
+            <li><strong>"国产小厂质量行吗"</strong> → 不辩解，摆证书 + 型式试验 + 送样上机测试。</li>
+            <li><strong>"一直用进口的"</strong> → 承认优点，给同等替代对比表，先小批量试用。</li>
+            <li><strong>"图纸定型了"</strong> → 不硬推，转攻下一代平台立项或备件渠道。</li>
+            <li><strong>"再降 5 个点就下单"</strong> → 不裸降，用提量、预付、账期、框架换。</li>
+          </ul>
+          <p><a class="tool-link" href="#ch15">查看全部异议应对 →</a></p>
+        </div>
+
+        <div class="tool-card">
+          <h4><span class="dot"></span>会后跟进清单<span style="font-size:11px;color:var(--dim);font-weight:500">（24 小时内）</span></h4>
+          <div class="checklist" data-ck="tool-follow">
+            <label><input type="checkbox"><span>发会议纪要（需求 + 承诺 + 下一步）</span></label>
+            <label><input type="checkbox"><span>发资料 / 报价单（按 9.5 清单核对）</span></label>
+            <label><input type="checkbox"><span>记 CRM / 台账：客户类型、联系人、角色、需求</span></label>
+            <label><input type="checkbox"><span>约定下次节点（送样 / 技术交流 / 审厂）</span></label>
+            <label><input type="checkbox"><span>有承诺参数的，已回公司核实并书面确认</span></label>
+          </div>
+        </div>
+
+        <div class="tool-card">
+          <h4><span class="dot"></span>三张现场速查表</h4>
+          <ul>
+            <li><a class="tool-link" href="#p410">产品 → 场景速查表</a>：客户嘴里蹦出关键词，直接接对应产品（4.10）。</li>
+            <li><a class="tool-link" href="#ch14">客户语言翻译表</a>：客户说"走流程""图纸定型了"是什么意思（十四章）。</li>
+            <li><a class="tool-link" href="#ch4">设备与产品对应表</a>：客户做什么设备，我带什么产品上门（4.11）。</li>
+          </ul>
+          <p style="font-size:12px;color:var(--dim)">再加一张数字表：<a class="tool-link" href="#ch1">1.11 行业数字速查</a>，客户报数字 2 秒反应是哪个量。</p>
+        </div>
+
+        <div class="tool-card">
+          <h4><span class="dot"></span>拜访前准备清单<span style="font-size:11px;color:var(--dim);font-weight:500">（出发前 10 分钟）</span></h4>
+          <ul>
+            <li>对方是谁：类型 / 档位 / 主做产品 / 谁说了算（附3 第 1 组）。</li>
+            <li>我方带什么：名片、样册、样品、对比表、资质复印件、报价模板。</li>
+            <li>必问清单：场景、柜型、电源、触点、用量、谁选型、送样、合作路径。</li>
+          </ul>
+          <p><a class="tool-link" href="#app3">打开完整版拜访 Checklist（可打勾保存）→</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 行业术语百科 ============ -->
+  <section class="block reveal" id="termlib">
+    <div class="section-inner">
+      <h2 class="section-title"><span class="sec-no">术</span>行业术语百科<span style="font-family:var(--sans);font-size:12.5px;font-weight:500;color:var(--dim)">点击词条看解释 · 正文里的术语也可直接点击</span></h2>
+      <div class="callout callout-info"><p>把行业术语、英文缩写、设备代号、商务术语和客户黑话收进一本可搜索的词条库。<strong>每个词条给三层解释：一句话 → 通俗版 → 专业版</strong>，并标注客户可能的说法和销售回应建议。正文中出现这些术语的位置也可以直接点击弹出解释。</p></div>
+      <div class="lib-toolbar">
+        <input class="lib-filter" id="termFilter" type="text" placeholder="搜索术语：如 防跳 / BOM / 备自投 / PCS…" autocomplete="off" aria-label="搜索术语">
+        <div class="chipbar" id="termCats" role="group" aria-label="术语分类筛选"></div>
+      </div>
+      <div class="flash-grid" id="termGrid"></div>
+    </div>
+  </section>
+
   <!-- ============ 附1 商业新词速记卡 ============ -->
   <section class="block reveal" id="app1">
     <div class="section-inner">
@@ -2223,7 +3541,7 @@ tbody tr:hover{background:color-mix(in srgb,var(--brand-soft) 72%,transparent)}
       </div>
       <p>本手册为销售内部学习与参考材料，产品参数与型号信息以本公司官方发布的产品说明书及手册为准，产品规格可能变更，恕不另行通知。</p>
     </div>
-    <div class="footer-copy">让电力更安全 · 销售速查手册 V8.5</div>
+    <div class="footer-copy">让电力更安全 · sinouse 电力电气行业百科手册 V9.0</div>
   </div>
 </main>
 
@@ -2275,16 +3593,24 @@ document.querySelectorAll('.reveal').forEach(function(el){
 var sections = Array.prototype.slice.call(document.querySelectorAll('section.block'));
 var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav-link'));
 var backTop = document.getElementById('backTop');
+var navRaf = 0;
 function onScroll(){
-  var y = window.scrollY + 140;
-  var current = sections[0];
-  sections.forEach(function(s){ if(s.offsetTop <= y) current = s; });
-  navLinks.forEach(function(a){
-    a.classList.toggle('active', a.getAttribute('href') === '#' + current.id);
+  if(navRaf) return;
+  navRaf = requestAnimationFrame(function(){
+    navRaf = 0;
+    var y = window.scrollY + 140;
+    /* content-visibility 下 offsetTop 读取成本低：先读后写，避免布局抖动 */
+    var tops = sections.map(function(s){ return s.offsetTop; });
+    var current = sections[0];
+    for(var i=0;i<sections.length;i++){ if(tops[i] <= y) current = sections[i]; }
+    navLinks.forEach(function(a){
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current.id);
+    });
+    backTop.classList.toggle('show', window.scrollY > 500);
   });
-  backTop.classList.toggle('show', window.scrollY > 500);
 }
 window.addEventListener('scroll', onScroll, {passive:true});
+window.addEventListener('resize', onScroll);
 backTop.addEventListener('click', function(){ window.scrollTo({top:0, behavior:'smooth'}); });
 onScroll();
 
@@ -2297,27 +3623,34 @@ onScroll();
   function escRe(t){ return t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
   /* 建立细粒度索引：整章 + 每个小节标题/速记卡/表格行/提示块/最内层条目 */
   var IDX=[];
+  function buildIdx(){
   document.querySelectorAll('section.block').forEach(function(sec){
     var secTitle=((sec.querySelector('.section-title')||{}).textContent||sec.id).replace(/\s+/g,' ').trim();
     IDX.push({el:sec,sub:secTitle,label:secTitle,raw:secTitle,ntext:norm(secTitle),nlabel:norm(secTitle),nsub:norm(secTitle)});
     var curSub=secTitle;
-    sec.querySelectorAll('h3.sub,.flash,tbody tr,.callout,li').forEach(function(n){
+    sec.querySelectorAll('h3.sub,.flash,tbody tr,.callout,li,.lib-card').forEach(function(n){
       var tag=n.tagName;
       if(tag==='H3'){ curSub=n.textContent.replace(/\s+/g,' ').trim(); }
       if(tag==='LI'){
         if(n.querySelector('table,.flash,.callout,ul,ol')) return;  /* 只收最内层,避免嵌套重复 */
         if(n.closest('.callout,.flash,table')) return;               /* 不与卡片/表行/提示块重复 */
       }
+      if(n.classList&&n.classList.contains('lib-card')&&n.closest('#termGrid')) return; /* 术语卡由 .flash 分支收 */
       var raw=(n.textContent||'').replace(/\s+/g,' ').trim();
       if(raw.length<2) return;
       var label=curSub;
       if(n.classList&&n.classList.contains('flash')){ var t=n.querySelector('.term'); if(t) label=t.textContent.trim(); }
+      else if(n.classList&&n.classList.contains('lib-card')){ var h4=n.querySelector('h4'); if(h4) label=h4.textContent.trim(); }
       else if(tag==='TR'){ var c=n.querySelector('.m-name,th,td'); if(c) label=c.textContent.replace(/\s+/g,' ').trim(); }
       else if(tag==='H3'){ label=curSub; }
       var head=curSub+' '+secTitle;
       IDX.push({el:n,sub:curSub,label:label,raw:raw,ntext:norm(raw),nlabel:norm(label),nsub:norm(head)});
     });
   });
+  }
+  buildIdx();
+  /* 供百科增强脚本在动态渲染新条目后重建索引 */
+  window.__snRebuildSidebarSearch=function(){ IDX.length=0; buildIdx(); };
   var hits=[],active=-1;
   function render(){
     box.innerHTML=''; active=-1;
@@ -2398,8 +3731,10 @@ document.querySelectorAll('.checklist input[type="checkbox"]').forEach(function(
       var h=(d.scrollHeight||document.body.scrollHeight)-(d.clientHeight||0);
       rp.style.width=(h>0?Math.min(100,(st/h*100)):0)+'%';
     }
-    window.addEventListener('scroll',upd,{passive:true});
-    window.addEventListener('resize',upd);
+    var praf=0;
+    function pUpd(){ if(praf)return; praf=requestAnimationFrame(function(){praf=0;upd();}); }
+    window.addEventListener('scroll',pUpd,{passive:true});
+    window.addEventListener('resize',pUpd);
     upd();
   }catch(e){}
   /* 目录高亮跟随滚动 */
@@ -2426,7 +3761,2008 @@ document.querySelectorAll('.checklist input[type="checkbox"]').forEach(function(
 })();
 </script>
 
+<script>
+/* ============================================================
+   sinouse 百科数据层
+   数据全部取自本手册原有内容整理；未经公司确认的信息一律标注
+   「待公司资料确认」。修改数据请同步核对对应章节原文。
+   ============================================================ */
+window.SN = window.SN || {};
+
+/* ---------- 产品百科（统一条目） ---------- */
+SN.PRODUCTS = [
+{id:"RC",n:"中间继电器",m:"RC / RC-F / RC-V / RC-M / RC-P",fam:"继电器",cat:"单位置",find:"RC/RC-F",
+ s:"信号放大、隔离、多路输出的“多路开关”，柜内用量最大的继电器。",
+ p:"用一路弱电信号，同时控制好几路强电通断：保护装置、PLC 出来的小信号带不动跳闸线圈和指示灯，靠它放大、隔离、一分多路。",
+ pr:"电磁式单位置继电器：线圈得电吸合衔铁带动多组机械触点（H 常开 / D 常闭 / Z 转换组合），单稳态、靠线圈持续通电保持、无需辅助电源。",
+ where:"开关柜二次室、直流屏、汇控柜、各类控制箱的导轨上。",
+ dev:"KYN28 中置柜、环网柜、直流屏、汇控柜、MCC 抽屉柜、消防/电梯控制柜。",
+ cust:"成套厂（按图配套）、断路器/机构厂、直流屏厂、新能源集成商。",
+ param:"触点 2Z/4Z/6Z/8Z 可选；RC-F 动作 ≤7ms；RC-V 直流 10A 220VDC（交流档 12A 250VAC）；RC-M 5A；RC-P 2Z=10A、4Z=5A——均以最新说明书为准。",
+ sel:"先问辅助电源与触点形式；要快选 RC-F，直流负载选 RC-V，组合要求多选 RC-M，柜挤/不停电更换选 RC-P。",
+ alt:"菲尼克斯、魏德米勒、和泉、欧姆龙等插拔式接口继电器（同等替代路线：参数对比表 + 免费送样上机）。",
+ misuse:"把“中间继电器”当成单一型号报价——家族五档用途不同；忽略感性负载要降容。",
+ say:"“二次室出口继电器”“触点不够用”“要快动作”“柜子太挤”“要不停电更换”。",
+ ask:"给继电器供什么电？带什么负载、多大电流？几常开几常闭？要不要快速动作？",
+ scenes:["变配电站","工业配电","工厂自动化","楼宇配电","新能源"],
+ relp:["RL-TBJ","RT","RAI"],relt:["常开常闭","触点容量","二次设备"],
+ confirm:"各档电压规格、接点组合与认证覆盖以公司最新说明书与有效证书为准。"},
+
+{id:"RAI",n:"抗干扰继电器",m:"RAI / RAI-V",fam:"继电器",cat:"单位置·抗干扰",find:"RAI/RAI-V",
+ s:"强电磁环境（变频器旁、矿下、试验场）用的加强版中间继电器。",
+ p:"普通继电器在变频器旁边容易被干扰“自己动作”，RAI 启动功率大、抗工频 220V 持续输入不误动，干扰再大也不误跳。",
+ pr:"高抗扰度电磁继电器：启动功率＞5W、防反接、防烧、持续 220VAC 工频输入不动作、动作电压 55%~65%UN、动作时间 10~35ms；RAI-V 为直流负载型（动作电压 55%~80%UN，可切直流负载 10A 220VDC）。",
+ where:"变频柜旁、矿山井下、试验场等强电磁干扰环境的控制回路。",
+ dev:"变频柜、软启动柜、起重/港口机械、矿山防爆配电设备。",
+ cust:"变频柜配套厂、起重机械厂、矿山设备厂。",
+ param:"启动功率＞5W；动作电压 55%~65%UN；动作时间 10~35ms（RAI-V 55%~80%UN）——以说明书为准。",
+ sel:"客户提“误动”“EMC 要求高”“变频器干扰”即联想此系列；直流负载选 RAI-V。",
+ alt:"进口品牌抗干扰型继电器；或用中间继电器+隔离措施组合（成本更高）。",
+ misuse:"把它当普通中间继电器比价——核心价值在抗扰指标，不在触点数量。",
+ say:"“变频器旁边老误动”“EMC 要求高”“要抗干扰的”。",
+ ask:"现场干扰源是什么（变频器/大电流起吊）？动作电压范围要求？直流还是交流负载？",
+ scenes:["工业自动化","冶金","新能源"],
+ relp:["RC"],relt:["电磁式继电器","触点容量"],
+ confirm:"抗扰度具体指标与试验报告以公司资料为准。"},
+
+{id:"RDP",n:"双位置继电器",m:"RDP / RDP-E / RDP-S / RDP-L / RDP-PTCD",fam:"继电器",cat:"双位置",find:"双位置 RDP",
+ s:"记住“合/分”两个位置、失电也不忘的位置保持继电器。",
+ p:"断路器、刀闸在哪个位置这件事，不能因为一断电就忘——RDP 像有“记忆”一样把状态锁住，用于位置指示、信号重动和回路监视。",
+ pr:"磁保持（永磁）双稳态继电器：正/反脉冲切换状态，线圈断电后靠永磁力保持；RDP-E 互锁型可脉冲/持续通电，RDP-S 单线圈翻转，RDP-L 带 LOCKOUT 复位与指示灯，RDP-PTCD 用于 PT 二次电压重动（防 PT 反向充电）。",
+ where:"直流屏、保护屏、汇控柜、需要失电保持位置信号的二次回路。",
+ dev:"直流屏、KYN28、GIS 汇控柜、三工位开关位置重动回路。",
+ cust:"直流屏厂、成套厂、GIS/断路器厂。",
+ param:"触点电流：RDP / RDP-E 默认 5A 可选 8A（-8A），RDP-S 5A，RDP-L 8A——以说明书为准。",
+ sel:"要“脉冲驱动、断电保持”选它；注意与 RVSD 双母线切换、RL-THW 跳合位监视的分工。",
+ alt:"同行为双位置专用件；通用中间继电器+自保持接线替代（接线复杂）。",
+ misuse:"和电气自保持（RL-HBJ 靠触点锁线圈）混为一谈；PTCD 与 RVSD 报混（一个管 PT 重动、一个管母线切换）。",
+ say:"“位置保持”“失电不忘”“双稳态”“三工位位置要上传”。",
+ ask:"是两态还是三态信号？要不要失电保持？接点随什么辅助接点投切？",
+ scenes:["变配电站","新能源"],
+ relp:["RL-THW","RVS"],relt:["双位置继电器","三工位"],
+ confirm:"—"},
+
+{id:"RMY",n:"电压继电器",m:"RMY / RMY-K / RMY-T",fam:"继电器",cat:"量度",find:"电压继电器 RMY",
+ s:"电压的“监视器”：过压、欠压、不平衡告警保护。",
+ p:"母线电压太高太低都要人知道——RMY 实时盯着电压，越限就输出告警或跳闸；现场取不到辅助电源就用无源拨盘型 RMY-K。",
+ pr:"单相/三相过压、欠压、不平衡保护继电器；RMY-K 为无源型（无需辅助电源、8A 250VAC）；RMY-T 同步检查继电器用于并网/备自投合闸前检查压差、角差、频差。",
+ where:"PT 柜、保护屏、直流屏（控母/合母电压监视）。",
+ dev:"PT 柜、直流屏、母联/备自投回路、轨交直流母线。",
+ cust:"成套厂、直流屏厂、轨交供电设备厂。",
+ param:"RMY-K 8A 250VAC、无源；整定范围按规格档（以说明书为准）。",
+ sel:"“监视母线/控母电压”→ RMY；没辅助电源 → RMY-K；检同期/备自投 → RMY-T。",
+ alt:"综保装置的电压保护功能（独立监视、老柜改造仍常外配）。",
+ misuse:"整定范围不覆盖客户整定值就报型号。",
+ say:"“母线电压监视”“低电压”“控母电压”“没地方接辅助电源”“检同期”。",
+ ask:"单相还是三相？整定值多少？有没有辅助电源？要不要检同期？",
+ scenes:["变配电站","数据中心","轨道交通"],
+ relp:["RML","RVS"],relt:["备自投","检同期"],
+ confirm:"—"},
+
+{id:"RML",n:"电流继电器",m:"RML / RML-F / RML-F-DC",fam:"继电器",cat:"量度",find:"电流继电器 RML",
+ s:"电流的“监视器”：过流、不平衡保护，反时限可选。",
+ p:"电流超过整定值就动作——定时限是“超了就跳”，反时限（RML-F）是“超得越多跳得越快”，直流回路用 RML-F-DC。",
+ pr:"单相/三相过流与三相不平衡保护继电器，定时限/反时限特性，数码管整定、需辅助电源（数字式量度）。",
+ where:"保护回路、配电柜、直流回路（DC 型）。",
+ dev:"低压配电柜、保护屏、直流馈线屏。",
+ cust:"成套厂、直流屏厂、配电柜厂。",
+ param:"触点 5A 250VAC；整定范围按规格档（以说明书为准）。",
+ sel:"“过流告警/整定”→ RML；反时限选 RML-F；直流反时限选 RML-F-DC；整定范围必须盖住客户整定值。",
+ alt:"综保装置过流保护（判断层被集成，出口扩展仍常外配）。",
+ misuse:"拿一次侧电流（如 600A）当整定值——应按 CT 二次值（5A）谈。",
+ say:"“过流告警”“整定值”“反时限”“三相不平衡”。",
+ ask:"整定值和可调范围？交流还是直流？定时限还是反时限？",
+ scenes:["工业配电","变配电站"],
+ relp:["RMY","TE"],relt:["整定值","电流互感器"],
+ confirm:"—"},
+
+{id:"RL-TBJ",n:"防跳继电器",m:"RL-TBJ / RL-TBJ-Y / RL-TBJ-DW",fam:"继电器",cat:"断路器保护",find:"防跳 RL-TBJ",
+ s:"防止断路器在故障上反复“跳—合—跳”烧毁机构的保命件。",
+ p:"合闸按钮卡住或接点粘连时，断路器会在故障上反复分合，几秒烧毁合闸线圈和机构——RL-TBJ 保证一次合闸命令只合一次。",
+ pr:"电流启动、电压保持的防跳继电器，装在断路器控制回路；断路器厂/操作机构厂的刚需标配。",
+ where:"断路器操动机构控制回路、汇控柜。",
+ dev:"真空断路器（VS1 等）机构、SF6 断路器汇控柜、直流操作回路（DW 型）。",
+ cust:"断路器厂、操作机构厂、成套厂。",
+ param:"触点 8A 250VAC（以说明书为准）。",
+ sel:"听到“防跳”两个字就报 RL-TBJ；直流操作机构选 RL-TBJ-DW（防跳+跳合位指示一体）；还要盯 SF6 气压则用 RN-FT 二合一。",
+ alt:"综保装置内置防跳功能（但老柜改造、接点不够时仍常外配，以二次图为准）。",
+ misuse:"认为“断路器内置防跳就一定不用外配”——是否外配以客户二次图为准。",
+ say:"“防跳回路”“跳跃”“防跳带位置指示”。",
+ ask:"交流还是直流操作？要不要带位置指示？断路器本身有没有内置防跳？",
+ scenes:["变配电站","工业配电","新能源"],
+ relp:["RL-THW","RN-FT","RL-TBJ-DW"],relt:["防跳","断路器"],
+ confirm:"—"},
+
+{id:"RL-THW",n:"断路器保护继电器（RL 家族）",m:"RL-THW / RL-CBS / RL-PSS / RL-I / RL-HBJ / RL-UI",fam:"继电器",cat:"断路器保护·监视保持",find:"跳合位监视 RL-THW",
+ s:"跳/合位监视、回路监视、电源监视与启动/保持家族——断路器操动回路的“保镖”。",
+ p:"电网最常见的告警“控制回路断线”，就是跳位、合位继电器都不励磁——RL-THW 专门监视这两个位置，RL-CBS 同时监视跳、合闸回路，RL-PSS 盯辅助电源。",
+ pr:"跳/合位监视（TWJ/HWJ）专用继电器；配套家族：RL-CBS 回路监视、RL-PSS 电源监视（通用版失电 ≤4ms 立即返回，抗晃电选 RL-PSS-H 失电延时 150~400ms 返回）、RL-I 电流启动、RL-HBJ 合闸保持（电气自保持）、RL-UI 电压启动电流保持。",
+ where:"断路器控制回路、保护屏、汇控柜。",
+ dev:"中压断路器柜、分相操作大断路器汇控柜、直流屏。",
+ cust:"断路器/机构厂、成套厂、直流屏厂。",
+ param:"触点 8A 250VAC；RL-PSS 动作 ≤7ms（以说明书为准）。",
+ sel:"客户说 TWJ/HWJ、位置监视、控制回路断线 → RL-THW；要和防跳合一选 RL-TBJ-DW；晃电场景选 RL-PSS-H。",
+ alt:"RDP 双位置可做通用两态保持，但不是本用途专用件，别混报。",
+ misuse:"一律报 RDP——跳/合位监视有专用件 RL-THW。",
+ say:"“TWJ/HWJ”“位置监视”“控制回路断线”“跳合闸回路都要盯”“晃电不跳”。",
+ ask:"只监视位置还是连回路完好一起盯？电源监视要不要抗晃电延时？",
+ scenes:["变配电站","轨道交通","工业配电"],
+ relp:["RL-TBJ","RDP"],relt:["TWJ/HWJ","控制回路断线"],
+ confirm:"—"},
+
+{id:"RN-FB",n:"非全相保护继电器",m:"RN-FB",fam:"继电器",cat:"断路器保护",find:"非全相 RN-FB",
+ s:"220kV+ 分相断路器“只跳开一相”时的保护件。",
+ p:"大断路器三相各自操作，故障时可能只跳开一相，非全相运行危害电网——RN-FB 盯着三相位置，发现不一致就延时跳三相。",
+ pr:"监视三相断路器位置、延时出口三跳的集成保护继电器，带自检/复位按钮，装于汇控柜/端子箱。",
+ where:"220kV 及以上分相操作断路器的汇控柜、端子箱。",
+ dev:"高压断路器汇控柜、GIS 间隔汇控柜。",
+ cust:"GIS 厂、断路器厂、汇控柜集成商。",
+ param:"启动功率≥5W；220V 工频持续输入不动作；-40~70℃ 动作电压 55%~65%UN；线圈防反接；防烧；集成自检复位；触点 8A 250VAC——以说明书为准。",
+ sel:"客户提“非全相”“三相不一致”“分相操作”即此件；与 RN-FT（防跳+SF6 闭锁）配套常出现在同一面汇控柜。",
+ alt:"综保装置内非全相逻辑（硬接线后备仍常外配，以图为准）。",
+ misuse:"用于 10kV 三相联动开关——分相操作才有此需求。",
+ say:"“三相不一致”“分相操作”“汇控柜要配非全相”。",
+ ask:"断路器是不是分相操作？电压等级多少？",
+ scenes:["变配电站","新能源"],
+ relp:["RN-FT","RL-TBJ"],relt:["非全相","汇控柜"],
+ confirm:"—"},
+
+{id:"RN-FT",n:"防跳及低气压闭锁继电器",m:"RN-FT",fam:"继电器",cat:"断路器保护",find:"防跳+闭锁 RN-FT",
+ s:"防跳 + SF6 气压监视二合一，一个继电器顶两个功能位。",
+ p:"SF6 气压低了灭弧能力不够，这时必须禁止分合闸——RN-FT 一边防跳，一边盯气压，低到闭锁值就锁住操作并报警。",
+ pr:"集成防跳与 SF6 低气压闭锁功能的电磁式继电器，带动作指示灯，用于充 SF6 的高压断路器/GIS 汇控柜。",
+ where:"高压断路器汇控柜、GIS 间隔汇控柜。",
+ dev:"SF6 断路器、GIS、充气柜中的断路器间隔。",
+ cust:"GIS 厂、断路器厂、汇控柜集成商。",
+ param:"触点 8A 250VAC；电磁式、无需辅助电源（以说明书为准）。",
+ sel:"只有充 SF6 的柜才用得上气压闭锁——环保气体柜、固体柜没有“SF6 气压”一说，别照搬。",
+ alt:"防跳与气压监视分立元件（占两个位置、接线更多）。",
+ misuse:"给环保气体柜/固体柜报 RN-FT 的气压功能；给负荷开关-熔断器型环网柜报防跳。",
+ say:"“SF6 闭锁”“低气压报警”“气室压力监视”。",
+ ask:"气箱里是 SF6 还是环保气体？是断路器型还是负荷开关型？",
+ scenes:["变配电站","新能源"],
+ relp:["RN-FB","RL-TBJ"],relt:["SF6低气压闭锁","充气柜"],
+ confirm:"—"},
+
+{id:"RN-DK",n:"刀闸机构控制模块",m:"RN-DK-A / RN-DK-C",fam:"继电器",cat:"机构控制",find:"刀闸机构控制 RN-DK-A",
+ s:"电动刀闸的“电机司机”：正反转、到位停、过载超时保护、联锁集成一个导轨模块。",
+ p:"电动隔离开关靠电机正反转分合。过去要用接触器+热继+时间继电器一堆分立件搭，现在 A 型管两工位（一个串励电机+制动电阻），C 型管三工位（隔刀+地刀两个永磁电机+三态联锁）。",
+ pr:"电动操作机构控制模块：集成电机正反转、行程到位停机、过载/超时保护、电机电流监测、操作次数显示；RN-DK-C 内置三态联锁（隔离合位只响应隔离分闸、接地合位只响应接地分闸、电机转动中不接受新指令）。",
+ where:"隔离开关/接地开关/三工位刀闸的电动操作机构旁（导轨安装）。",
+ dev:"两工位电动刀闸（A 型，串励电机 ≤800W、需外接制动电阻）、三工位电动刀闸（C 型，双永磁电机单台 ≤600W、无制动电阻）。",
+ cust:"隔离开关厂、三工位开关厂、环网柜/充气柜厂。",
+ param:"A 型电机 ≤800W、开出 3 常开 1 常闭 5A/250VAC；C 型单台电机 ≤600W；电压规格与整定参数以说明书为准。",
+ sel:"两工位/单串励/要制动电阻选 A；三工位/双永磁/要三态联锁选 C；手动机构不用配。注意：它管“电机怎么动”，位置反馈后台仍由双位置/中间继电器按辅助接点组合实现，两层并存、互不替代。",
+ alt:"接触器+热继电器+时间继电器+中间继电器的分立组合（占空间、接线多）。",
+ misuse:"把它当“三工位位置继电器”报——位置信号层没有专用三工位位置继电器。",
+ say:"“电动刀闸”“电机操作机构”“三工位电机”“隔刀/地刀”。",
+ ask:"几工位？电机类型和功率？要不要三态联锁？手动还是电动？",
+ scenes:["变配电站","工业配电"],
+ relp:["RDP","RC"],relt:["三工位","隔离开关"],
+ confirm:"电源规格、整定参数以说明书为准。"},
+
+{id:"RVS",n:"电源切换继电器",m:"RVS / RVS-DC / RMS / RVSD / RVSD-TQ",fam:"继电器",cat:"电源切换",find:"电源切换 RVS",
+ s:"两路电源自动切换：一路没了秒切另一路，来了再切回。",
+ p:"箱变、户外柜、通信站常有两路进线，谁也不能常年有人守着倒闸——RVS 系列自动切换：RVS 双交流、RVS-DC 双直流、RMS 精确切换（电压波动超范围才切、稳定后才回）、RVSD 管 PT 双母线电压切换、RVSD-TQ 切同期电压。",
+ pr:"双电源自动切换继电器族：RVS（AC1 优先，失电立即切 AC2、恢复立即切回，8A/16A 250VAC）、RVS-DC（10A 220VDC）、RMS（智能监测、RS485、切换功率≤1000VA）、RVSD（PT 电压切换，3A 250VAC）、RVSD-TQ（同期电压切换）。",
+ where:"双回路进线柜、PT 切换回路、通信电源屏、箱变。",
+ dev:"双电源柜、母联/备自投执行回路、PT 重动/切换回路。",
+ cust:"成套厂、通信电源厂、箱变厂。",
+ param:"RVS 8A/16A、RMS 5A ≤1000VA、RVSD 3A（以说明书为准）。",
+ sel:"双交流 → RVS；双直流 → RVS-DC；要电压监测和通讯 → RMS；PT 双母线 → RVSD；同期电压 → RVSD-TQ。行业统称 ATSE 的是另一类开关电器，听到先分清。",
+ alt:"ATSE 双电源自动转换开关（电器级切换，非继电器）。",
+ misuse:"把 RVSD 的 PT 切换和 RDP-PTCD 的 PT 重动报混（切换=两段母线二选一，重动=单组 PT 随刀闸投切）。",
+ say:"“双回路”“两路进线自动切”“AC1 失电切 AC2”“双母线”。",
+ ask:"两路都是交流还是直流？切换速度要求？要不要监测和通讯？",
+ scenes:["变配电站","楼宇配电","新能源"],
+ relp:["RL-PSS","DPM"],relt:["备自投","ATSE"],
+ confirm:"—"},
+
+{id:"RT",n:"时间继电器",m:"RT / RT-NP / RT-E-NP / RT-X",fam:"继电器",cat:"时间",find:"时间继电器 RT",
+ s:"收到信号后“等一下”再动作：延时、顺启、循环定时。",
+ p:"风机水泵要先后启动、电容要延时投切、储能要等到位——RT 负责掐这个表：RT-NP 无源不用辅助电源，RT-X 能循环定时反复动作。",
+ pr:"延时动作继电器族：RT（上电延时/掉电延时/脉冲展宽三模式，需辅助电源）、RT-NP（无源、启动功率＞5W 可选）、RT-E-NP（无源带显示）、RT-X（循环定时）。",
+ where:"控制柜导轨、MCC 抽屉、电容柜、消防/水泵控制柜。",
+ dev:"MCC、无功补偿柜、消防泵/排烟风机控制柜、储能回路。",
+ cust:"成套厂、水泵/消防控制柜厂、电梯厂。",
+ param:"RT 5A 250VAC、RT-NP 8A 250VAC（以说明书为准）。",
+ sel:"有辅助电源选 RT；现场取不到电源选 RT-NP / RT-E-NP；循环定时选 RT-X。",
+ alt:"PLC 程序延时（简单固定逻辑用硬接线更省更可靠）。",
+ misuse:"同系列不分电磁/电子——RT-NP 无源属电磁类，RT 需辅助电源属电子类。",
+ say:"“延时启动”“顺启”“风机联动”“投切延时”“循环定时”。",
+ ask:"延时多长、什么模式？现场有没有辅助电源？要不要循环？",
+ scenes:["工厂自动化","楼宇配电","水处理"],
+ relp:["RC","RVS"],relt:["时间继电器"],
+ confirm:"—"},
+
+{id:"TE",n:"电量变送器",m:"TE",fam:"变送器",cat:"变送",find:"电量变送器 TE",
+ s:"把电压电流变成 4-20mA / RS485，送仪表和后台。",
+ p:"后台要“看见”配电柜里的电压电流，靠 TE 把强电信号变成标准小信号上传——配电柜“遥测”的活基本是它。",
+ pr:"电量变送器：输入电压/电流（经 CT/PT 二次侧），输出 4-20mA 模拟量或 RS485（MODBUS）数字量，供遥测上传与仪表显示。",
+ where:"配电柜、计量柜、通信屏/远动屏、DTU 柜。",
+ dev:"计量柜、直流屏、轨交直流母线、充电桩计量、数据中心列头柜。",
+ cust:"成套厂、配网自动化厂、充电桩厂、数据中心配套商。",
+ param:"输出 4-20mA / RS485（以说明书为准）。",
+ sel:"客户说“要上后台”“遥测”“电量上传”即联想；问清要 4-20mA 还是 RS485；输入量程按 CT/PT 二次值算。",
+ alt:"多功能电力仪表（自带显示，成本更高）；综保自带测量（路数有限）。",
+ misuse:"按一次侧电流报输入量程——按二次侧（如 5A）算。",
+ say:"“遥测”“电量上传”“后台监控”“要上通信”。",
+ ask:"测哪些量（电压/电流/功率）？输入变比多少？输出要模拟量还是 485？",
+ scenes:["变配电站","数据中心","轨道交通","充电桩"],
+ relp:["TT","THS"],relt:["4-20mA","RS485/MODBUS"],
+ confirm:"—"},
+
+{id:"TT",n:"温度变送器",m:"TT",fam:"变送器",cat:"变送",find:"温度变送器 TT",
+ s:"把 PT100/CU50 测到的温度变成 4-20mA 远传后台。",
+ p:"干变绕组、逆变器功率器件、快充模块的温度要传给后台看——TT 接测温电阻，把温度变成标准信号远传。",
+ pr:"温度变送器：接 PT100、CU50 等测温电阻，输出 4-20mA（或 RS485），供遥测上传。",
+ where:"干变温控箱旁、逆变器/PCS 控制柜、充电桩内。",
+ dev:"干变、储能 PCS、直流快充桩、风机齿轮箱/发电机测温。",
+ cust:"干变厂、储能/光伏集成商、充电桩厂。",
+ param:"适配 PT100 / CU50（以说明书为准）。",
+ sel:"客户说“温度上传”“要模拟量”即联想；与 THC 分工：THC 管本地自动投加热，TT 管上传看得见。",
+ alt:"带模拟量输出的 DTC（直接出 4-20mA）；THS（测的是温湿度不是绕组温度）。",
+ misuse:"和 THS 混（温湿度 vs 温度）；拿 PT100 的产品去接热电偶（高温用 TK）。",
+ say:"“温度上传”“遥测”“绕组温度要进后台”。",
+ ask:"测温元件是什么（PT100/CU50/热电偶）？埋几只？输出要什么制式？",
+ scenes:["新能源","光伏","储能","充电桩"],
+ relp:["DTC","THS","TK"],relt:["PT100","4-20mA"],
+ confirm:"—"},
+
+{id:"THS",n:"温湿度变送器",m:"THS（-I / -S）",fam:"变送器",cat:"变送",find:"温湿度变送器 THS",
+ s:"把柜内温湿度变成 4-20mA / RS485 上传后台。",
+ p:"数据中心、通信柜、储能舱要把环境温湿度传给监控平台——THS 干这个；注意它只“上传”，自动投加热是 THC 的活。",
+ pr:"温湿度变送器：后缀 -I=4-20mA 输出、-S=RS485 输出，供电 9~30VDC（现行型号统一为 THS，旧资料 TTH 已废止）。",
+ where:"柜内/舱内环境监测点。",
+ dev:"储能电池舱、通信基站户外柜、数据中心机房、汇控柜。",
+ cust:"储能集成商、通信配套商、数据中心配套商。",
+ param:"输出 -I 4-20mA / -S RS485；供电 9~30VDC（以说明书为准）。",
+ sel:"要上传选 THS；要本地自动驱潮选 THC——很多场景两个都要。",
+ alt:"THC 带通讯款（本地控制为主）。",
+ misuse:"旧型号 TTH 已统一为 THS，报价别写旧名。",
+ say:"“温湿度上传”“环境监测进后台”。",
+ ask:"输出要 4-20mA 还是 RS485？供电是什么？装在柜里还是环境里？",
+ scenes:["储能","数据中心","新能源"],
+ relp:["THC","TT"],relt:["凝露"],
+ confirm:"—"},
+
+{id:"TG",n:"挡位变送器",m:"TG",fam:"变送器",cat:"变送",find:"挡位变送器 TG",
+ s:"把有载调压变压器的挡位变成 4-20mA 远传。",
+ p:"主变带着 OLTC（有载分接开关）不停电调压，调度要看“现在在第几挡”——TG 把挡位转成标准信号远传。",
+ pr:"挡位变送器：采集有载分接开关（OLTC）挡位信号，输出模拟量（4-20mA）供后台/挡位表显示。",
+ where:"主变有载调压回路、控制屏。",
+ dev:"带 OLTC 的电力变压器、电厂/变电站主变。",
+ cust:"变压器厂、电厂配套商。",
+ param:"输出 4-20mA（以说明书为准）。",
+ sel:"客户提“挡位上传”“有载调压”“OLTC”即联想。",
+ alt:"挡位显示器+硬接线（不进后台）。",
+ misuse:"没弄清 OLTC 挡位数就报——先问几挡。",
+ say:"“挡位上传”“有载调压”。",
+ ask:"OLTC 是几挡的？要不要进后台？",
+ scenes:["变配电站"],
+ relp:["TE"],relt:["有载调压"],
+ confirm:"—"},
+
+{id:"TS",n:"信号变送器",m:"TS",fam:"变送器",cat:"变送",find:"信号变送器 TS",
+ s:"信号与信号之间的“翻译+隔离墙”：隔离、变换制式。",
+ p:"两套系统的信号制式对不上、或者要隔离干扰——TS 输入 4-20mA/RS485，输出还是 4-20mA/RS485，但中间隔开了、制式对齐了。",
+ pr:"信号隔离与变换变送器：输入/输出均为标准信号（4-20mA、RS485），实现制式转换与电气隔离。",
+ where:"信号隔离回路、通信屏。",
+ dev:"控制系统与后台之间的信号接口柜。",
+ cust:"系统集成商、自动化配套商。",
+ param:"输入/输出 4-20mA、RS485（以说明书为准）。",
+ sel:"“信号隔离”“转换信号”→ TS；测温度用 TT、测电量用 TE，别混。",
+ alt:"隔离栅/信号隔离器（同类功能，SS 安全栅属另一品类）。",
+ misuse:"和 TT/TE 混——TS 是“信号→信号”，不带传感器。",
+ say:"“信号隔离”“要隔离变送”“转换信号制式”。",
+ ask:"输入什么信号、输出要什么？隔离耐压有没有要求？",
+ scenes:["工厂自动化","数据中心"],
+ relp:["TE","THS"],relt:["4-20mA"],
+ confirm:"—"},
+
+{id:"THC",n:"温湿度控制器",m:"THC / THC-E / THC-M",fam:"温控",cat:"温控",find:"温湿度控制器 THC",
+ s:"柜子防凝露的标配：检测凝露风险自动投加热器驱潮。",
+ p:"昼夜温差让柜内结露 → 爬电闪络事故。THC 检测到凝露风险自动开加热器：开关柜、端子箱、汇控柜内标配，户外柜尤其离不开。",
+ pr:"温湿度控制器：采集一组（THC-M 可接一或两组）温湿度信号，输出加热器、风扇与越限告警，THC-E 经济款无 RS485，THC-M 多功能带两路模拟量。",
+ where:"开关柜、端子箱、汇控柜、箱变、户外柜内部。",
+ dev:"KYN28、环网柜、汇控柜、通信户外柜、JP 柜。",
+ cust:"成套厂、箱变厂、通信配套商、储能集成商。",
+ param:"THC-M 可接 1~2 组传感器、输出加热+风扇+两路模拟量（以说明书为准）。",
+ sel:"“凝露/驱潮/柜内加热”→ THC；要上传选 THS——一个管本地动作、一个管上传，常成对出现。",
+ alt:"THS+人工巡检（无法自动驱潮）。",
+ misuse:"和 THS 混（本地控制 vs 上传）；地下/户外场合漏配。",
+ say:"“凝露”“驱潮”“柜内加热”“湿度大”。",
+ ask:"柜内还是户外？要几路传感器？要不要风扇输出、要不要上传？",
+ scenes:["变配电站","新能源","水处理","数据中心"],
+ relp:["THS","YDSP"],relt:["凝露"],
+ confirm:"—"},
+
+{id:"DTC",n:"干变温控器",m:"DTC / TC",fam:"温控",cat:"温控",find:"干变温控器 DTC",
+ s:"干变的“体温计+守护神”：测温、启风机、超温跳闸。",
+ p:"干变三相绕组里埋着 PT100，DTC 实时测温：先告警、再启动风机、最后超温跳闸——干变出厂基本 1:1 必配。",
+ pr:"干式变压器温控器：三相绕组 PT100 测温 + 第四路（环境或铁芯），分级动作（告警→风机→跳闸），可选温度模拟量输出（配 TT 或自带）。",
+ where:"干变本体温控箱、箱变内。",
+ dev:"干式变压器、箱变、光伏/风电场升压站干变。",
+ cust:"干变厂、箱变厂（年产能≈温控器需求量，基本 1:1）。",
+ param:"配 PT100 埋件；分级动作温度按客户整定（以说明书为准）。",
+ sel:"自冷（AN）干变也建议装温控器做监视（只监视不启风机）——隐性需求别漏；风机要监视再加 TCC；高温测点用 TK。",
+ alt:"简易温度表（无风机控制与跳闸出口）。",
+ misuse:"以为自冷干变不用温控；风机没监视是客户盲区，要主动提。",
+ say:"“干变”“PT100”“超温”“埋件”“风冷”“跳闸输出”。",
+ ask:"埋了几只 PT100？要不要第四路（铁芯/环境）？风机要不要断线监视？",
+ scenes:["工业配电","变配电站","新能源"],
+ relp:["TCC","TT"],relt:["PT100","干变温控"],
+ confirm:"—"},
+
+{id:"TCC",n:"风机报警器",m:"TCC",fam:"温控",cat:"温控",find:"风机报警器 TCC",
+ s:"监视干变冷却风机：停转、断线就报警。",
+ p:"风机坏了干变会过热，但很多客户没装风机监视——TCC 输入温度信号或 CT，输出风机控制 + 断线告警，这是你的提醒话术。",
+ pr:"干变冷却风机监视与控制装置：输入温度信号或 CT，输出风机控制接点与风机故障（断线/停转）告警。",
+ where:"干变风冷系统。",
+ dev:"带风冷（AF）的干变。",
+ cust:"干变厂、箱变厂。",
+ param:"输入温度信号或 CT（以说明书为准）。",
+ sel:"客户配了风机却没配监视 = 盲区，主动提醒；属选配，别默认必配。",
+ alt:"温控器自带风机控制（但无风机本体故障监视）。",
+ misuse:"与 THC 的“风扇输出”混——THC 管柜内散热风扇，TCC 管干变冷却风机。",
+ say:"“风机坏了谁知道”“风机监视”。",
+ ask:"风机几台、怎么启停？要不要断线告警？",
+ scenes:["工业配电","变配电站"],
+ relp:["DTC"],relt:["干变温控"],
+ confirm:"—"},
+
+{id:"TK",n:"热电偶采集器",m:"TK",fam:"温控",cat:"温控",find:"热电偶采集器 TK",
+ s:"几百上千度的高温测点采集：四路热电偶、四路超温告警。",
+ p:"电厂锅炉、工业窑炉的温度远超 PT100 量程，要用热电偶——TK 四路采集、四路超温告警，电厂是第一大客户群。",
+ pr:"热电偶采集器：四路热电偶输入、四路超温告警接点输出，用于高温测点监视。",
+ where:"电厂 DCS 旁、工业窑炉控制柜。",
+ dev:"火电/燃机辅机系统、工业窑炉。",
+ cust:"电厂辅机配套商、工业炉窑厂。",
+ param:"四路输入四路告警（以说明书为准）。",
+ sel:"客户说“热电偶”“高温报警”→ TK；PT100 中低温用 TT/DTC，别拿错产品。",
+ alt:"DCS 自带热电偶模块（独立告警仍常外配）。",
+ misuse:"用 PT100 产品接热电偶——测温元件分场景。",
+ say:"“热电偶”“高温报警”。",
+ ask:"测点温度范围？几路？要什么告警输出？",
+ scenes:["工业自动化","冶金"],
+ relp:["TT"],relt:["PT100"],
+ confirm:"—"},
+
+{id:"FA",n:"信号报警器",m:"FA / FA-I / FA32 / FA48",fam:"报警",cat:"报警",find:"信号报警器 FA",
+ s:"故障汇总的“喇叭”：光字牌、警铃、送后台。",
+ p:"一面柜几十路故障信号，不能每路都接一个灯——FA 把分散信号汇总，点亮光字牌、响警铃、把事故信号送后台。",
+ pr:"信号报警器：8/16 路基础（如 FA8-8、FA16-16，输入与开出一一对应），FA32/FA48 扩展，最多 48 路无源信号输入；FA 分体式、FA-I 一体式。",
+ where:"直流屏、中央信号屏、控制柜。",
+ dev:"直流屏、变电站中央信号系统、储能舱告警联动。",
+ cust:"直流屏厂、成套厂、储能集成商。",
+ param:"最多 48 路无源输入（以说明书为准）。",
+ sel:"客户提“光字牌”“事故音响”“中央信号”“故障汇总”即联想；先问几路输入。",
+ alt:"综保/后台软件报警（硬接线告警仍常外配）。",
+ misuse:"路数报少——按柜内信号清单数。",
+ say:"“光字牌”“事故信号”“音响报警”“中央信号”。",
+ ask:"几路输入？分体还是一体？要不要送后台？",
+ scenes:["变配电站","储能"],
+ relp:["RC","YDSP"],relt:["光字牌","中央信号"],
+ confirm:"—"},
+
+{id:"YDSP",n:"开关电源",m:"YDSP（120W~1000W）",fam:"电源",cat:"电源",find:"开关电源 YDSP",
+ s:"柜内二次设备的“食堂”：把交流变成稳定直流供电。",
+ p:"柜里一堆继电器、变送器、温控器都要直流电吃饭——YDSP 把交流 100~240V（交直流通用）变成 110/220VDC，元件越多电源需求越大，和继电器是捆绑关系。",
+ pr:"开关电源：交流 100~240V 输入（交直流通用），输出 110VDC/220VDC，功率 120W/240W/600W/1000W 四档。",
+ where:"各类控制柜、直流屏、储能舱内。",
+ dev:"开关柜、直流屏、储能舱控制柜、充电桩。",
+ cust:"所有柜类客户（卖继电器时顺手问“柜内直流电源用谁的”）。",
+ param:"功率 120/240/600/1000W（以说明书为准）。",
+ sel:"重要负载不能掉电 → 加 DPM 冗余；问清柜内直流等级（110/220VDC）。",
+ alt:"直流屏直接供电（小柜不值得）；客户自配其他品牌电源（替代路线）。",
+ misuse:"只卖继电器不问供电——电源是天然捆绑单。",
+ say:"“柜内直流电源”“给继电器供电”“电源功率不够”。",
+ ask:"柜内直流几伏？总功率多大？要不要冗余？",
+ scenes:["变配电站","新能源","数据中心"],
+ relp:["DPM","RC"],relt:["二次设备"],
+ confirm:"—"},
+
+{id:"DPM",n:"二极管冗余模块",m:"DPM",fam:"电源",cat:"电源",find:"冗余模块 DPM",
+ s:"两台开关电源并联互为备份：一台坏了另一台无缝顶上。",
+ p:"保护、监控、通信这些负载断不得——两台电源经 DPM 并联，谁挂了都不掉电，客户说“N+1”“供电冗余”就是它。",
+ pr:"二极管冗余模块：两路直流电源经二极管解耦并联输出，单路故障时另一路自动带全负载。",
+ where:"重要负载供电回路（保护、监控、通信）。",
+ dev:"直流屏、一体化电源、数据中心、储能控制柜。",
+ cust:"直流屏厂、数据中心配套商。",
+ param:"额定电流按负载选型（以说明书为准）。",
+ sel:"客户提“供电冗余”“N+1”“不能掉电”即联想；与 YDSP 成对报。",
+ alt:"单电源+UPS（成本高、结构重）。",
+ misuse:"只报一台电源不提冗余——重要负载客户几乎都要。",
+ say:"“供电冗余”“N+1”“不能掉电”。",
+ ask:"负载多大？几路电源？切换有没有断电要求？",
+ scenes:["数据中心","变配电站","储能"],
+ relp:["YDSP"],relt:["二次设备"],
+ confirm:"—"},
+
+{id:"XF",n:"控制变压器",m:"XF",fam:"电源",cat:"电源",find:"控制变压器 XF",
+ s:"电压等级翻译官：380V 转 100V 等特殊电压转换。",
+ p:"进口设备、特殊仪表要的电压和柜内不一样——XF 做电压转换（常见 380V 转 100V），负载阻抗≥50K、精度 1%，单相三相可选。",
+ pr:"控制变压器：电压转换（如 380V→100V），负载阻抗≥50K、精度 1%，单相/三相可选。",
+ where:"进口设备供电回路、特殊电压等级仪表回路。",
+ dev:"进口设备配套、老系统改造。",
+ cust:"自动化配套商、改造项目方。",
+ param:"负载阻抗≥50K、精度 1%（以说明书为准）。",
+ sel:"客户说“380 转 100”“电压等级不一样”“进口设备供电”即联想。",
+ alt:"普通控制变压器（精度与阻抗要求不同）。",
+ misuse:"忽略精度与负载阻抗要求。",
+ say:"“380 转 100”“进口设备供电”。",
+ ask:"输入输出电压？容量多大？单相还是三相？",
+ scenes:["工厂自动化","工业配电"],
+ relp:["YDSP"],relt:["二次设备"],
+ confirm:"—"}
+];
+
+/* ---------- 设备百科 ---------- */
+SN.DEVICES = [
+{id:"dev-kyn28",n:"高压开关柜（KYN28 中置柜）",en:"Metal-clad Switchgear",s:"最常见的 10kV 铠装移开式开关柜，柜顶“二次室”是我们产品的家。",
+ what:"K=铠装、Y=移开式（断路器手车可摇出）、N=户内、28=设计序号，常见 KYN28-12（12kV 等级）。",
+ prob:"把一段 10kV 电路安全地“分、合、保护、隔离”：正常分合负荷、故障自动跳闸、检修形成明显断点。",
+ inside:"四大隔室：母线室（顶部铜排）、断路器手车室（中层）、电缆室（下方电缆/CT/接地开关/避雷器）、二次仪表室（柜顶正面，端子排+继电器+仪表+指示灯）。",
+ pri:"断路器手车（VS1 等）、母线、CT/PT、接地开关、避雷器、带电显示器。",
+ sec:"中间/时间/防跳/双位置继电器、温湿度控制器、开关电源、信号报警器、端子排、转换开关、指示灯、加热器。",
+ models:"KYN28-12 / KYN28A-12；同族：XGN 固定柜、HXGN 环网柜；命名密码：K铠装 J间隔 X箱式 + Y移开 G固定 + N户内 W户外 + 序号-电压kV。",
+ scene:"变配电站、工业配电、新能源升压站。",
+ who:"成套厂生产；电网、工厂、EPC 使用；设计院画图选型。",
+ ours:"RC/RC-P 中间继电器、RT 时间继电器、RL-TBJ 防跳、RL-THW 跳合位监视、RDP 双位置、THC 防凝露、YDSP 开关电源。",
+ say:"“KYN28 二次室”“手车柜”“继电器室太挤”。",
+ focus:"二次室空间（小型化/可拔插切入点）、操作回路方案（分立还是综保）、防凝露配置、柜内直流电源品牌。",
+ diff:"与固定式 XGN 区别：手车可摇出检修；与环网柜区别：断路器 vs 负荷开关。",
+ misuse:"“中置”指手车在柜子中间层，不是品牌；28 不是参数高低是设计序号。",
+ go:"ch4"},
+
+{id:"dev- LV",n:"低压成套柜（GGD / GCS / GCK / MNS / MCC）",en:"LV Assembly / MCC",s:"0.4kV 的配电与电机控制柜，抽屉柜里中间/时间继电器最密。",
+ what:"GGD 固定面板式（最普及）；GCS/GCK/MNS 抽屉柜（每回路一个小抽屉）；MCC=电机控制中心（几十台电机的抽屉柜列）。",
+ prob:"把 0.4kV 电能分配到照明、插座、电机，并对电机做启停、调速、保护控制。",
+ inside:"进线单元、馈线单元、无功补偿单元、母线系统；抽屉内装断路器+接触器+热继+中间/时间继电器。",
+ pri:"断路器、接触器、热继电器、互感器、电容器组。",
+ sec:"中间继电器（顺启/星三角/互锁）、时间继电器、信号报警器、温湿度控制器、多回路电量变送。",
+ models:"GGD / GCS / GCK / MNS；照明箱 AL、动力箱 AP、JP 柜（柱上变低压综合箱）。",
+ scene:"工业配电、工厂自动化、楼宇配电、水处理。",
+ who:"低压成套厂生产；工厂/楼宇/水厂使用；终端与设计院选型。",
+ ours:"RC 中间继电器、RT 时间继电器、FA 信号报警器、THC、TE 电量变送器。",
+ say:"“抽屉柜”“顺启”“星三角”“互锁”。",
+ focus:"抽屉数与带控制的回路数、电机启停方式、要不要通信上传。",
+ diff:"高压柜（10kV）与低压柜（0.4kV）按电压分；MCC 强调电机集中控制。",
+ misuse:"纯配电无控制的抽屉不放继电器——别按满配抽屉数估用量。",
+ go:"ch4"},
+
+{id:"dev-rmu",n:"环网柜 / 充气柜（RMU / C-GIS）",en:"Ring Main Unit / C-GIS",s:"城市配网“环网”主干的小体积 10kV 柜，充气柜是它的密封升级版。",
+ what:"环网柜=装负荷开关做环网分合分配的紧凑柜（HXGN 等）；充气柜=把带电体全密封进充气气箱的中压柜（C-GIS），全绝缘免维护。",
+ prob:"城市电缆环网供电的分段与分支；充气柜额外解决地下/潮湿/盐雾环境的绝缘与寿命问题。",
+ inside:"负荷开关（三工位：合—分—接地）、熔断器或断路器、气箱（SF6 或环保气体）、二次室。",
+ pri:"三工位负荷开关、熔断器、接地开关、气箱、CT。",
+ sec:"三工位位置重动（双位置/中间继电器组合，以图为准）、小型可拔插中间继电器、THC 防凝露、电动机构配 RN-DK-C。",
+ models:"HXGN15-12（环网）、XGN、充气柜 12/24/40.5kV；环保气体柜、固体绝缘柜（SIS）。",
+ scene:"变配电站（城市配网）、建筑工程、轨道交通配套。",
+ who:"外资与国产成套厂生产；电网配网、用户站使用。",
+ ours:"RC-P、RDP（位置重动）、THC、RN-DK-C（电动三工位）；SF6 断路器型才用 RN-FT、防跳。",
+ say:"“环网”“三工位”“充气”“环保气体”。",
+ focus:"三工位位置信号怎么上后台、电动还是手动机构、SF6 还是环保气体（决定气压闭锁要不要）。",
+ diff:"“充气柜”按绝缘方式命名、“环网柜”按用途命名，两者有交叉；GIS 是变电站级大组合电器、差一个 C。",
+ misuse:"环保气体柜/固体柜没有 SF6 气压闭锁，别照搬充气柜配置。",
+ go:"ch4"},
+
+{id:"dev-cb",n:"断路器与操作机构",en:"Circuit Breaker & Mechanism",s:"唯一能切断短路电流的开关，操动机构是继电器最刚性的需求来源。",
+ what:"断路器本体管“灭弧+分合电流”，机构是“肌肉”：弹簧储能、分合闸线圈（YC/YT）、辅助开关都在机构箱里。",
+ prob:"故障瞬间（几十毫秒内）切断比额定大几十上百倍的短路电流，保住电网其余部分。",
+ inside:"灭弧室（真空泡/SF6）、弹簧或永磁机构、储能电机、分合闸线圈、辅助开关、二次接线端子。",
+ pri:"灭弧室、触头、机构本体、储能弹簧。",
+ sec:"防跳 RL-TBJ、跳合位监视 RL-THW、回路监视 RL-CBS、电源监视 RL-PSS、双位置 RDP、非全相 RN-FB（分相）、SF6 闭锁 RN-FT、储能回路中间/时间继电器。",
+ models:"VS1/ZN63（国产真空）、VD4（ABB）；弹簧机构、永磁机构；220kV+ 分相操作。",
+ scene:"所有电压等级的开断场合。",
+ who:"断路器厂/机构厂生产（核心目标客户）；成套厂装配。",
+ ours:"操作回路全家桶：RL-TBJ、RL-THW、RL-CBS、RL-PSS、RDP、RN-FB、RN-FT、RL-TBJ-DW。",
+ say:"“防跳”“储能”“分相操作”“跳跃”。",
+ focus:"机构类型（弹簧/永磁）、操作电源（AC/DC、电压）、是否内置防跳、分相还是联动。",
+ diff:"负荷开关切不了短路电流（配熔断器）；隔离开关只给可见断口。",
+ misuse:"手车三位置（工作/试验/检修）和三工位开关（合/分/接地）是两回事。",
+ go:"ch4"},
+
+{id:"dev-trafo",n:"变压器（干变 / 油变）",en:"Transformer",s:"电压变换核心设备；干变必配温控器，是我们的天然客户。",
+ what:"靠电磁感应升降电压、不改频率。干变=环氧树脂浇注、空气自冷/风冷；油变=油浸式散热。",
+ prob:"把 10kV 降到 0.4kV（或升压并网），让电能到达用户能用。",
+ inside:"铁芯、高低压绕组、绝缘系统；干变带冷却风机与温控箱，油变带油枕、油面温控计、气体继电器。",
+ pri:"绕组、铁芯、分接开关（OLTC 有载调压）、套管。",
+ sec:"干变：DTC/TC 温控器、TCC 风机报警器、TT 温度变送器；油变：油面温控计（多为别家产品）、TG 挡位变送器（有 OLTC 时）。",
+ models:"SCB10/SCB13/SCBH15（干变，数字越大越节能）、S11/S13/S20（油变）；容量如 1000kVA。",
+ scene:"变配电站、工业配电、新能源箱变。",
+ who:"干变厂生产（P0 本体厂）；一台 1000kVA 干变约配 1 套温控器。",
+ ours:"DTC/TC（1:1 标配）、TCC、TT；有载调压加 TG。",
+ say:"“SCB13-1000/10”“埋件”“超温跳闸”“风冷”。",
+ focus:"干变还是油变（决定温控器机会）、年产能台数（估温控器盘子）、埋了几只 PT100。",
+ diff:"干变必配温控器；油变多用油面温控计——主攻干变厂。",
+ misuse:"把 kVA 当 kW；听到容量就能估温控器需求量。",
+ go:"ch1"},
+
+{id:"dev-box",n:"箱式变电站（箱变）",en:"Box-type Substation",s:"变压器+高压柜+低压柜整套装进一个箱子，工厂预装、现场吊装。",
+ what:"欧式（预装式变电站 YBM/YBP，三室隔间齐全）、美式（组合式变压器 ZGS，紧凑）、华式（国产紧凑型，新能源多用）。",
+ prob:"给占地面积小、工期紧的场合提供“即到即用”的完整变电站。",
+ inside:"高压室、变压器室、低压室（欧式）；美式以变压器本体为主、元件外挂。",
+ pri:"负荷开关/断路器、干变或油变、低压断路器、避雷器。",
+ sec:"DTC/TC 干变温控器、RVS 双电源切换、RL-TBJ 防跳、RDP 双位置、THC 箱内防凝露、YDSP。",
+ models:"YBM/YBP（欧式）、ZGS（美式）。",
+ scene:"新能源（光伏/风电/储能/充电场站）、市政、建筑工地。",
+ who:"箱变厂生产；新能源集成商大量采购（选型权常在集成商）。",
+ ours:"DTC/TC、RVS、RL-TBJ、RDP、THC、YDSP。",
+ say:"“欧式箱变”“美式箱变”“华式”。",
+ focus:"谁指定箱内元件（集成商还是业主）、干变温控配套、双回路切换需求。",
+ diff:"估算用量别整箱再乘一遍——按内部高压间隔+干变温控+箱体防凝露拆开累加。",
+ misuse:"把箱变当成单一设备估价——它是一个“小变电站”。",
+ go:"ch4"},
+
+{id:"dev-dc",n:"直流屏（直流电源柜 GZDW）",en:"DC Power Supply System",s:"变电站的“心脏起搏器”：交流全停也靠电池撑住保护和跳合闸。",
+ what:"蓄电池组+充电模块构成的全站直流电源系统，常见型号 GZDW（柜式·直流·电力·微机控制）。",
+ prob:"保护、跳合闸一刻不能没电——交流停电时直流屏靠电池顶住，这就是 DC220V/DC110V 和控母/合母存在的根本原因。",
+ inside:"充电模块、蓄电池组、合母/控母（经硅链降压）、绝缘监测装置、电池巡检仪、馈线回路。",
+ pri:"充电模块、蓄电池、硅链（降压装置）。",
+ sec:"RMY 电压监视（合母/控母）、RDP 双位置、RC 中间继电器、FA 信号报警器（故障汇总/光字）、YDSP+DPM 柜内供电。",
+ models:"GZDW；一体化电源（直流+UPS+通信电源共享电池）。",
+ scene:"变配电站、新能源升压站、数据中心。",
+ who:"直流屏厂生产（P0）；电网、工厂验收必查的核心柜。",
+ ours:"RMY、RDP、RC、FA、YDSP、DPM。",
+ say:"“合母/控母”“浮充/均充”“绝缘监测”“控母电压监视”。",
+ focus:"馈出回路数（信号/电源按回路叠加）、控母合母电压监视点、要不要一体化。",
+ diff:"充电模块、绝缘监测装置、电池巡检仪是别家专用主机——我们只做外围监视报警供电，别整台报成自家的。",
+ misuse:"闪光回路老站才有，本公司无此专用件，听懂即可别报价。",
+ go:"ch4"},
+
+{id:"dev-dtu",n:"配网终端柜（DTU / FTU / TTU / 分支箱 / JP 柜）",en:"Distribution Automation",s:"配网自动化的“神经末梢”：户外柜防凝露+变送上传是稳定需求。",
+ what:"DTU 管整个配电室/开闭所、FTU 管一条馈线、TTU 管一台配变；电缆分支箱（DFW）分接电缆；JP 柜是柱上变低压综合配电箱。",
+ prob:"让配网“看得见、能遥控”：采集电压电流、上传状态、执行远方分合闸。",
+ inside:"终端主机（DTU/FTU/TTU）、操作电源、蓄电池、端子排、继电器组、通信模块。",
+ pri:"（终端自身为主）开关、互感器。",
+ sec:"TE 电量变送器、YDSP 开关电源、THC 户外防凝露、RC/RDP 出口与重动。",
+ models:"DTU / FTU / TTU；DFW 分支箱；JP 柜。",
+ scene:"配网自动化、农网改造、老设备改造。",
+ who:"配网自动化厂生产；电网公司/三产企业采购。",
+ ours:"TE、YDSP、THC、RC、RDP。",
+ say:"“配网自动化”“上后台”“四遥”。",
+ focus:"终端开出接点容量（小，常需外配继电器扩容）、户外防护等级、双电源。",
+ diff:"DTU/FTU/TTU 按管辖范围分；分支箱普通型不含开关、基本不用继电器。",
+ misuse:"终端内部自带继电器路数有限，出口放大/隔离常要外配——以图为准。",
+ go:"ch4"},
+
+{id:"dev-ess",n:"储能设备（PCS 舱 / 电池舱）",en:"Energy Storage System",s:"电池簇+PCS 的组合，温湿度/温度测点随簇数叠加，是用量增长最快的新场景。",
+ what:"PCS=储能变流器（交直流变换）、BMS=电池管理（管每簇电池）、EMS=能量管理（全站调度）；设备装在预制舱里。",
+ prob:"把电存起来按需放：削峰填谷、调频备用、新能源消纳。",
+ inside:"电池簇（每簇配 BMS 从控）、PCS 功率单元、汇流柜、升压变、舱级环控与消防。",
+ pri:"电池簇、PCS 功率模块、变压器、汇流开关。",
+ sec:"THS 温湿度变送、THC 驱潮、FA 信号报警（温度/烟雾告警联动）、RC 控制继电器、TT 测温、YDSP 舱内供电。",
+ models:"215/2150/5000 kWh 级舱（行业常见规格，具体以项目为准）。",
+ scene:"储能、新能源。",
+ who:"储能集成商整舱集成（选型权在集成商）；电池簇数、PCS 台数、舱数决定用量。",
+ ours:"THS、THC、FA、RC、TT、YDSP、DTC（升压干变）。",
+ say:"“PCS 舱”“电池舱”“簇控”“温湿度”“烟雾告警”。",
+ focus:"问清电池簇数、PCS 台数、舱数三个量——用量随它们叠加，别只按舱数毛估。",
+ diff:"比同规模传统配网用量大：每簇 BMS 要供电测温上传，每台 PCS 有控制切换回路。",
+ misuse:"整舱配置各家差异大，务必拿舱内设备清单/BOM 核。",
+ go:"ch4"},
+
+{id:"dev-pv",n:"光伏设备（汇流箱 / 逆变器 / 升压站）",en:"Photovoltaic System",s:"光伏板阵列到并网的一条链，每个环节都有二次元件的位置。",
+ what:"汇流箱把若干串组件电流汇成一路；逆变器直流变交流；箱变升压；升压站并网外送。",
+ prob:"把直流低压电变成符合电网要求的交流高压电并安全送出。",
+ inside:"汇流箱：熔断器、断路器、防反二极管、通信模块；逆变器：IGBT 功率单元、控制板；升压站：直流屏+保护屏。",
+ pri:"组件、IGBT、变压器、断路器。",
+ sec:"THC（户外箱防凝露）、TT（IGBT/进线测温）、RC、YDSP、DTC（箱变）、直流屏全家桶（RMY/RDP/FA/YDSP/DPM）。",
+ models:"组串式/集中式逆变器；35kV 箱变；110/220kV 升压站。",
+ scene:"光伏、新能源。",
+ who:"光伏 EPC/集成商采购（品牌指定权在业主）。",
+ ours:"THC、TT、RC、YDSP、DTC、直流屏全系列。",
+ say:"“汇流箱”“组串”“逆变”“升压站”。",
+ focus:"集成商自选还是业主指定、户外防凝露、测温点位。",
+ diff:"逆变器是电力电子设备，与开关柜的二次需求不同（测温+供电为主）。",
+ misuse:"光伏场地大但元件分散——按集装箱/箱变数量估配套。",
+ go:"ch4"},
+
+{id:"dev-ev",n:"充电桩 / 充电站",en:"EV Charger",s:"直流快充模块发热大，测温+辅助电源是稳定配套。",
+ what:"交流桩（小功率、控制板+计量）与直流快充桩（整流模块+控制板）；充电场站配箱变+桩群。",
+ prob:"把电网电安全地充进车电池：计量、计费、功率变换、安全保护。",
+ inside:"整流模块、控制板、计量表、散热风扇、枪线；场站级配箱变与监控。",
+ pri:"整流模块、断路器、接触器。",
+ sec:"TT（模块温度）、YDSP（辅助电源）、THC、TE（计量上传）。",
+ models:"交流 7kW/21kW；直流 60~480kW（行业常见，具体以项目为准）。",
+ scene:"充电桩、新能源。",
+ who:"充电桩厂/充电堆厂生产；运营商投建。",
+ ours:"TT、YDSP、TE、THC。",
+ say:"“快充模块”“模块温度”“计量”。",
+ focus:"功率等级与模块数（发热大、测温点多）、计量要不要上传。",
+ diff:"直流桩是“小变电站”逻辑，交流桩接近普通配电。",
+ misuse:"桩体小不代表用量少——模块温度监测点随功率增加。",
+ go:"ch4"}
+];
+/* 修正 id 中不能出现的空格问题（数据健壮性） */
+SN.DEVICES.forEach(function(d){ d.id = (d.id||'').replace(/\s+/g,''); });
+
+/* ---------- 应用场景百科 ---------- */
+SN.SCENES = [
+{id:"sc-1",n:"变配电站",s:"10kV/35kV 电压变换与分配的核心场所，传统基本盘。",
+ what:"电网或用户建设的降压变电站/配电室：开关柜列+变压器+直流屏+监控。",
+ dev:"KYN28、环网柜、干变、直流屏、低压柜、电容柜。",
+ cust:"电网公司/三产、成套厂、EPC。",
+ issue:"供电可靠性、五防、备自投、防凝露。",
+ ours:"继电器全家族、DTC、RMY、FA、YDSP/DPM、THC。",
+ say:"“进线柜”“PT柜”“联络柜”“备自投”。",
+ focus:"按柜列顺序（进线—计量—PT—出线—联络—补偿）找每一面的二次需求。",
+ judge:"问清有几面高压柜、几台干变、一面直流屏——套 4.12 全景图算用量。",
+ go:"ch4"},
+{id:"sc-2",n:"工业配电",s:"工厂内部的 10kV/0.4kV 配电系统。",
+ what:"工厂总降变/配电室+车间 MCC+末端 AP/AL。",
+ dev:"高压柜、干变、GGD/MCC、电容柜、变频柜。",
+ cust:"本体厂（配电设备）、工厂业主、成套厂。",
+ issue:"电机启停冲击、谐波、功率因数考核。",
+ ours:"RC/RT、RML/RMY、RAI（变频旁）、TE、THC、YDSP。",
+ say:"“顺启”“星三角”“无功罚款”“谐波”。",
+ focus:"MCC 抽屉数与控制回路、变频器数量（RAI 机会）。",
+ judge:"问电机台数与变频器占比，估中间继电器与 RAI 用量。",
+ go:"ch4"},
+{id:"sc-3",n:"工厂自动化",s:"产线控制：PLC+控制柜+传感器执行器。",
+ what:"PLC 控制柜、MCC、操作台、现场控制箱。",
+ dev:"控制柜、MCC、变频柜、软启动柜。",
+ cust:"自动化集成商、设备厂。",
+ issue:"干扰、安全硬联锁、维护便利。",
+ ours:"RC（小控大）、RT、RAI、TS（信号隔离）、YDSP。",
+ say:"“联锁”“互锁”“急停”“信号隔离”。",
+ focus:"PLC 输出点带不动负载要经中间继电器；安全回路要硬接线。",
+ judge:"问 PLC 品牌与 I/O 点数、安全回路等级。",
+ go:"ch3"},
+{id:"sc-4",n:"楼宇配电",s:"商业/住宅建筑的供配电与消防。",
+ what:"楼宇配电室、楼层配电箱、消防泵/排烟风机控制柜、电梯控制柜。",
+ dev:"低压柜、AP/AL 箱、消防控制柜、双电源柜。",
+ cust:"建筑电气成套厂、总包、物业业主。",
+ issue:"消防认证（CCCF）、双电源切换、合规验收。",
+ ours:"RVS、RT、RC、FA（消防联动）、THC。",
+ say:"“消防联动”“双电源”“末端互投”。",
+ focus:"消防类先确认要什么认证再报价。",
+ judge:"问楼层配电方案与消防泵台数。",
+ go:"ch4"},
+{id:"sc-5",n:"新能源（总览）",s:"光伏/风电/储能/充电四大赛道，当前最肥客户群。",
+ what:"升压站+预制舱+箱变的组合，本质是“没有传统变电站的配电+升压”。",
+ dev:"箱变、预制舱、直流屏、汇控柜。",
+ cust:"集成商（P3，选型权）、业主（品牌指定）。",
+ issue:"户外凝露、测温点多、舱内供电。",
+ ours:"THC/THS、TT、RC、YDSP、DTC、直流屏全系列。",
+ say:"“预制舱”“环控”“并网”。",
+ focus:"按“柜内供电+测温+防凝露+控制继电器”一整套报。",
+ judge:"问舱数/簇数/台数，用叠加法估量。",
+ go:"ch4"},
+{id:"sc-6",n:"光伏",s:"光伏板→逆变器→箱变→升压站。",
+ what:"汇流箱、逆变器、箱变、升压站。",
+ dev:"汇流箱、逆变器、干变、直流屏。",
+ cust:"光伏 EPC/集成商。",
+ issue:"户外防凝露、IGBT 测温、直流灭弧。",
+ ours:"THC、TT、RC、YDSP、DTC。",
+ say:"“组串”“汇流”“逆变”。",
+ focus:"从汇流箱到升压站逐环节找配套点。",
+ judge:"按 MW 数估箱变/汇流箱数量。",
+ go:"ch4"},
+{id:"sc-7",n:"风电",s:"机舱+塔筒+箱变+升压站。",
+ what:"风机主控/变桨/偏航柜、塔筒控制、箱变、升压站。",
+ dev:"机舱控制柜、变流器、干变。",
+ cust:"风机制造厂、风电场 EPC。",
+ issue:"宽温、振动、塔筒潮湿。",
+ ours:"RC、TT（齿轮箱/发电机测温）、THS、THC、DTC。",
+ say:"“变桨”“偏航”“塔筒”。",
+ focus:"机舱控制柜继电器用量、齿轮箱/发电机测温点。",
+ judge:"按风机台数估单机配套×台数。",
+ go:"ch4"},
+{id:"sc-8",n:"储能",s:"PCS+电池簇的预制舱组合。",
+ what:"PCS 舱、电池舱、升压站。",
+ dev:"PCS、BMS、汇流柜、干变、直流屏。",
+ cust:"储能集成商。",
+ issue:"热失控告警、簇级测温、舱内环控。",
+ ours:"THS、THC、FA（烟雾/温度联动）、RC、TT、YDSP。",
+ say:"“簇控”“PCS”“热管理”。",
+ focus:"簇数×测点+PCS 台数×控制回路，用量叠加最大。",
+ judge:"问电池簇数、PCS 台数、舱数三件套。",
+ go:"ch4"},
+{id:"sc-9",n:"充电桩",s:"交流桩+直流快充场站。",
+ what:"充电桩群、充电堆、场站箱变。",
+ dev:"直流桩模块、计量柜、箱变。",
+ cust:"充电桩厂、运营商。",
+ issue:"模块散热、计量上传。",
+ ours:"TT、YDSP、TE、THC。",
+ say:"“快充”“充电堆”“功率分配”。",
+ focus:"直流桩模块测温与辅助电源；场站计量上传。",
+ judge:"按桩数×功率档估测温点与电源用量。",
+ go:"ch4"},
+{id:"sc-10",n:"轨道交通",s:"牵引供电+环控电控，认证门槛高。",
+ what:"牵引变电所直流开关柜、环控电控柜、屏蔽门电源。",
+ dev:"直流开关柜、环控柜、UPS。",
+ cust:"轨交供电设备厂、设计院。",
+ issue:"CRCC 认证、直流母线监视、高可靠。",
+ ours:"RMY（直流母线）、TE（直流变送）、RDP、RC。",
+ say:"“牵引变电所”“环控”“1500V 直流”。",
+ focus:"先确认公司有无 CRCC 证书，有证才有入场券。",
+ judge:"问线路条数与变电所数量。",
+ go:"ch4"},
+{id:"sc-11",n:"数据中心",s:"UPS+列头柜+配电+环境监控。",
+ what:" UPS 配电系统、列头柜、电池室、环控。",
+ dev:"UPS、EPS、列头柜、配电柜。",
+ cust:"数据中心总包、机电分包。",
+ issue:"不能断电（冗余）、电能质量、环境监控。",
+ ours:"TE（电能质量）、THS（环境）、YDSP、DPM、FA、RVS。",
+ say:"“列头柜”“N+1”“PUE”。",
+ focus:"冗余供电（DPM）、温湿度上传（THS）、电量监测（TE）。",
+ judge:"按机柜数×列头柜数估。",
+ go:"ch4"},
+{id:"sc-12",n:"石油化工",s:"防爆+连续生产的严苛工业环境。",
+ what:"防爆配电柜、MCC、现场控制箱。",
+ dev:"防爆柜、MCC、变频柜。",
+ cust:"石化工程公司、设计院。",
+ issue:"防爆认证、腐蚀、连续生产不能停。",
+ ours:"RC、RT、RAI、THC、TE（具体防爆等级以客户要求为准）。",
+ say:"“防爆”“联锁”“SIS”。",
+ focus:"先问防爆等级要求与认证，别裸报。",
+ judge:"按装置规模与 MCC 面数估。",
+ go:"ch4"},
+{id:"sc-13",n:"水处理",s:"泵站群控：顺序启动+液位联动。",
+ what:"泵站控制柜、加药间、MCC。",
+ dev:"水泵控制柜、MCC、变频柜。",
+ cust:"水务公司、环保工程商。",
+ issue:"潮湿环境凝露、泵的顺启互锁。",
+ ours:"RT（顺启）、RC、TE（电流/压力上传）、THC（泵房防潮）。",
+ say:"“一用一备”“液位联动”“轮换”。",
+ focus:"泵的启停逻辑与轮换控制、泵房湿度。",
+ judge:"按泵台数×控制回路估。",
+ go:"ch4"},
+{id:"sc-14",n:"冶金",s:"大电流+强干扰的极端工况。",
+ what:"整流柜、变频柜、MCC、除尘控制。",
+ dev:"大功率整流、变频柜、MCC。",
+ cust:"冶金设备厂、钢厂。",
+ issue:"强电磁干扰、粉尘、高温。",
+ ours:"RAI（抗干扰）、RC、TK（高温测点）、THC。",
+ say:"“整流”“除鳞”“干扰大”。",
+ focus:"干扰环境必推 RAI；高温测点用 TK。",
+ judge:"问变频器/整流器数量。",
+ go:"ch4"},
+{id:"sc-15",n:"建筑工程",s:"临时电+永久配电的工程配套。",
+ what:"箱变、临时配电箱、楼层配电。",
+ dev:"箱变、配电箱、双电源柜。",
+ cust:"建筑总包、机电分包。",
+ issue:"工期急、价格敏感、验收合规。",
+ ours:"RVS、RC、RT、THC（箱变）。",
+ say:"“临电”“永久配电”“移交”。",
+ focus:"交期是关键筹码；箱变配套一次配齐。",
+ judge:"问建筑面积与配电方案。",
+ go:"ch4"},
+{id:"sc-16",n:"老设备改造",s:"存量柜/屏的元件更换与升级，运维公司的主战场。",
+ what:"老 KYN28/直流屏/保护屏改造：换继电器、加监测、换电源。",
+ dev:"存量开关柜、直流屏、汇控柜。",
+ cust:"电力运维/检修公司、改造 EPC。",
+ issue:"原型号停产、尺寸适配、不停电施工。",
+ ours:"RC-P（可拔插不停电更换）、RL-TBJ、RDP、THC、YDSP（按原图纸规格替换）。",
+ say:"“改造”“原型号替代”“停电窗口”。",
+ focus:"要客户原二次图纸/BOM，按图配齐；强调小体积可拔插。",
+ judge:"问改造面数与图纸能否提供。",
+ go:"ch4"}
+];
+
+/* ---------- 行业客户百科 ---------- */
+SN.CUSTOMERS = [
+{id:"cu-1",n:"设计院",s:"二次图的源头，选型权的第一站（P1）。",
+ what:"电力/工业设计院，画一次系统图与二次原理图、编写技术规范书。",
+ duty:"出图、定技术规范、（常）在图纸上标注元件品牌型号。",
+ tech:"专业工程师（电气专业）——真正的选型人。",
+ buyer:"设计院不下单；影响业主/成套厂的采购清单。",
+ gate:"图纸上的品牌标注就是准入。",
+ decide:"不直接成交，但“图纸写你型号”几乎等于锁定。",
+ source:"业主委托设计的新建/改造项目。",
+ mode:"不采购，输出图纸与规范。",
+ care:"产品资料完整性、参数可靠性、型式试验报告、响应速度。",
+ entry:"送样册+选型手册+参数对比表，混脸熟让新图纸想到你。",
+ mistake:"找设计院要订单——它不下单；正确目标是图纸出现你的型号。",
+ prods:"全产品线资料包（继电器/变送器/温控为主）。",
+ go:"ch1"},
+{id:"cu-2",n:"本体厂 / 整机厂",s:"自己出设备、自己选型的厂，第一优先级 P0。",
+ what:"干变厂、断路器/机构厂、直流屏厂、箱变厂、环网柜厂——设备图纸自己出、二次元件自己选。",
+ duty:"制造整机设备，二次回路自行设计。",
+ tech:"研发/技术部选型并维护 BOM。",
+ buyer:"采购部按 BOM 与议价结果下单。",
+ gate:"SQE 审厂 + 合格供应商名录。",
+ decide:"技术点头+采购谈价 = 成交。",
+ source:"自身订单排产 + 中标公告。",
+ mode:"询比价、框架协议、直采。",
+ care:"参数匹配、认证、价格、交期、送样配合度。",
+ entry:"送样→上机测试→进图纸→进 BOM（6.6 路径）。",
+ mistake:"只跟采购聊不跟研发聊——选型权在研发。",
+ prods:"按设备对号：干变厂→DTC/TC；机构厂→RL 系列；直流屏厂→RMY/FA/YDSP。",
+ go:"ch1"},
+{id:"cu-3",n:"成套厂",s:"按图组装开关柜的厂，无选型权（P4）。",
+ what:"买断路器、互感器、继电器组装成 KYN28/GGD 出售的柜厂。",
+ duty:"按设计院图纸/业主指定采购组装。",
+ tech:"无选型权——图纸是设计院画的、业主定的。",
+ buyer:"采购部按图采购。",
+ gate:"设计院与业主。",
+ decide:"业主/设计院（他写不进你的型号）。",
+ source:"项目配套。",
+ mode:"按图配套、询比价。",
+ care:"价格、交期、库存。",
+ entry:"别当主力：已成单走流程+当情报线（问图纸谁画、现在用谁家、能否提型号）。",
+ mistake:"把成套厂当 P0 磨——跑十家成套厂不如搞定一张图纸。",
+ prods:"RC、RT、THC、FA（按图配套）。",
+ go:"ch1"},
+{id:"cu-4",n:"系统集成商（新能源）",s:"整舱设计自己选型的新兴大户（P3）。",
+ what:"光伏/储能/充电集成商：整舱设计、设备集成、项目交付。",
+ duty:"舱内二次设计、设备选型、集成调试。",
+ tech:"电气设计工程师选型。",
+ buyer:"供应链/采购部。",
+ gate:"业主品牌清单 + 自身合格供应商库。",
+ decide:"集成商技术+业主点头（品牌指定权在业主）。",
+ source:"新能源投资项目的 EPC/集成分包。",
+ mode:"整舱配套打包询价。",
+ care:"一单配齐、价格、交期、认证。",
+ entry:"按“供电+测温+防凝露+控制”整舱配套报价，一单配齐。",
+ mistake:"只报单件不报整舱——丧失打包优势。",
+ prods:"THC/THS、TT、RC、YDSP、DTC、FA。",
+ go:"ch1"},
+{id:"cu-5",n:"EPC 总包",s:"工程总承包，项目采购主渠道。",
+ what:"设计+采购+施工总承包商，业主的工程代理。",
+ duty:"按业主要求完成工程并采购设备材料。",
+ tech:"EPC 设计部/业主咨询影响选型。",
+ buyer:"EPC 采购部（价格敏感）。",
+ gate:"业主品牌短名单 + 招标文件。",
+ decide:"中标后按清单采购，业主可否决。",
+ source:"招标公告、业主委托。",
+ mode:"招标、议标、清单采购。",
+ care:"价格、资质文件、交期配合工期。",
+ entry:"跟踪中标公告与项目信息，提前进短名单。",
+ mistake:"等开标才接触——资质与品牌印象要提前铺。",
+ prods:"按项目清单：柜类配套+变送+温控。",
+ go:"ch1"},
+{id:"cu-6",n:"终端业主",s:"最终用货的人，品牌指定权最大（P2）。",
+ what:"电网公司、发电集团、工厂、电站——设备的主人。",
+ duty:"提需求、定标准、验收使用。",
+ tech:"业主技术部门写技术规范。",
+ buyer:"招标/集采（周期长）。",
+ gate:"招标资质门槛 + 供应商入围。",
+ decide:"招标结果 + 业主品牌倾向。",
+ source:"年度投资计划、技改项目。",
+ mode:"公开招标、集采、电商化采购。",
+ care:"型式试验报告、入网资质、运行业绩。",
+ entry:"品牌印象+让技术规范写上你；配合设计院与集成商两头顾。",
+ mistake:"只找终端却不跟图纸——图纸源头在设计院。",
+ prods:"全产品线（资质齐全是前提）。",
+ go:"ch1"},
+{id:"cu-7",n:"代理商 / 经销商（贸易商）",s:"转手赚差价的渠道，价格敏感忠诚度低。",
+ what:"经销商、贸易商，批量进货转售。",
+ duty:"垫资备货、分销。",
+ tech:"不选型，按下游需求买。",
+ buyer:"老板自己。",
+ gate:"价格。",
+ decide:"利润空间。",
+ source:"下游零散需求。",
+ mode:"现货买断、账期谈判。",
+ care:"价格、账期、独家。",
+ entry:"留联系方式即可，不投入精力。",
+ mistake:"在贸易商身上磨一周——他不选型、只压价。",
+ prods:"走量型号：RC、RT、THC。",
+ go:"ch1"},
+{id:"cu-8",n:"电网三产 / 集体企业",s:"电网旁系企业：施工、安装、运维、改造的实际采购口。",
+ what:"送变电公司、电力安装公司、电力设计院、物资公司等电网下属企业。",
+ duty:"大量施工、安装、运维、改造工程与实际采购。",
+ tech:"自有技术力量+设计分包。",
+ buyer:"物资公司/自身采购部门。",
+ gate:"电网体系资质要求（型式试验、体系认证）。",
+ decide:"三产自身决策+电网验收。",
+ source:"电网技改、大修、农网项目分包。",
+ mode:"询比价、分包采购、电商化采购。",
+ care:"资质、价格、响应速度。",
+ entry:"绕开电网集采直接对接的口子——重点开发运维/改造项目。",
+ mistake:"把三产当电网本部谈——采购权限和流程不同。",
+ prods:"改造替换：RC-P、RL 系列、THC、YDSP。",
+ go:"ch1"}
+];
+
+/* ---------- 行业术语百科 ---------- */
+SN.TERMS = [
+/* 电力基础 */
+{n:"一次设备",cat:"电力基础",s:"直接通过高压大电流的设备。",p:"变压器、断路器、隔离开关、互感器、母线这些“走强电”的设备。",pr:"接于主回路、用于电能生产输送分配的设备统称。",go:"basic",pd:["继电器"]},
+{n:"二次设备",cat:"电力基础",s:"做测量、控制、保护、信号的小电流设备——我们卖的全部属于二次。",p:"继电器、变送器、温控器、报警器、开关电源这些“动脑不动手”的设备。",pr:"对一次设备进行监视、测量、控制与保护的低压小电流设备总称；“二次回路/二次图”即其所在电路。",go:"ch1",pd:["RC","TE","THC","YDSP"]},
+{n:"CT / PT（TA / TV）",cat:"电力基础",s:"电流/电压互感器：把大电流高电压按比例变小给仪表保护用。",p:"CT=电流互感器（600/5 表示一次 600A 变二次 5A），PT=电压互感器（10kV 变 100V）。铁律：CT 二次严禁开路、PT 二次严禁短路。",pr:"测量与保护用变换器；新国标写 TA/TV。量度继电器、变送器看到的都是 CT/PT 二次小信号——报量程按二次值算。",go:"basic",pd:["RML","TE"],say:"“600/5”“1000/5”"},
+{n:"常开常闭",cat:"电力基础",s:"触点的两种默认状态：NO/H 常开、NC/D 常闭、Z 转换。",p:"线圈没通电时断开叫常开、闭合叫常闭；得电后全部反过来。客户说“2 开 2 闭”就是触点组合。",pr:"触点形式表示法：H-常开、D-常闭、Z-转换；型号后缀 2Z、4H2D 即触点配置。",go:"ch2",pd:["RC"]},
+{n:"触点容量",cat:"电力基础",s:"触点能安全通断的最大电流/电压，如 8A 250VAC。",p:"带灯泡没问题、带接触器线圈要降容——感性负载通断瞬间电流是额定的几倍到十几倍。",pr:"触点额定通断能力；选型第一问：负载类型（阻性/感性）、AC/DC，直流断弧更吃力。",go:"ch2",pd:["RC","RAI"]},
+{n:"电压等级",cat:"电力基础",s:"0.4/10/35/110/220/500kV 的电压台阶。",p:"10kV 到用户门口、0.4kV 进车间——我们的产品集中在 10kV 及以下配电用电段。",pr:"标称电压分级；中压配网（10kV）是开关柜/环网柜/箱变主战场。",go:"basic"},
+{n:"三相 / 单相",cat:"电力基础",s:"三根火线送电为三相，一火一零为单相。",p:"线电压 380V（火对火）、相电压 220V（火对零）；工厂电机用三相 380V。",pr:"三相制 vs 单相制；电压继电器要分三相型/单相型。",go:"basic",pd:["RMY"]},
+{n:"kVA / kW",cat:"电力基础",s:"视在功率与有功功率：kW=kVA×功率因数。",p:"变压器用 kVA 标容量——“1000 的变压器”=1000kVA，约配 1 套干变温控器。",pr:"cosφ 一般 0.8~0.95；kVA 是容量口径、kW 是做功口径。",go:"basic",pd:["DTC"]},
+{n:"接地系统",cat:"电力基础",s:"TN-S / TN-C / TT / IT 一句话对号。",p:"TN-S=五线制 N 与 PE 分开（新工厂主流）；TN-C=四线 PEN 合一；TT=就地接地；IT=不接地（医院矿山）。",pr:"低压配电系统接地制式；销售能对号即可，听到别抬杠。",go:"basic"},
+{n:"IP 等级",cat:"电力基础",s:"外壳防护等级：第一位防尘、第二位防水。",p:"IP4X=防 1mm 固体进入；户外柜防凝露还要靠 THC 加热。",pr:"GB/T4208 外壳防护分级。",go:"basic",pd:["THC"]},
+/* 保护与控制 */
+{n:"防跳",cat:"保护控制",s:"防止断路器在故障上反复分合烧毁机构。",p:"合闸按钮卡住时断路器会“跳—合—跳”循环，几秒烧毁合闸线圈——防跳继电器保证一次命令只合一次。",pr:"电流启动、电压保持的防跳回路；专用件 RL-TBJ，直流操作用 RL-TBJ-DW，带 SF6 闭锁用 RN-FT。",go:"ch2",pd:["RL-TBJ","RN-FT"],say:"“防跳回路”“跳跃”"},
+{n:"双位置继电器",cat:"保护控制",s:"记住合/分两个状态、失电不忘（磁保持）。",p:"给个脉冲就切换并锁住，断电状态不变——“双稳态”；用于位置指示与重动。",pr:"磁保持双稳态继电器；RDP 系列；与电气自保持（RL-HBJ）原理不同。",go:"ch2",pd:["RDP"]},
+{n:"三工位",cat:"保护控制",s:"环网柜/充气柜负荷开关的三个位置：隔离合—分闸—接地合。",p:"一把刀切三个位置；位置要上后台靠双位置/中间继电器组合（常见 2 只，以图为准）；电动机构的电机控制用 RN-DK-C——两层并存。",pr:"三工位开关（合/分/接地）与手车三位置（工作/试验/检修）是两回事，别混。",go:"ch4",pd:["RN-DK","RDP"],say:"“三工位开关”“接地合”"},
+{n:"五防",cat:"保护控制",s:"成套柜五道强制安全联锁。",p:"防误分误合、防带负荷拉刀闸、防带电挂地线、防带地线合闸、防误入带电间隔。",pr:"机械闭锁（钥匙联锁）+电气闭锁（辅助接点+继电器）实现。",go:"basic",pd:["RC"]},
+{n:"备自投（BZT）",cat:"保护控制",s:"主电源消失自动投入备用电源。",p:"一路电没了，母联柜自动合上让备用电源顶上，缩短停电。",pr:"备用电源自动投入装置逻辑；执行元件常用 RVS，合闸前检同期用 RMY-T。",go:"basic",pd:["RVS","RMY"],say:"“备自投”“BZT”"},
+{n:"检同期",cat:"保护控制",s:"合闸前核对两侧压差、角差、频差。",p:"并网或备自投合闸前要确认“两边电基本同步”才能合，不然等于短路——RMY-T 干这个。",pr:"同步检查（检定同期）继电器功能。",go:"ch2",pd:["RMY"],say:"“检同期”“并网”"},
+{n:"非全相",cat:"保护控制",s:"分相断路器只跳开一相的故障状态。",p:"220kV+ 大断路器三相各跳各的，只跳一相危害电网——RN-FB 盯三相位置、延时跳三相。",pr:"三相不一致保护；装于汇控柜/端子箱。",go:"ch2",pd:["RN-FB"],say:"“三相不一致”“分相操作”"},
+{n:"TWJ / HWJ",cat:"保护控制",s:"跳闸/合闸位置继电器（监视断路器分合位）。",p:"客户说“TWJ 不励磁了”=跳位监视回路故障；“TWJ、HWJ 都不励磁”=控制回路断线。",pr:"位置监视专用件 RL-THW；要与防跳合一选 RL-TBJ-DW。",go:"ch4",pd:["RL-THW"],say:"“TWJ 不励磁”“控制回路断线”"},
+{n:"SF6 低气压闭锁",cat:"保护控制",s:"SF6 气压低于闭锁值时禁止分合闸。",p:"SF6 是灭弧气体，气压低了强行操作=放电事故——RN-FT 防跳+气压闭锁二合一。",pr:"气体绝缘设备压力联锁；环保气体柜/固体柜无此需求。",go:"ch2",pd:["RN-FT"],say:"“气室压力”“低气压报警”"},
+{n:"综保（微机保护）",cat:"保护控制",s:"把测量+保护判断写进程序的电子装置。",p:"一台顶一排继电器的“判断”，但出口扩展、操作回路、位置重动、硬联锁仍常外配独立继电器——以二次图为准。",pr:"微机综合保护装置；替代“判断/逻辑层”，操作回路层传统仍走硬接线（分层见 3.1.3）。",go:"ch3",pd:["RC","RL-TBJ"]},
+{n:"一二次融合",cat:"保护控制",s:"把保护/DTU 做进开关本体的智能柜方向。",p:"国网主推的环网箱、柱上开关一体化——集成度更高，见到心里有数，增量在外配与改造。",pr:"一次设备与二次终端融合的柱上开关/环网箱形态。",go:"app2"},
+{n:"光字牌 / 中央信号",cat:"保护控制",s:"柜门上的发光报警窗 / 全站报警汇总。",p:"写“断路器跳闸”“SF6 报警”的灯窗，由 FA 信号报警器驱动；中央信号=警铃+光字+送后台。",pr:" annunciator / 事故总信号。",go:"ch4",pd:["FA"],say:"“光字牌”“事故音响”"},
+{n:"凝露",cat:"保护控制",s:"柜内昼夜温差结露→爬电闪络。",p:"THC 检测凝露风险自动投加热器驱潮——开关柜/端子箱/汇控柜标配。",pr:"condensation；与 IP 等级、加热器功率配套考虑。",go:"ch4",pd:["THC"]},
+{n:"PT100",cat:"保护控制",s:"铂电阻测温传感器（0~150℃ 常用段）。",p:"干变绕组里埋的测温电阻，客户说“埋的是 PT100”=TT/DTC 都能配。",pr:"Pt100 铂热电阻；CU50 为铜电阻（便宜）。",go:"ch4",pd:["DTC","TT"]},
+/* 设备与通信 */
+{n:"KYN28",cat:"设备",s:"最常见 10kV 铠装移开式中置柜。",p:"K铠装 Y移开 N户内 28 设计序号；柜顶“二次室”=继电器的房间。",pr:"中压金属铠装移开式开关柜，断路器装手车。",go:"ch4",pd:["RC","THC"],say:"“中置柜”“手车柜”"},
+{n:"环网柜（RMU）",cat:"设备",s:"城市配网环网供电的小体积 10kV 柜。",p:"装三工位负荷开关，外资/出口单叫 RMU；空间小→小型继电器机会。",pr:"Ring Main Unit；HXGN 系列；充气柜（C-GIS）是其密封升级。",go:"ch4",pd:["RC","THC","RN-DK"]},
+{n:"充气柜（C-GIS）",cat:"设备",s:"带电体全密封进气箱的中压柜。",p:"全绝缘免维护、抗潮湿盐雾；SF6 或环保气体；“充气柜”按绝缘命名、“环网柜”按用途命名，有交叉。",pr:"Cubicle GIS，常见 12/24/40.5kV；与变电站级 GIS 差一个 C。",go:"ch4",pd:["RN-FT","THC"]},
+{n:"GIS",cat:"设备",s:"变电站级气体绝缘全封闭组合电器。",p:"把断路器、刀闸、母线全封进金属筒充 SF6；每个间隔配一台汇控柜=每间隔都是继电器容量。",pr:"Gas Insulated Switchgear；汇控柜内 RN 系列是核心用量。",go:"ch4",pd:["RN-FT","RN-FB"]},
+{n:"汇控柜",cat:"设备",s:"GIS/户外断路器旁的“大脑”二次柜。",p:"汇集本间隔全部跳合闸、信号、闭锁、加热驱潮回路——RN 系列全家福安装位。",pr:"就地控制柜；防跳/双位置/非全相/SF6 闭锁/温湿度控制全套。",go:"ch4",pd:["RN-FT","RN-FB","RDP","THC"]},
+{n:"箱变",cat:"设备",s:"变压器+高低压柜装进一个箱子的预装式变电站。",p:"欧式 YBM/YBP、美式 ZGS；箱内干变同样要温控器。",pr:"箱式变电站；工厂预装、现场吊装。",go:"ch4",pd:["DTC","RVS","THC"]},
+{n:"直流屏（GZDW）",cat:"设备",s:"蓄电池+充电柜，全站跳合闸的生命线。",p:"交流全停也靠电池撑住保护与跳合闸；合母（DC220V 大电流合闸）/控母（小电流控制）两根母线。",pr:"微机控制直流电源柜；浮充/均充维护电池。",go:"ch4",pd:["RMY","FA","YDSP"],say:"“合母/控母”“浮充均充”"},
+{n:"MCC",cat:"设备",s:"电机控制中心：集中管几十台电机的抽屉柜列。",p:"每台电机一个抽屉（断路器+接触器+热继+中间/时间继电器），是中间/时间继电器用量最大的柜型之一。",pr:"Motor Control Center / 动力中心（PC）。",go:"ch4",pd:["RC","RT","FA"]},
+{n:"OLTC（有载调压）",cat:"设备",s:"带电调压的分接开关。",p:"不停电调输出电压挡位；挡位信号远传用 TG 挡位变送器。",pr:"On-Load Tap Changer。",go:"ch4",pd:["TG"],say:"“调挡”“分接开关”"},
+{n:"4-20mA",cat:"通信测控",s:"工业标准模拟量信号。",p:"为什么是 4 不是 0？0mA 分不清“断线”和“零值”，4mA 是“活着”的最小信号。",pr:"两线制电流环标准；变送器输出语言。",go:"ch2",pd:["TE","TT","THS"]},
+{n:"RS485 / MODBUS",cat:"通信测控",s:"工业通信“普通话”。",p:"客户说“要上后台”“走通信”=问带不带 RS485；MODBUS 是协议。",pr:"差分总线+主从协议；直挂通信管理机。",go:"ch2",pd:["TE","THS"]},
+{n:"四遥",cat:"通信测控",s:"遥测、遥信、遥控、遥调。",p:"遥测是变送器的活（TE/TT/THS）、遥信是信号继电器/报警器的活（RC/FA）。",pr:"SCADA 对远方站点的四类操作。",go:"ch3",pd:["TE","FA"]},
+{n:"SCADA",cat:"通信测控",s:"电网后台监控系统。",p:"调度中心“看见”全网的系统；现场信号经 DTU/通信屏送上去。",pr:"数据采集与监视控制系统。",go:"ch4",pd:["TE"]},
+{n:"DTU / FTU / TTU",cat:"通信测控",s:"配网自动化终端：站所/馈线/配变。",p:"DTU 管整个配电室、FTU 管一条出线、TTU 管一台台变；开出接点小，常外配继电器扩容。",pr:"Distribution/Feeder/Transformer Terminal Unit。",go:"ch4",pd:["TE","YDSP","RC"]},
+{n:"PCS / BMS / EMS",cat:"新能源",s:"储能三件套：变流器/电池管理/能量管理。",p:"PCS 交直流变换、BMS 管每簇电池、EMS 全站调度；舱内温湿度、测温、告警是我们的配套位。",pr:"Power Conversion System / Battery Management System / Energy Management System。",go:"ch4",pd:["THS","FA","RC"]},
+{n:"预制舱",cat:"新能源",s:"工厂整舱预装、现场吊装的设备舱。",p:"舱内二次元件在工厂就装好=集成商/本体厂的选型权；储能/光伏/风电场主流做法。",pr:"预装式模块化机房/电气舱。",go:"ch4",pd:["THC","YDSP"]},
+{n:"汇流箱",cat:"新能源",s:"把若干串光伏板电流汇成一路的箱子。",p:"内含熔断器、断路器、防反二极管、通信模块；户外防凝露用 THC。",pr:"光伏直流汇流装置（Combener Box）。",go:"ch4",pd:["THC","RC"]},
+{n:"逆变器",cat:"新能源",s:"光伏直流变交流的核心设备。",p:"IGBT 发热大、控制板娇贵——TT 测温+YDSP 供电+THC 温控。",pr:"DC/AC 功率变换器（组串式/集中式）。",go:"ch4",pd:["TT","YDSP"]},
+/* 商务流程 */
+{n:"BOM",cat:"商务流程",s:"Bill of Materials 物料清单——进了 BOM=锁定长期订单。",p:"客户产品的零件清单，研发维护、跟着 ERP 自动走；菜谱之于厨房=BOM 之于工厂。",pr:"EBOM/MBOM/采购 BOM 三层；换料要走 ECN。",go:"ch6"},
+{n:"A 点 / B 点",cat:"商务流程",s:"主选供应商/备份供应商。",p:"“你们是 B 点”=平时不给量、A 点断供才轮到你；目标是抢 A 点，时机是 A 点出质量问题或年降谈崩。",pr:"双供应商策略下的份额分配。",go:"ch6"},
+{n:"ECN",cat:"商务流程",s:"工程变更通知——换供应商的拦路虎，也是你的护城河。",p:"图纸定型后换料要走 ECN 很麻烦；但进了 BOM 后对手想换掉你同样难过这道坎。",pr:"Engineering Change Notice；攻“下一代产品”绕开它。",go:"ch6"},
+{n:"OEM / ODM / OBM / JDM",cat:"商务流程",s:"贴牌代工/原创设计制造/自主品牌/联合设计。",p:"OEM=照他的方案做贴他的牌；ODM=照自己的方案做贴他的牌（利润最好）；OBM=自有品牌（公司现状）；JDM=联合开发。",pr:"制造模式四分法；客户问“能做 OEM 吗”谈 MOQ、丝印费、NDA。",go:"ch5"},
+{n:"RFQ / PO",cat:"商务流程",s:"询价单/采购订单。",p:"收到 RFQ 只是入场券；收到 PO 才是真成交——口头答应都不算。",pr:"Request For Quotation / Purchase Order；PO 是结算依据。",go:"ch9"},
+{n:"MOQ",cat:"商务流程",s:"最小起订量。",p:"定制丝印也要报 MOQ，否则客户要 50 台你也得开产线。",pr:"Minimum Order Quantity。",go:"ch9"},
+{n:"账期 / 承兑",cat:"商务流程",s:"先货后款的天数 / 银行或商业承兑汇票。",p:"新客户尽量款到发货或预付 30%+；银承基本安全但有期限、急用钱要贴现；商承≈白条能拒就拒。",pr:"付款条件核心条款；承兑计入账期。",go:"ch10"},
+{n:"质保金",cat:"商务流程",s:"合同额 5%~10% 押 1~2 年。",p:"质保期满无质量问题才付——报价时要算进现金流。",pr:"Retention Money；项目型订单标配。",go:"ch10"},
+{n:"年降",cat:"商务流程",s:"大客户每年 3%~5% 的降价要求。",p:"别裸让——用份额承诺、A 点地位、框架协议换。",pr:"Annual Price-down。",go:"ch9"},
+{n:"三流一致",cat:"商务流程",s:"合同流、货物流、发票流必须一致。",p:"合同签 A、货发 B、发票开 C=违规；客户要“发票开关联公司”务必谨慎。",pr:"增值税合规要求。",go:"ch10"},
+{n:"专票 / 普票",cat:"商务流程",s:"13% 可抵扣的增值税专用发票 / 不可抵扣普通发票。",p:"“发票要 13 个点的”=要 13% 专票；报价前必问含税与否，差 13 个点。",pr:"增值税专用/普通发票。",go:"ch10"},
+{n:"SQE",cat:"商务流程",s:"供应商质量工程师——审厂和 8D 都归他管。",p:"“资料转给 SQE 了”=进入供应商审核环节；技术决定用不用你、采购决定多少钱、SQE 决定还让不让用。",pr:"Supplier Quality Engineer。",go:"ch11"},
+{n:"8D 报告",cat:"商务流程",s:"质量投诉后的 8 步整改报告。",p:"客户要 8D 说明还想留着你；闭环它才能保住资格。",pr:"Eight Disciplines 问题解决法。",go:"ch11"},
+{n:"审厂 / 验厂",cat:"商务流程",s:"客户来工厂实地检查产能质量体系。",p:"SQE 带队查体系文件、产线、检测设备；提出审厂=认真想合作，是好消息。",pr:"供应商现场审核；第一道查 ISO9001/14001/45001。",go:"ch9"},
+{n:"框架协议 / 长协",cat:"商务流程",s:"先谈好价格和量、按需分批下单。",p:"续单最容易的形式；长协是多年版。",pr:"Frame Agreement / 长期协议。",go:"ch9"},
+{n:"集采 / 询比价",cat:"商务流程",s:"集团集中采购 / 小范围比价直采。",p:"集采量大流程重；询比价门槛最低，是现阶段主攻；直采=事业部自己定，最好切入。",pr:"集中采购 vs 询比价/议标/单一来源。",go:"ch9"},
+{n:"ERP / SRM / MES / PLM",cat:"商务流程",s:"客户的企业系统全家桶。",p:"“进 ERP”=报价进正式流程；“在 SRM 注册”=申请成为合格供应商；“料号建进 PLM”=正式进 BOM 体系；“扫码进 MES”=标签要带条码。",pr:"企业资源计划/供应商关系/制造执行/产品生命周期管理。",go:"ch8"},
+/* 资质质量 */
+{n:"型式试验报告",cat:"资质质量",s:"第三方权威机构做的全套认证试验报告。",p:"客户问“有没有型式试验报告”=要权威背书；国家级检测机构（国网电科院、西高所）出具。",pr:"型式试验 vs 出厂试验（每台例行）。",go:"ch11"},
+{n:"CCC / CQC",cat:"资质质量",s:"强制性产品认证 / 自愿性认证。",p:"只有列入强制目录的品类才要 CCC；中间/时间/控制类继电器多数不在目录，用 CQC+型式试验报告背书——具体以公司有效证书为准。",pr:"中国强制性认证 / 中国质量认证中心自愿认证；招标常写“CCC 或 CQC”。",go:"ch12"},
+{n:"CE / CB / RoHS",cat:"资质质量",s:"欧盟安规 / 国际互认 / 有害物质限制。",p:"出海或外资客户会点名要——看到客户做出口主动问。",pr:"欧盟 conformité européenne / IECEE 互认体系。",go:"ch12"},
+{n:"CRCC / CCS",cat:"资质质量",s:"铁路产品认证 / 中国船级社认证。",p:"做轨交要 CRCC、做船海要 CCS——先确认公司有无该证，有证才有入场券。",pr:"铁路产品认证中心 / China Classification Society。",go:"ch12"},
+{n:"EMC",cat:"资质质量",s:"电磁兼容。",p:"RAI 抗干扰继电器的核心卖点就是 EMC 指标。",pr:"Electromagnetic Compatibility：不干扰别人+抗别人干扰。",go:"ch12",pd:["RAI"]},
+{n:"MTBF",cat:"资质质量",s:"平均无故障时间。",p:"客户问寿命报“机械寿命/电寿命”两个数（如 10⁷ 次机械、10⁵ 次电气）。",pr:"Mean Time Between Failures。",go:"ch11"},
+{n:"PPM",cat:"资质质量",s:"百万分之不良率。",p:"几百 PPM 正常、几十 PPM 优秀。",pr:"Parts Per Million。",go:"ch11"}
+];
+SN.TERMS.forEach(function(t,i){ t.id = 't-'+i; });
+</script>
+
+<script>
+/* ============================================================
+   sinouse 百科功能层
+   粒子宇宙 / 品牌视差 / 百科渲染 / 术语弹窗 / 全局搜索 /
+   复制与清单持久化 / 阅读位置 / 快捷键
+   ============================================================ */
+(function(){
+"use strict";
+var SN=window.SN||{};
+SN.PRODUCTS=SN.PRODUCTS||[];SN.DEVICES=SN.DEVICES||[];SN.SCENES=SN.SCENES||[];SN.CUSTOMERS=SN.CUSTOMERS||[];SN.TERMS=SN.TERMS||[];
+var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+function $(s,c){return (c||document).querySelector(s);}
+function $$(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s));}
+function norm(t){return (t||'').toLowerCase().replace(/[\s\-_/（）()·]/g,'');}
+function escRe(t){return t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}
+function prodById(id){for(var i=0;i<SN.PRODUCTS.length;i++){if(SN.PRODUCTS[i].id===id)return SN.PRODUCTS[i];}return null;}
+var termMap=null;
+function termByName(n){if(!termMap){termMap={};SN.TERMS.forEach(function(t){termMap[norm(t.n)]=t;});}return termMap[norm(n)]||null;}
+function secName(id){return ({basic:'基 · 零基础电力扫盲',ch1:'一 · 客户行业分类词',ch2:'二 · 自家产品相关词',ch3:'三 · 替代·同行·配套',ch4:'四 · 应用设备扫盲',ch5:'五 · 制造模式',ch6:'六 · BOM 深度解析',ch9:'九 · 采购流程与商务',ch10:'十 · 财务发票回款',ch11:'十一 · 质量术语',ch12:'十二 · 资质与标准',ch13:'十三 · 招投标全流程',ch15:'十五 · 异议应对',ch16:'十六 · 场景话术'})[id]||'手册原文';}
+
+/* ---------- 轻提示 / 复制 / 定位闪烁 ---------- */
+var toastEl=null,toastTimer=0;
+function hideToast(){if(toastEl)toastEl.classList.remove('show');}
+function toast(msg,btnText,btnFn){
+ if(!toastEl){toastEl=document.createElement('div');toastEl.className='toast';document.body.appendChild(toastEl);}
+ toastEl.innerHTML='';
+ var sp=document.createElement('span');sp.textContent=msg;toastEl.appendChild(sp);
+ if(btnText){var b=document.createElement('button');b.type='button';b.textContent=btnText;
+  b.addEventListener('click',function(){hideToast();if(btnFn)btnFn();});toastEl.appendChild(b);}
+ clearTimeout(toastTimer);toastEl.classList.add('show');
+ toastTimer=setTimeout(hideToast,btnText?7000:2200);
+}
+function copyText(txt,okMsg){
+ function done(){toast(okMsg||'已复制到剪贴板');}
+ function legacy(){var ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';
+  document.body.appendChild(ta);ta.select();
+  try{document.execCommand('copy');done();}catch(e){toast('复制失败，请手动选择复制');}
+  document.body.removeChild(ta);}
+ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done,legacy);}
+ else legacy();
+}
+function flashEl(el){if(!el)return;el.classList.remove('sr-flash-hit');void el.offsetWidth;el.classList.add('sr-flash-hit');setTimeout(function(){el.classList.remove('sr-flash-hit');},1750);}
+function gotoEl(el){if(!el)return;var d=$('.lib-detail',el);if(d&&d.hidden){d.hidden=false;var b=$('[data-act="detail"]',el);if(b)b.textContent='收起档案';}
+ try{el.scrollIntoView({behavior:RM?'auto':'smooth',block:'center'});}catch(e){el.scrollIntoView();}flashEl(el);}
+function findProdRow(key){/* 4.10 表格是 h3#p410 的兄弟节点，需在其所在章节内找行 */
+ var h=document.getElementById('p410');var sec=h?(h.closest('section')||document):document;
+ var rows=$$('tbody tr',sec);var k=norm(key);
+ for(var i=0;i<rows.length;i++){if(norm(rows[i].textContent).indexOf(k)>=0)return rows[i];}
+ return h||sec;}
+
+/* ---------- 主题（迁移 sn-theme，兼容 hb-theme；不重复绑定切换） ---------- */
+(function(){try{
+ var t=localStorage.getItem('sn-theme');
+ if(t)document.documentElement.setAttribute('data-theme',t);
+ var btn=$('#themeBtn');
+ if(btn){btn.addEventListener('click',function(){setTimeout(function(){try{localStorage.setItem('sn-theme',document.documentElement.getAttribute('data-theme'));}catch(e){}},0);});}
+}catch(e){}})();
+
+/* ---------- 粒子宇宙 ---------- */
+function initParticles(){
+ var canvas=$('#starCanvas'),hero=$('#hero');
+ if(!canvas||!hero)return;
+ if(RM){canvas.parentNode&&canvas.parentNode.removeChild(canvas);return;}
+ var ctx=canvas.getContext('2d');if(!ctx){canvas.style.display='none';return;}
+ var W=0,H=0,DPR=1,stars=[],ripples=[],bursts=[],meteors=[],rafId=0,visible=true;
+ var mx=-9e3,my=-9e3;
+ var isSmall=matchMedia('(max-width:760px)').matches||(navigator.maxTouchPoints|0)>0;
+ var MAX=isSmall?40:88;
+ function build(){
+  stars=[];
+  var n=Math.max(24,Math.min(MAX,Math.round(W*H/11000)));
+  for(var i=0;i<n;i++){
+   stars.push({x:Math.random()*W,y:Math.random()*H,
+    vx:(Math.random()-.5)*.16,vy:(Math.random()-.5)*.16,
+    r:.6+Math.random()*1.5,ph:Math.random()*6.2832,
+    c:Math.random()<.62?'150,205,255':(Math.random()<.5?'126,224,176':'255,255,255')});
+  }
+ }
+ function resize(){
+  var r=hero.getBoundingClientRect();
+  DPR=Math.min(window.devicePixelRatio||1,1.5);
+  W=Math.max(1,r.width);H=Math.max(1,r.height);
+  canvas.width=Math.round(W*DPR);canvas.height=Math.round(H*DPR);
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+  build();
+ }
+ var frame=0;
+ function step(){
+  rafId=0;
+  /* 30fps 半帧渲染：弱机上鼠标不再被画布拖累 */
+  frame^=1; if(!frame){ rafId=requestAnimationFrame(step); return; }
+  ctx.clearRect(0,0,W,H);
+  var i,j,s,dx,dy,d2;
+  for(i=0;i<stars.length;i++){s=stars[i];
+   s.x+=s.vx;s.y+=s.vy;s.ph+=.015;
+   if(s.x<-8)s.x=W+8;if(s.x>W+8)s.x=-8;if(s.y<-8)s.y=H+8;if(s.y>H+8)s.y=-8;
+   dx=mx-s.x;dy=my-s.y;d2=dx*dx+dy*dy;
+   if(d2<26000&&d2>1){var f=18/d2;s.x+=dx*f;s.y+=dy*f;}
+  }
+  ctx.lineWidth=1;
+  for(i=0;i<stars.length;i++){for(j=i+1;j<stars.length;j++){
+   dx=stars[i].x-stars[j].x;dy=stars[i].y-stars[j].y;d2=dx*dx+dy*dy;
+   if(d2<12100){var a=(1-d2/12100)*.15;
+    ctx.strokeStyle='rgba(120,190,235,'+a.toFixed(3)+')';
+    ctx.beginPath();ctx.moveTo(stars[i].x,stars[i].y);ctx.lineTo(stars[j].x,stars[j].y);ctx.stroke();
+   }}}
+  for(i=0;i<stars.length;i++){s=stars[i];
+   var tw=.55+.45*Math.sin(s.ph);
+   ctx.fillStyle='rgba('+s.c+','+(0.75*tw+0.15).toFixed(3)+')';
+   ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,6.2832);ctx.fill();
+  }
+  var k;
+  for(k=bursts.length-1;k>=0;k--){var b=bursts[k];b.x+=b.vx;b.y+=b.vy;b.vx*=.94;b.vy*=.94;b.life-=.022;
+   if(b.life<=0){bursts.splice(k,1);continue;}
+   ctx.fillStyle='rgba('+b.c+','+(b.life*.85).toFixed(3)+')';
+   ctx.beginPath();ctx.arc(b.x,b.y,1.6*b.life+.4,0,6.2832);ctx.fill();
+  }
+  /* 流星：稀疏偶发，拖尾渐隐（RM 下整个画布不启动，天然关闭） */
+  if(Math.random()<0.005&&meteors.length<2){
+   meteors.push({x:W*.1+Math.random()*W*.8,y:10+Math.random()*H*.35,
+    vx:3.5+Math.random()*2.5,vy:1.6+Math.random()*1.2,life:1});
+  }
+  for(k=meteors.length-1;k>=0;k--){var mt=meteors[k];mt.x+=mt.vx*2;mt.y+=mt.vy*2;mt.life-=.02;
+   if(mt.life<=0||mt.x>W+80||mt.y>H+40){meteors.splice(k,1);continue;}
+   var tl=10,gr=ctx.createLinearGradient(mt.x-mt.vx*tl,mt.y-mt.vy*tl,mt.x,mt.y);
+   gr.addColorStop(0,'rgba(150,205,255,0)');
+   gr.addColorStop(1,'rgba(205,238,255,'+(0.75*mt.life).toFixed(3)+')');
+   ctx.strokeStyle=gr;ctx.lineWidth=1.6;
+   ctx.beginPath();ctx.moveTo(mt.x-mt.vx*tl,mt.y-mt.vy*tl);ctx.lineTo(mt.x,mt.y);ctx.stroke();ctx.lineWidth=1;
+  }
+  for(k=ripples.length-1;k>=0;k--){var rp=ripples[k];rp.r+=2.6;rp.a-=.022;
+   if(rp.a<=0){ripples.splice(k,1);continue;}
+   ctx.strokeStyle='rgba(150,210,255,'+(rp.a*.5).toFixed(3)+')';ctx.lineWidth=1.4;
+   ctx.beginPath();ctx.arc(rp.x,rp.y,rp.r,0,6.2832);ctx.stroke();ctx.lineWidth=1;
+  }
+  if(visible)rafId=requestAnimationFrame(step);
+ }
+ function start(){if(!rafId&&visible&&!document.hidden)rafId=requestAnimationFrame(step);}
+ function stop(){if(rafId){cancelAnimationFrame(rafId);rafId=0;}}
+ hero.addEventListener('pointermove',function(e){
+  var r=hero.getBoundingClientRect();mx=e.clientX-r.left;my=e.clientY-r.top;
+ },{passive:true});
+ hero.addEventListener('pointerleave',function(){mx=-9e3;my=-9e3;});
+ hero.addEventListener('pointerdown',function(e){
+  var r=hero.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
+  if(y<0||y>H||x<0||x>W)return;
+  ripples.push({x:x,y:y,r:6,a:1});
+  for(var i=0;i<10;i++){var an=Math.random()*6.2832,sp=.7+Math.random()*1.7;
+   bursts.push({x:x,y:y,vx:Math.cos(an)*sp,vy:Math.sin(an)*sp,life:1,c:Math.random()<.5?'150,205,255':'126,224,176'});}
+ },{passive:true});
+ window.addEventListener('resize',resize);
+ if('IntersectionObserver' in window){
+  new IntersectionObserver(function(es){es.forEach(function(en){visible=en.isIntersecting;if(visible)start();else stop();});},{threshold:.02}).observe(hero);
+ }
+ document.addEventListener('visibilitychange',function(){if(document.hidden)stop();else start();});
+ resize();start();
+}
+
+/* ---------- 首屏滚动视差：内容缓移淡出，粒子半速跟随，向下滚动时的纵深手感 ---------- */
+function initHeroParallax(){
+ if(RM)return;
+ var hero=$('#hero'),inner=$('.hero-inner',hero),canvas=$('#starCanvas');
+ if(!hero||!inner)return;
+ var ticking=false;
+ function upd(){
+  ticking=false;
+  var y=window.pageYOffset||0,h=hero.offsetHeight||1;
+  if(y<=h){
+   var r=Math.min(1,y/h);
+   if(inner.style.animation!=='none')inner.style.animation='none'; /* 入场动画已结束，交出 transform 控制权 */
+   inner.style.transform='translateY('+(r*46).toFixed(1)+'px)';
+   inner.style.opacity=String(Math.max(.12,1-r*.9));
+   if(canvas)canvas.style.transform='translateY('+(r*24).toFixed(1)+'px)';
+  }
+ }
+ window.addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(upd);}},{passive:true});
+ upd();
+}
+
+/* ---------- sinouse 品牌视差倾斜 ---------- */
+function initBrand(){
+ var hero=$('#hero'),brand=$('#brand3d');
+ if(!hero||!brand||RM)return;
+ if(matchMedia('(pointer: coarse)').matches)return;
+ hero.addEventListener('pointermove',function(e){
+  var r=hero.getBoundingClientRect();
+  var ry=((e.clientX-r.left)/r.width-.5)*7;
+  var rx=((e.clientY-r.top)/r.height-.5)*-5;
+  brand.style.transform='rotateX('+rx.toFixed(2)+'deg) rotateY('+ry.toFixed(2)+'deg)';
+ },{passive:true});
+ hero.addEventListener('pointerleave',function(){brand.style.transform='';});
+}
+
+/* ---------- 百科渲染 ---------- */
+function tagHtml(t){return '<span class="tag plain">'+t+'</span>';}
+function kvHtml(pairs){var h='<dl class="kv">';
+ pairs.forEach(function(pr){if(pr[1]&&pr[1]!=='—')h+='<dt>'+pr[0]+'</dt><dd>'+pr[1]+'</dd>';});
+ return h+'</dl>';}
+
+function prodDetail(p){
+ var h=kvHtml([['通俗解释',p.p],['专业定义',p.pr],['主要安装位置',p.where],['典型应用设备',p.dev],['典型客户',p.cust],['关键参数',p.param],['选型注意',p.sel],['常见替代方案',p.alt],['常见错误理解',p.misuse],['客户可能的说法',p.say],['建议追问',p.ask],
+  (p.scenes&&p.scenes.length)?['适用场景',p.scenes.map(tagHtml).join('')]:null]);
+ h+='<div class="rel-chips"><b>关联知识（相关产品 / 相关术语）</b><div>';
+ (p.relp||[]).forEach(function(id){var q=prodById(id);if(q)h+='<button type="button" class="tag" data-jump-prod="'+q.id+'">'+q.n+'</button>';});
+ (p.relt||[]).forEach(function(tn){if(termByName(tn))h+='<button type="button" class="tag" data-term="'+tn+'">'+tn+'</button>';});
+ h+='</div></div>';
+ if(p.confirm&&p.confirm!=='—')h+='<div class="confirm-note">待公司资料确认：'+p.confirm+'</div>';
+ return h;
+}
+function applyGridFilter(grid,q,getTxt){
+ var k=norm(q);$$('.lib-card,.flash',grid).forEach(function(c){
+  c.style.display=(!k||norm(getTxt?getTxt(c):c.textContent).indexOf(k)>=0)?'':'none';
+ });
+}
+function renderProducts(){
+ var grid=$('#prodGrid');if(!grid)return;
+ var fams=[];SN.PRODUCTS.forEach(function(p){if(fams.indexOf(p.fam)<0)fams.push(p.fam);});
+ var bar=$('#prodCats');
+ if(bar){
+  var h='<button type="button" class="chip on" data-fam="*">全部</button>';
+  fams.forEach(function(f){h+='<button type="button" class="chip" data-fam="'+f+'">'+f+'</button>';});
+  bar.innerHTML=h;
+  bar.addEventListener('click',function(e){var b=e.target.closest('.chip');if(!b)return;
+   $$('.chip',bar).forEach(function(c){c.classList.toggle('on',c===b);});applyProdFilter();});
+ }
+ grid.innerHTML=SN.PRODUCTS.map(function(p){
+  return '<article class="lib-card" id="prod-'+p.id+'">'+
+   '<header><h4>'+p.n+'</h4><span class="lib-cat">'+p.fam+' · '+p.cat+'</span>'+
+   '<span class="lib-models">型号：'+p.m+'</span></header>'+
+   '<p class="lib-oneline">'+p.s+'</p>'+
+   '<div class="lib-actions">'+
+   '<button type="button" class="lib-btn primary" data-act="detail">展开档案</button>'+
+   '<button type="button" class="lib-btn" data-act="locate">原文定位</button>'+
+   '<button type="button" class="lib-btn" data-act="copy">复制简介</button></div>'+
+   '<div class="lib-detail" hidden>'+prodDetail(p)+'</div></article>';
+ }).join('');
+ grid.addEventListener('click',function(e){
+  var card=e.target.closest('.lib-card');if(!card)return;
+  var p=prodById(card.id.replace('prod-',''));if(!p)return;
+  var act=e.target.closest('[data-act]');
+  if(act){
+   if(act.dataset.act==='detail'){var d=$('.lib-detail',card);d.hidden=!d.hidden;act.textContent=d.hidden?'展开档案':'收起档案';}
+   else if(act.dataset.act==='locate'){var row=findProdRow(p.find||p.m.split(' /')[0].split('（')[0]);if(row){try{row.scrollIntoView({behavior:RM?'auto':'smooth',block:'center'});}catch(er){row.scrollIntoView();}flashEl(row);}}
+   else if(act.dataset.act==='copy'){copyText(p.n+'（'+p.m+'）\n一句话：'+p.s+'\n通俗：'+p.p+'\n安装位置：'+p.where+'\n客户说法：'+p.say,'产品简介已复制');}
+   return;
+  }
+  var jp=e.target.closest('[data-jump-prod]');
+  if(jp){var el=$('#prod-'+jp.dataset.jumpProd);if(el)gotoEl(el);return;}
+  var tt=e.target.closest('[data-term]');
+  if(tt)openTerm(tt.dataset.term);
+ });
+ var inp=$('#prodFilter');
+ if(inp)inp.addEventListener('input',function(){applyGridFilter(grid,inp.value,function(c){var p=prodById(c.id.replace('prod-',''));return p?p.n+p.m+p.fam+p.cat+p.s+p.p+p.say+p.where:'';});});
+ function applyProdFilter(){
+  var fam=(bar&&$('.chip.on',bar))?$('.chip.on',bar).dataset.fam:'*';
+  var q=inp?inp.value:'';
+  $$('.lib-card',grid).forEach(function(c){
+   var p=prodById(c.id.replace('prod-',''));if(!p)return;
+   var ok=(fam==='*'||p.fam===fam)&&(!q||norm(p.n+p.m+p.fam+p.cat+p.s+p.p+p.say+p.where).indexOf(norm(q))>=0);
+   c.style.display=ok?'':'none';
+  });
+ }
+}
+function renderDevices(){
+ var grid=$('#devGrid');if(!grid)return;
+ grid.innerHTML=SN.DEVICES.map(function(d){
+  return '<article class="lib-card lib-wide" id="'+d.id+'">'+
+   '<header><h4>'+d.n+'</h4><span class="lib-cat">'+(d.en||'设备')+'</span></header>'+
+   '<p class="lib-oneline">'+d.s+'</p>'+
+   kvHtml([['设备是什么',d.what],['解决什么问题',d.prob],['内部主要组成',d.inside],['一次部分',d.pri],['二次部分（我们的机会）',d.sec],['常见型号 / 分类',d.models],['安装与使用场景',d.scene],['谁生产 / 谁使用',d.who],['可能用到我们的产品',d.ours],['客户通常怎么说',d.say],['拜访重点关注',d.focus],['与其他设备的区别',d.diff],['常见误区',d.misuse]])+
+   '<div class="rel-chips"><b>推荐继续阅读</b><div>'+
+   '<a class="tag" href="#'+(d.go||'ch4')+'">手册原文：'+secName(d.go)+'</a>'+
+   '<a class="tag" href="#prodlib">产品百科速览</a><a class="tag" href="#termlib">行业术语百科</a></div></div>'+
+   '</article>';
+ }).join('');
+ var f=$('#devFilter');
+ if(f)f.addEventListener('input',function(){applyGridFilter(grid,f.value,null);});
+}
+function renderScenes(){
+ var grid=$('#sceneGrid');if(!grid)return;
+ grid.innerHTML=SN.SCENES.map(function(d){
+  return '<article class="lib-card lib-wide" id="'+d.id+'">'+
+   '<header><h4>'+d.n+'</h4><span class="lib-cat">应用场景</span></header>'+
+   '<p class="lib-oneline">'+d.s+'</p>'+
+   kvHtml([['场景是什么',d.what],['常见设备',d.dev],['常见客户',d.cust],['主要技术问题',d.issue],['可能需要的产品',d.ours],['客户常用词',d.say],['销售拜访重点',d.focus],['需求判断方法',d.judge]])+
+   '<div class="rel-chips"><b>推荐继续阅读</b><div>'+
+   '<a class="tag" href="#'+(d.go||'ch4')+'">手册原文：'+secName(d.go)+'</a>'+
+   '<a class="tag" href="#p410">产品→场景速查表（4.10）</a><a class="tag" href="#devlib">设备百科</a></div></div>'+
+   '</article>';
+ }).join('');
+ var f=$('#sceneFilter');
+ if(f)f.addEventListener('input',function(){applyGridFilter(grid,f.value,null);});
+}
+function renderCustomers(){
+ var grid=$('#custGrid');if(!grid)return;
+ grid.innerHTML=SN.CUSTOMERS.map(function(d){
+  return '<article class="lib-card lib-wide" id="'+d.id+'">'+
+   '<header><h4>'+d.n+'</h4><span class="lib-cat">客户类型</span></header>'+
+   '<p class="lib-oneline">'+d.s+'</p>'+
+   kvHtml([['客户是什么',d.what],['主要负责',d.duty],['谁负责技术选型',d.tech],['谁负责采购',d.buyer],['谁影响供应商准入',d.gate],['谁决定成交',d.decide],['常见项目来源',d.source],['常见采购方式',d.mode],['客户关注点',d.care],['销售切入方式',d.entry],['常见沟通误区',d.mistake],['适合推荐的产品',d.prods]])+
+   '<div class="rel-chips"><b>推荐继续阅读</b><div>'+
+   '<a class="tag" href="#'+(d.go||'ch1')+'">手册原文：'+secName(d.go)+'</a>'+
+   '<a class="tag" href="#ch7">客户方关键角色图谱</a><a class="tag" href="#scenelib">应用场景百科</a></div></div>'+
+   '</article>';
+ }).join('');
+ var f=$('#custFilter');
+ if(f)f.addEventListener('input',function(){applyGridFilter(grid,f.value,null);});
+}
+function renderTerms(){
+ var grid=$('#termGrid');if(!grid)return;
+ var cats=[];SN.TERMS.forEach(function(t){if(cats.indexOf(t.cat)<0)cats.push(t.cat);});
+ var bar=$('#termCats');
+ if(bar){
+  var h='<button type="button" class="chip on" data-cat="*">全部</button>';
+  cats.forEach(function(c){h+='<button type="button" class="chip" data-cat="'+c+'">'+c+'</button>';});
+  bar.innerHTML=h;
+  bar.addEventListener('click',function(e){var b=e.target.closest('.chip');if(!b)return;
+   $$('.chip',bar).forEach(function(x){x.classList.toggle('on',x===b);});applyTermFilter();});
+ }
+ grid.innerHTML=SN.TERMS.map(function(t){
+  return '<div class="flash term-open" id="'+t.id+'" data-term="'+t.n+'" tabindex="0" role="button" aria-haspopup="dialog">'+
+   '<div class="term">'+t.n+'</div><div class="def">'+t.s+'</div>'+
+   '<div style="margin-top:7px"><span class="lib-cat">'+t.cat+'</span></div></div>';
+ }).join('');
+ grid.addEventListener('click',function(e){var c=e.target.closest('[data-term]');if(c)openTerm(c.dataset.term);});
+ grid.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){var c=e.target.closest('[data-term]');if(c){e.preventDefault();openTerm(c.dataset.term);}}});
+ var f=$('#termFilter');
+ function applyTermFilter(){
+  var q=norm(f?f.value:'');
+  var cat=(bar&&$('.chip.on',bar))?$('.chip.on',bar).dataset.cat:'*';
+  $$('.flash',grid).forEach(function(el){
+   var t=null;for(var i=0;i<SN.TERMS.length;i++){if(SN.TERMS[i].id===el.id){t=SN.TERMS[i];break;}}
+   if(!t)return;
+   var ok=(cat==='*'||t.cat===cat)&&(!q||norm(t.n+t.s+t.p+t.pr).indexOf(q)>=0);
+   el.style.display=ok?'':'none';
+  });
+ }
+ if(f)f.addEventListener('input',applyTermFilter);
+}
+
+/* ---------- 术语解释弹窗 ---------- */
+var popBd=null;
+function ensurePop(){
+ if(popBd)return popBd;
+ popBd=document.createElement('div');popBd.className='term-pop-backdrop';
+ popBd.innerHTML='<div class="term-pop" role="dialog" aria-modal="true" aria-label="术语解释">'+
+  '<button type="button" class="close-x" aria-label="关闭弹窗">✕</button>'+
+  '<h4><span id="tpName"></span><span class="en" id="tpEn"></span></h4>'+
+  '<div class="tp-sec pop"><b>一句话</b><p id="tpS"></p></div>'+
+  '<div class="tp-sec pop"><b>通俗解释</b><p id="tpP"></p></div>'+
+  '<div class="tp-sec pro"><b>专业解释</b><p id="tpPr"></p></div>'+
+  '<div class="tp-sec pop" id="tpSayWrap"><b>客户可能的说法</b><p id="tpSay"></p></div>'+
+  '<div class="rel-chips"><b>关联知识</b><div id="tpRel"></div></div>'+
+  '</div>';
+ document.body.appendChild(popBd);
+ popBd.addEventListener('click',function(e){
+  if(e.target===popBd||e.target.classList.contains('close-x')){closePop();return;}
+  var cp=e.target.closest('#tpCopy');if(cp){copyText(cp.dataset.txt,'术语解释已复制');return;}
+  var jp=e.target.closest('[data-jump-prod]');
+  if(jp){closePop();var el=$('#prod-'+jp.dataset.jumpProd);if(el){var t=$('#prodlib');if(t)t.scrollIntoView();gotoEl(el);}return;}
+  var a=e.target.closest('[data-close-pop]');if(a){closePop();return;}
+  var tt=e.target.closest('[data-term]');if(tt)openTerm(tt.dataset.term);
+ });
+ return popBd;
+}
+function openTerm(name){
+ var t=termByName(name);if(!t)return;
+ ensurePop();
+ $('#tpName').textContent=t.n;
+ $('#tpEn').textContent=t.cat||'';
+ $('#tpS').textContent=t.s||'';
+ $('#tpP').textContent=t.p||'';
+ $('#tpPr').textContent=t.pr||'';
+ var sw=$('#tpSayWrap');
+ if(t.say){sw.style.display='';$('#tpSay').textContent=t.say;}else sw.style.display='none';
+ var rel='';
+ (t.pd||[]).forEach(function(id){var p=prodById(id);if(p)rel+='<button type="button" class="tag" data-jump-prod="'+p.id+'">'+p.n+'（'+p.m.split(' /')[0].split('（')[0]+'）</button>';});
+ rel+='<a class="tag" href="#'+t.id+'" data-close-pop>跳转完整词条（术语百科）</a>';
+ $('#tpRel').innerHTML=rel;
+ var old=$('#tpCopy');if(old)old.parentNode.removeChild(old);
+ var cp=document.createElement('button');cp.type='button';cp.className='sn-copy';cp.id='tpCopy';
+ cp.textContent='复制解释';
+ cp.dataset.txt=t.n+'：'+t.s+'\n通俗：'+t.p+'\n专业：'+t.pr;
+ $('.term-pop',popBd).appendChild(cp);
+ popBd.classList.add('open');
+ document.body.style.overflow='hidden';
+ var x=$('.close-x',popBd);if(x)x.focus();
+}
+function closePop(){if(popBd){popBd.classList.remove('open');document.body.style.overflow='';}}
+/* 对外暴露最小交互 API（供互动模型复用产品跳转与术语弹窗） */
+SN.openTerm=openTerm;
+SN.jumpProd=function(id){var el=document.getElementById('prod-'+id);if(el)gotoEl(el);};
+
+/* ---------- 正文术语自动链接 ---------- */
+function autolinkTerms(){
+ if(!SN.TERMS.length)return;
+ var names=SN.TERMS.map(function(t){return t.n;}).sort(function(a,b){return b.length-a.length;});
+ var re=new RegExp('('+names.map(escRe).join('|')+')','g');
+ var skipSel='a,button,code,h1,h2,h3,h4,select,textarea,input,.term-pop,.search-modal,#termGrid,.kbd-hint';
+ $$('section.block').forEach(function(sec){
+  var done={};
+  var walker;
+  try{walker=document.createTreeWalker(sec,NodeFilter.SHOW_TEXT,{acceptNode:function(n){
+   if(!n.nodeValue||n.nodeValue.length<2)return NodeFilter.FILTER_REJECT;
+   var p=n.parentNode;
+   if(!p||p.nodeType!==1)return NodeFilter.FILTER_REJECT;
+   if(p.closest&&p.closest(skipSel))return NodeFilter.FILTER_REJECT;
+   return NodeFilter.FILTER_ACCEPT;
+  }});}catch(e){return;}
+  var nodes=[],n;
+  while((n=walker.nextNode())){nodes.push(n);if(nodes.length>4000)break;}
+  nodes.forEach(function(node){
+   var txt=node.nodeValue;
+   re.lastIndex=0;
+   var m,hits=[],first=null;
+   while((m=re.exec(txt))){hits.push(m.index,m.index+m[0].length,m[0]);if(!first)first=m[0];if(hits.length>40)break;}
+   if(!first||done[first])return;
+   done[first]=true;
+   var frag=document.createDocumentFragment(),last=0,i=0;
+   while(i<hits.length){
+    var st=hits[i],en=hits[i+1],word=hits[i+2];
+    if(st>last)frag.appendChild(document.createTextNode(txt.slice(last,st)));
+    var b=document.createElement('button');
+    b.type='button';b.className='term-link';b.dataset.term=word;b.textContent=word;
+    frag.appendChild(b);
+    last=en;i+=3;
+   }
+   if(last<txt.length)frag.appendChild(document.createTextNode(txt.slice(last)));
+   node.parentNode.replaceChild(frag,node);
+  });
+ });
+ document.addEventListener('click',function(e){
+  var t=e.target.closest('.term-link');if(t)openTerm(t.dataset.term);
+ });
+}
+
+/* ---------- 全局搜索模态 ---------- */
+var smBd=null,smIdx=null,smHits=[],smActive=-1,smCat='全部';
+function ensureModal(){
+ if(smBd)return smBd;
+ smBd=document.createElement('div');smBd.className='search-modal';
+ smBd.innerHTML='<div class="sm-panel" role="dialog" aria-modal="true" aria-label="全局搜索">'+
+  '<div class="sm-head">'+
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>'+
+  '<input id="smInput" type="text" placeholder="搜型号、术语、设备、场景、客户说法…" autocomplete="off">'+
+  '<span class="sm-kbd">Esc 关闭</span></div>'+
+  '<div class="sm-cats" id="smCats"></div>'+
+  '<div class="sm-results" id="smResults"></div>'+
+  '<div class="sm-foot"><span>↑↓ 选择 · Enter 跳转</span><span>支持多词缩小范围，如：防跳 直流</span></div></div>';
+ document.body.appendChild(smBd);
+ smBd.addEventListener('click',function(e){
+  if(e.target===smBd){closeModal();return;}
+  var it=e.target.closest('.sm-item');if(it)goSm(parseInt(it.dataset.i,10));
+ });
+ $('#smInput').addEventListener('input',renderSm);
+ $('#smInput').addEventListener('keydown',function(e){
+  var n=Math.min(smHits.length,40);
+  if(e.key==='ArrowDown'){e.preventDefault();if(n){smActive=(smActive+1+n)%n;paintSm();}}
+  else if(e.key==='ArrowUp'){e.preventDefault();if(n){smActive=(smActive-1+n)%n;paintSm();}}
+  else if(e.key==='Enter'){e.preventDefault();goSm(smActive>=0?smActive:0);}
+ });
+ var cats=['全部','产品','设备','场景','客户','术语','说法','异议','话术','章节'];
+ $('#smCats').innerHTML=cats.map(function(c){return '<button type="button" class="chip'+(c==='全部'?' on':'')+'" data-cat="'+c+'">'+c+'</button>';}).join('');
+ $('#smCats').addEventListener('click',function(e){
+  var b=e.target.closest('.chip');if(!b)return;
+  $$('.chip',$('#smCats')).forEach(function(c){c.classList.toggle('on',c===b);});
+  smCat=b.dataset.cat;renderSm();
+ });
+ return smBd;
+}
+function buildSearchIdx(){
+ if(smIdx)return smIdx;
+ var I=[];
+ SN.PRODUCTS.forEach(function(p){I.push({cat:'产品',label:p.n,sub:'产品百科 · '+p.fam,raw:p.s,text:norm(p.n+p.m+p.fam+p.cat+p.s+p.p+p.say+p.where+p.dev),go:function(){var el=$('#prod-'+p.id);if(el)gotoEl(el);}});});
+ SN.DEVICES.forEach(function(d){I.push({cat:'设备',label:d.n,sub:'设备百科',raw:d.s,text:norm(d.n+d.s+d.what+d.ours+d.models+d.say),go:function(){var el=document.getElementById(d.id);if(el)gotoEl(el);}});});
+ SN.SCENES.forEach(function(d){I.push({cat:'场景',label:d.n,sub:'应用场景百科',raw:d.s,text:norm(d.n+d.s+d.what+d.ours+d.say+d.cust),go:function(){var el=document.getElementById(d.id);if(el)gotoEl(el);}});});
+ SN.CUSTOMERS.forEach(function(d){I.push({cat:'客户',label:d.n,sub:'行业客户百科',raw:d.s,text:norm(d.n+d.s+d.what+d.entry+d.prods+d.care),go:function(){var el=document.getElementById(d.id);if(el)gotoEl(el);}});});
+ SN.TERMS.forEach(function(t){I.push({cat:'术语',label:t.n,sub:'行业术语 · '+t.cat,raw:t.s,text:norm(t.n+t.s+t.p+t.pr+(t.say||'')),go:function(){openTerm(t.n);}});});
+ $$('section.block').forEach(function(sec){
+  var secTitle=((sec.querySelector('.section-title')||{}).textContent||sec.id).replace(/\s+/g,' ').trim();
+  I.push({cat:'章节',label:secTitle,sub:'章节',raw:secTitle,text:norm(secTitle),go:function(){try{sec.scrollIntoView({behavior:RM?'auto':'smooth',block:'start'});}catch(e){sec.scrollIntoView();}flashEl(sec);}});
+  var curSub=secTitle;
+  sec.querySelectorAll('h3.sub,.flash,tbody tr,.callout,li').forEach(function(n){
+   var tag=n.tagName;
+   if(tag==='H3'){curSub=n.textContent.replace(/\s+/g,' ').trim();}
+   if(tag==='LI'){if(n.querySelector('table,.flash,.callout,ul,ol'))return;if(n.closest('.callout,.flash,table'))return;}
+   if(n.classList&&n.classList.contains('flash')&&n.closest('#termGrid'))return;
+   var raw=(n.textContent||'').replace(/\s+/g,' ').trim();
+   if(raw.length<2)return;
+   var myCat='章节';
+   if(tag==='TR'){if(sec.id==='ch14'||n.closest('#p413'))myCat='说法';else if(sec.id==='ch15')myCat='异议';}
+   if(tag==='LI'&&sec.id==='ch16')myCat='话术';
+   var label=curSub;
+   if(n.classList&&n.classList.contains('flash')){var ft=n.querySelector('.term');if(ft)label=ft.textContent.trim();}
+   else if(tag==='TR'){var c=n.querySelector('.m-name,th,td');if(c)label=c.textContent.replace(/\s+/g,' ').trim();}
+   I.push({cat:myCat,label:label,sub:curSub,raw:raw,text:norm(raw),go:function(){try{n.scrollIntoView({behavior:RM?'auto':'smooth',block:'center'});}catch(e){n.scrollIntoView();}flashEl(n);}});
+  });
+ });
+ smIdx=I;return I;
+}
+function renderSm(){
+ var inp=$('#smInput'),box=$('#smResults');
+ var q=inp.value.trim();
+ smActive=-1;
+ var idx=buildSearchIdx();
+ if(!q&&smCat==='全部'){box.innerHTML='<div class="sr-empty">输入关键词搜索；或点上方分类浏览。示例：RL-TBJ / 防跳 / 直流屏 / 储能 / 图纸定型</div>';smHits=[];return;}
+ if(!q){
+  /* 空关键词：按当前分类浏览全部词条 */
+  smHits=idx.filter(function(it){return it.cat===smCat;});
+  var html='';
+  smHits.slice(0,40).forEach(function(it,i){
+   html+='<div class="sm-item" data-i="'+i+'" role="option">'+
+    '<button type="button" class="sm-jump">跳转</button>'+
+    '<span class="sr-tag">'+it.cat+'</span><span class="sr-name">'+it.label+'</span>'+
+    '<span class="sr-sub" style="display:block;font-size:11px;color:var(--dim);margin-top:1px">'+it.sub+'</span>'+
+    '<span class="sr-snip">'+(it.raw||it.label||'').slice(0,110)+'</span></div>';
+  });
+  if(smHits.length>40)html+='<div class="sr-count">共 '+smHits.length+' 条，只显示前 40；输入关键词可缩小范围</div>';
+  box.innerHTML=html||'<div class="sr-empty">该分类暂无词条。</div>';
+  return;
+ }
+ var kws=q.toLowerCase().split(/\s+/).filter(Boolean),nk=kws.map(norm);
+ smHits=idx.filter(function(it){
+   if(smCat!=='全部'&&it.cat!==smCat)return false;
+   return nk.every(function(k){return it.text.indexOf(k)>=0;});
+  }).map(function(it){
+   var sc=nk.length;
+   if(nk.every(function(k){return norm(it.label).indexOf(k)>=0;}))sc+=10;
+   if(it.raw&&it.raw.length<60)sc+=3;
+   it._sc=sc;return it;
+  }).sort(function(a,b){return b._sc-a._sc;});
+ if(!smHits.length){box.innerHTML='<div class="sr-empty">没有匹配结果。试试：型号（RL-TBJ）、术语（防跳）、设备（直流屏）、场景（储能）、说法（图纸定型）。</div>';return;}
+ var html='';
+ smHits.slice(0,40).forEach(function(it,i){
+  var raw=(it.raw||it.label||'').slice(0,140);
+  var low=raw.toLowerCase(),pos=low.indexOf(kws[0].toLowerCase());
+  if(pos<0)pos=0;
+  var st=Math.max(0,pos-24),snip=(st>0?'…':'')+raw.slice(st,st+90)+'…';
+  kws.slice().sort(function(a,b){return b.length-a.length;}).forEach(function(k){
+   if(!k)return;try{snip=snip.replace(new RegExp('('+escRe(k)+')','ig'),'<b>$1</b>');}catch(e){}
+  });
+  html+='<div class="sm-item" data-i="'+i+'" role="option">'+
+   '<button type="button" class="sm-jump">跳转</button>'+
+   '<span class="sr-tag">'+it.cat+'</span><span class="sr-name">'+it.label+'</span>'+
+   '<span class="sr-sub" style="display:block;font-size:11px;color:var(--dim);margin-top:1px">'+it.sub+'</span>'+
+   '<span class="sr-snip">'+snip+'</span></div>';
+ });
+ if(smHits.length>40)html+='<div class="sr-count">共 '+smHits.length+' 条，只显示前 40；多输一两个词可缩小范围</div>';
+ box.innerHTML=html;
+}
+function paintSm(){
+ $$('.sm-item',smBd).forEach(function(d,i){d.classList.toggle('active',i===smActive);if(i===smActive)d.scrollIntoView({block:'nearest'});});
+}
+function goSm(i){
+ var it=smHits[i];if(!it)return;
+ closeModal();it.go();
+}
+function openModal(cat){
+ ensureModal();
+ smCat=cat||'全部';
+ $$('.chip',$('#smCats')).forEach(function(c){c.classList.toggle('on',c.dataset.cat===smCat);});
+ smBd.classList.add('open');
+ document.body.style.overflow='hidden';
+ var inp=$('#smInput');inp.value='';renderSm();
+ setTimeout(function(){inp.focus();},40);
+}
+function closeModal(){if(smBd){smBd.classList.remove('open');document.body.style.overflow='';smActive=-1;}}
+
+/* ---------- 搜索入口按钮 ---------- */
+function initSearchEntries(){
+ document.addEventListener('click',function(e){
+  if(e.target.closest('[data-open-search]')){e.preventDefault();openModal('全部');return;}
+  var q=e.target.closest('[data-query]');
+  if(q){openModal(q.dataset.query==='行业'?'场景':q.dataset.query);}
+ });
+}
+
+/* ---------- Checklist 持久化 + 复制 ---------- */
+function initChecklists(){
+ $$('.checklist').forEach(function(blk,i){
+  if(!blk.dataset.ck)blk.dataset.ck='ck-auto-'+i;
+  var id=blk.dataset.ck,saved=null;
+  try{saved=JSON.parse(localStorage.getItem('sn-ck-'+id)||'null');}catch(e){}
+  var boxes=$$('input[type="checkbox"]',blk);
+  boxes.forEach(function(cb,j){
+   if(saved&&saved[j])cb.checked=true;
+   var lb=cb.closest('label');if(lb)lb.classList.toggle('done',cb.checked);
+   cb.addEventListener('change',function(){
+    if(lb)lb.classList.toggle('done',cb.checked);
+    var arr=boxes.map(function(x){return x.checked;});
+    try{localStorage.setItem('sn-ck-'+id,JSON.stringify(arr));}catch(e){}
+   });
+  });
+  var tools=document.createElement('div');tools.className='chk-tools';
+  var bc=document.createElement('button');bc.type='button';bc.className='sn-copy';bc.textContent='复制清单';
+  bc.addEventListener('click',function(){
+   var lines=['【'+($('#'+blk.closest('section.block').id+' .section-title')||{}).textContent?.replace(/\s+/g,' ').trim()||'清单'+'】'];
+   Array.prototype.forEach.call(blk.childNodes,function(nd){
+    if(nd.nodeType===1&&nd.tagName==='H4'){lines.push('', '◆ '+nd.textContent.trim());}
+    else if(nd.nodeType===1&&nd.tagName==='LABEL'){var cb=nd.querySelector('input');lines.push((cb&&cb.checked?'[√] ':'[ ] ')+nd.textContent.trim());}
+   });
+   copyText(lines.join('\n'),'清单已复制');
+  });
+  var br=document.createElement('button');br.type='button';br.className='sn-copy';br.textContent='清空勾选';
+  br.addEventListener('click',function(){
+   boxes.forEach(function(x){x.checked=false;var lb=x.closest('label');if(lb)lb.classList.remove('done');});
+   try{localStorage.removeItem('sn-ck-'+id);}catch(e){}
+   toast('已清空本清单勾选');
+  });
+  tools.appendChild(bc);tools.appendChild(br);
+  blk.parentNode.insertBefore(tools,blk);
+ });
+}
+
+/* ---------- 场景话术一键复制（第十六章） ---------- */
+function initSpeechCopy(){
+ var ch=$('#ch16');if(!ch)return;
+ $$('ol li',ch).forEach(function(li){
+  var b=document.createElement('button');b.type='button';b.className='sn-copy';b.textContent='复制话术';
+  b.style.marginLeft='8px';
+  b.addEventListener('click',function(){copyText(li.textContent.replace('复制话术','').trim(),'话术已复制');});
+  li.appendChild(b);
+ });
+}
+
+/* ---------- 上次阅读位置 ---------- */
+function initLastRead(){
+ var last=0,timer=0;
+ try{last=parseInt(localStorage.getItem('sn-lastread')||'0',10)||0;}catch(e){}
+ window.addEventListener('scroll',function(){
+  if(timer)return;
+  timer=setTimeout(function(){timer=0;
+   var y=window.pageYOffset||0;
+   if(y>600){try{localStorage.setItem('sn-lastread',String(y));}catch(e){}}
+  },900);
+ },{passive:true});
+ if(last>800&&!location.hash){
+  setTimeout(function(){toast('检测到上次阅读位置','继续阅读',function(){window.scrollTo({top:last,behavior:RM?'auto':'smooth'});});},900);
+ }
+}
+
+/* ---------- 快捷键 ---------- */
+function initKeys(){
+ document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){
+   if(popBd&&popBd.classList.contains('open')){closePop();return;}
+   if(smBd&&smBd.classList.contains('open')){closeModal();return;}
+   var sb=$('#sidebar');if(sb&&sb.classList.contains('open'))sb.classList.remove('open');
+   return;
+  }
+  var tag=(e.target.tagName||'').toLowerCase();
+  var typing=tag==='input'||tag==='textarea'||tag==='select'||e.target.isContentEditable;
+  if(((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k')||(!typing&&e.key==='/')){
+   e.preventDefault();openModal('全部');
+  }
+ });
+}
+
+/* ---------- 启动 ---------- */
+function boot(){
+ var st=document.createElement('style');
+ st.textContent='.flash.term-open{cursor:pointer;transition:transform .15s,box-shadow .15s}.flash.term-open:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);border-left-color:var(--brand-2)}.sm-sub{font-size:11px;color:var(--dim)}';
+ document.head.appendChild(st);
+ initParticles();
+ initBrand();
+ initHeroParallax();
+ renderProducts();
+ renderDevices();
+ renderScenes();
+ renderCustomers();
+ renderTerms();
+ autolinkTerms();
+ initChecklists();
+ initSpeechCopy();
+ initSearchEntries();
+ initLastRead();
+ initKeys();
+ if(window.__snRebuildSidebarSearch){try{window.__snRebuildSidebarSearch();}catch(e){}}
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);
+else boot();
+})();
+</script>
+
+<script>
+/* ============================================================
+   互动模型逻辑 v2：KYN28 可操作柜体 / 保护动作链 / 电的旅程 / 温控
+   复用 SN.openTerm（术语弹窗）与 SN.jumpProd（产品档案跳转）
+   ============================================================ */
+(function(){
+"use strict";
+function $(s,c){return (c||document).querySelector(s);}
+function $$(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s));}
+function gid(id){return document.getElementById(id);}
+var SN=window.SN||{};
+var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+function prodById(id){var p=null;(SN.PRODUCTS||[]).forEach(function(x){if(x.id===id)p=x;});return p;}
+function prodChip(id){var p=prodById(id);if(!p)return '';return '<button type="button" class="tag" data-im-prod="'+id+'">'+p.n+'（'+p.m.split(' /')[0].split('（')[0]+'）</button>';}
+
+/* ---------- Tabs ---------- */
+$$('.im-tab').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    $$('.im-tab').forEach(function(b){b.classList.toggle('on',b===btn);});
+    $$('.im-panel').forEach(function(p){p.hidden=(p.id!==btn.dataset.tab);});
+  });
+});
+
+/* ============================================================
+   模型① KYN28 可操作柜体
+   ============================================================ */
+var COMP=[
+ {id:'bus',n:'主母线排（A黄 / B绿 / C红）',room:'母线室',d:'三相铜排：汇集并分配电能的主干道，一排柜子全部并联挂在母线上。',p:'一次导体本体不是我们的产品；但每一面柜的二次用电（YDSP）与母线电压监视（RMY）都围着它转。',prod:null},
+ {id:'lamp',n:'指示灯 HR / HG',room:'二次仪表室',d:'红灯亮=断路器合闸，绿灯亮=分闸；串在位置继电器触点回路里。',p:'由跳合位监视继电器（RL-THW）驱动——电网最常见的“控制回路断线”告警就靠这套逻辑。',prod:'RL-THW'},
+ {id:'sa',n:'转换开关 SA',room:'二次仪表室',d:'分 / 合闸操作把手，向控制回路发出命令。',p:'命令要先经过防跳继电器（RL-TBJ）把关，才允许到跳合闸线圈。',prod:'RL-TBJ'},
+ {id:'rc',n:'中间继电器 RC',room:'二次仪表室',d:'把保护装置 / 远方命令的小信号放大成多路大输出。',p:'柜内用量最大的产品：出口放大、触点扩展、强弱电隔离全靠它。',prod:'RC'},
+ {id:'rltbj',n:'防跳继电器 RL-TBJ',room:'二次仪表室',d:'合闸按钮卡住或接点粘连时，防止断路器在故障上反复分合（跳跃）烧毁机构。',p:'电流启动、电压保持——断路器厂 / 机构厂的刚需标配。',prod:'RL-TBJ'},
+ {id:'rlthw',n:'跳合位监视 RL-THW',room:'二次仪表室',d:'实时监视断路器分 / 合位置：TWJ、HWJ 都不励磁 = 控制回路断线。',p:'位置监视专用件；要在上方模型里试试“控制回路断线”是什么状态？分闸后看绿灯。',prod:'RL-THW'},
+ {id:'ydsp',n:'开关电源 YDSP',room:'二次仪表室',d:'把交流变成稳定直流（110/220VDC），给继电器、仪表“做饭”。',p:'柜内二次元件越多，电源需求越大——卖继电器时顺手问“柜内直流电源用谁的”。',prod:'YDSP'},
+ {id:'vcb',n:'真空断路器（VS1）',room:'断路器室',d:'唯一能切断短路电流的核心开关，真空泡灭弧，装在手车上。',p:'它的操动回路就是 RL 家族的主战场：防跳、监视、出口。',prod:'RL-TBJ'},
+ {id:'cart',n:'断路器手车',room:'断路器室',d:'工作（运行）→ 试验（一次断开、二次可试）→ 检修（拉出形成明显断点）。',p:'手车三位置也要位置信号上后台：双位置 / 中间继电器按图组合。',prod:'RDP'},
+ {id:'ct',n:'电流互感器 CT ×3',room:'电缆室',d:'把大电流按比例变小（如 600/5）供测量与保护。铁律：二次侧严禁开路！',p:'量度继电器 RML、电量变送器 TE 的输入来源。',prod:'RML'},
+ {id:'earths',n:'接地开关',room:'电缆室',d:'检修时把电缆侧可靠接地，万一误送电直接导入大地。',p:'位置反馈与联锁回路会用到双位置 / 中间继电器。',prod:'RDP'},
+ {id:'cable',n:'出线电缆',room:'电缆室',d:'向下游供电的通道。',p:'电缆室潮湿易凝露——THC 防凝露是标配话术。',prod:'THC'},
+ {id:'arrester',n:'避雷器',room:'电缆室',d:'雷击 / 操作过电压时泄放电流，保护设备绝缘。',p:'动作信号上报会用到信号回路（FA / RC）。',prod:'FA'},
+ {id:'heater',n:'防凝露加热器',room:'电缆室',d:'昼夜温差结露 → 爬电闪络事故；加热器驱潮保绝缘。',p:'由温湿度控制器（THC）检测凝露风险自动投切——户外柜标配。',prod:'THC'},
+ {id:'term',n:'端子排 XT',room:'电缆室',d:'全部二次接线的中转站。',p:'客户说“端子排太挤 / 端子不够用” = 推可拔插继电器（RC-P）省端子。',prod:'RC'}
+];
+var st={brk:true, cart:0, heater:false};
+var CARTN=['工作位置','试验位置','检修位置'];
+var CARTX=[0,-62,-128];
+function imApply(){
+  var cart=gid('imCart');
+  if(cart)cart.setAttribute('transform','translate('+CARTX[st.cart]+',0)');
+  var open=(st.cart===0), live=st.brk&&open;
+  var s1=gid('imSh1'),s2=gid('imSh2');
+  if(s1)s1.setAttribute('transform','translate('+(open?0:44)+',0)');
+  if(s2)s2.setAttribute('transform','translate('+(open?0:-44)+',0)');
+  ['imConnU','imConnL'].forEach(function(id){var el=gid(id);if(el)el.setAttribute('class',live?'im-wire live':'im-wire');});
+  var bus=gid('imBus');if(bus)bus.classList.toggle('live',live);
+  var hr=gid('lampHR'),hg=gid('lampHG');
+  if(hr)hr.classList.toggle('on',st.brk);
+  if(hg)hg.classList.toggle('on',!st.brk);
+  var hb=gid('imHeaterBox');if(hb)hb.classList.toggle('hot',st.heater);
+  var sts=gid('imStatus');
+  if(sts)sts.innerHTML='断路器 <b>'+(st.brk?'合闸':'分闸')+'</b> · 手车 <b>'+CARTN[st.cart]+'</b> · 加热器 <b>'+(st.heater?'开启':'关闭')+'</b>'+(live?' · 母线带电':' · 一次回路断开');
+  var ob=gid('opBrk');if(ob)ob.textContent=st.brk?'分 闸':'合 闸';
+  var oc=gid('opCart');if(oc)oc.textContent='手车：'+CARTN[st.cart]+' →';
+  var oh=gid('opHeat');if(oh){oh.textContent='加热器：'+(st.heater?'开':'关');oh.classList.toggle('on',st.heater);}
+}
+var imWarnTimer=null;
+function imWarn(msg){
+  var sts=gid('imStatus');if(!sts)return;
+  sts.innerHTML='<span style="color:var(--amber)">⚠ '+msg+'</span>';
+  clearTimeout(imWarnTimer);
+  imWarnTimer=setTimeout(imApply,2200);
+}
+function selComp(id){
+  var c=null;COMP.forEach(function(x){if(x.id===id)c=x;});
+  if(!c)return;
+  $$('#imSvg [data-id]').forEach(function(g){g.classList.toggle('sel',g.getAttribute('data-id')===id);});
+  gid('imCompDetail').innerHTML='<h4>'+c.n+'<span class="lib-cat" style="margin-left:8px">'+c.room+'</span></h4>'
+    +'<p class="im-desc">'+c.d+'</p>'
+    +'<dl class="kv"><dt>我们的机会</dt><dd>'+c.p+'</dd>'
+    +(c.prod?('<dt>对应产品</dt><dd>'+prodChip(c.prod)+'</dd>'):'')
+    +'</dl><div class="rel-chips"><b>继续</b><div><a class="tag" href="#prodlib">产品百科速览</a><a class="tag" href="#termlib">行业术语百科</a></div></div>';
+}
+var svg=gid('imSvg');
+if(svg){
+  svg.addEventListener('click',function(e){
+    var t=e.target.closest&&e.target.closest('[data-id]');
+    if(t)selComp(t.getAttribute('data-id'));
+  });
+  var ob=gid('opBrk');
+  if(ob)ob.addEventListener('click',function(){
+    if(st.cart!==0){imWarn('手车不在工作位置，禁止分合闸（五防联锁）');return;}
+    st.brk=!st.brk;imApply();
+  });
+  var oc=gid('opCart');
+  if(oc)oc.addEventListener('click',function(){
+    var msg='';
+    if(st.brk){st.brk=false;msg='（合闸状态下摇手车 → 已自动先分闸，防止带负荷拉手车）';}
+    st.cart=(st.cart+1)%3;imApply();
+    if(msg)imWarn(msg.replace('⚠ ',''));
+  });
+  var oh=gid('opHeat');
+  if(oh)oh.addEventListener('click',function(){st.heater=!st.heater;imApply();});
+  selComp('vcb');imApply();
+}
+
+/* ============================================================
+   模型② 保护动作链 0.1s
+   ============================================================ */
+var CHAIN=[
+ {ms:0,n:'短路发生',d:'相间或对地短路，电流瞬间飙到额定的几十倍——电网最怕的事故。',prod:null},
+ {ms:3,n:'CT 传变',d:'电流互感器把大电流按 600/5 变成二次小信号，送给保护。',prod:'RML'},
+ {ms:8,n:'保护判断',d:'电流继电器（RML）判断越限；用综保的客户则由装置判断。',prod:'RML'},
+ {ms:30,n:'延时配合',d:'时间继电器（RT）保证选择性：先跳离故障最近的，保住其余。',prod:'RT'},
+ {ms:34,n:'出口放大',d:'中间继电器（RC）把出口信号放大成多路，去驱动跳闸回路。',prod:'RC'},
+ {ms:40,n:'跳闸线圈得电',d:'YT 分闸线圈得电，操动机构脱扣。',prod:null},
+ {ms:48,n:'分闸灭弧',d:'真空泡灭弧，断路器分闸——故障段被隔离，其余部分保住。',prod:'RL-TBJ'},
+ {ms:60,n:'信号上报',d:'RL-THW 返回位置信号，FA 点亮光字牌、警铃响、后台收到遥信。',prod:'RL-THW'}
+];
+var chainBox=gid('pcChain');
+if(chainBox){
+  chainBox.innerHTML=CHAIN.map(function(c,i){
+    return '<div class="pc-step" data-i="'+i+'"><span class="ms">'+c.ms+' ms</span><b>'+(i+1)+'. '+c.n+'</b><p>'+c.d+'</p>'+(c.prod?prodChip(c.prod):'')+'</div>';
+  }).join('');
+  var running=false,chainTimer=null;
+  function chainReset(){
+    if(chainTimer){clearTimeout(chainTimer);chainTimer=null;}
+    running=false;
+    $$('.pc-step',chainBox).forEach(function(s){s.classList.remove('on');});
+    var ms=gid('pcMs');if(ms)ms.textContent='0 ms';
+  }
+  function chainDetail(i){
+    var c=CHAIN[i];
+    gid('pcDetail').innerHTML='<h4>'+(i+1)+'. '+c.n+' <span class="lib-cat" style="margin-left:8px">T+'+c.ms+' ms</span></h4>'
+      +'<p class="im-desc">'+c.d+'</p>'
+      +(c.prod?('<dl class="kv"><dt>对应产品</dt><dd>'+prodChip(c.prod)+'</dd></dl>'):'')
+      +'<div class="rel-chips"><b>继续</b><div><a class="tag" href="#basic">B.4 故障后的 0.1 秒</a><a class="tag" href="#ch2">第二章 · 产品详解</a></div></div>';
+  }
+  function chainRun(){
+    if(running){chainReset();}
+    var steps=$$('.pc-step',chainBox);
+    steps.forEach(function(s){s.classList.remove('on');});
+    running=true;var i=0;
+    (function next(){
+      if(i>=steps.length){running=false;
+        var ms=gid('pcMs');if(ms)ms.textContent='≈60 ms';
+        return;}
+      steps[i].classList.add('on');
+      var ms=gid('pcMs');if(ms)ms.textContent=CHAIN[i].ms+' ms';
+      chainDetail(i);
+      i++;chainTimer=setTimeout(next,RM?70:300);
+    })();
+  }
+  var pr=gid('pcRun');if(pr)pr.addEventListener('click',chainRun);
+  var prs=gid('pcReset');if(prs)prs.addEventListener('click',chainReset);
+  chainBox.addEventListener('click',function(e){
+    var b=e.target.closest('.pc-step');if(!b)return;
+    chainDetail(parseInt(b.dataset.i,10));
+  });
+}
+
+/* ============================================================
+   模型③ 电的旅程
+   ============================================================ */
+var WAY=[
+ {n:'发电厂',v:'10~20kV',key:false,d:'发电机发出电能，出口电压还不高。',ours:'电厂辅机系统：TK 热电偶采集（高温测点）、TT 测温、RC 控制——电厂辅机是 TK 的第一大客户群。'},
+ {n:'升压站',v:'→ 110/220kV',key:false,d:'电压越高、电流越小、线路损耗越低——远距离送电必须先升压。',ours:'升压站直流屏 + 汇控柜全套：RMY / RDP / FA / RN 系列。'},
+ {n:'输电线路',v:'110~500kV',key:false,d:'跨区远距离输送电能。',ours:'线路本体没有二次元件；机会在两端的站房（升压站 / 变电站）。'},
+ {n:'变电站',v:'逐级降压 35kV',key:false,d:'枢纽变电站逐级降压、分配电能。',ours:'GIS 每个间隔配一台汇控柜 = 每间隔一份继电器容量：RN-FT / RN-FB / RL 家族 + THC。'},
+ {n:'10kV 配电室',v:'10kV 中压',key:true,d:'中压配网主战场：开关柜、环网柜的天下。',ours:'全产品线主阵地——切到「① KYN28 柜体模型」逐个部件看。'},
+ {n:'干变 / 箱变',v:'→ 0.4kV',key:true,d:'把 10kV 降到 0.4kV，供给用户。',ours:'DTC 温控器 1:1 标配、TCC 风机监视；箱变再加 RVS 双电源切换与 THC 防凝露。'},
+ {n:'低压柜 / MCC',v:'0.4kV',key:true,d:'低压分配与电机集中控制。',ours:'中间 / 时间继电器用量大户：RC、RT、FA；顺带 YDSP 柜内供电。'},
+ {n:'用电设备',v:'380/220V',key:false,d:'电机、照明、插座——电的终点。',ours:'末端控制箱：RC、RT、THC。'}
+];
+var wayBox=gid('imWay');
+if(wayBox){
+  wayBox.innerHTML=WAY.map(function(w,i){
+    return '<button type="button" class="im-stop'+(w.key?' key':'')+(i===0?' on':'')+'" data-i="'+i+'">'
+      +(i<WAY.length-1?'<span class="im-arrow" aria-hidden="true">➜</span>':'')
+      +'<b>'+w.n+'</b><i>'+w.v+'</i></button>';
+  }).join('');
+  function showWay(i){
+    var w=WAY[i];
+    $$('.im-stop',wayBox).forEach(function(el,k){el.classList.toggle('on',k===i);});
+    gid('imWayDetail').innerHTML='<h4>'+w.n+' · '+w.v+'</h4><p class="im-desc">'+w.d+'</p>'
+      +'<dl class="kv"><dt>我们的机会</dt><dd>'+w.ours+'</dd></dl>'
+      +'<div class="rel-chips"><b>继续</b><div><a class="tag" href="#basic">B.2 电的旅程</a><a class="tag" href="#interactive">返回模型</a></div></div>';
+  }
+  wayBox.addEventListener('click',function(e){
+    var b=e.target.closest('.im-stop');if(!b)return;
+    showWay(parseInt(b.dataset.i,10));
+  });
+  showWay(0);
+}
+
+/* ============================================================
+   模型④ 干变温控三级联动
+   ============================================================ */
+var DTC={alarm:90,fan:110,trip:130};
+var slider=$('.im-dtc-slider');
+if(slider){
+  function dtUpdate(){
+    var v=parseInt(slider.value,10);
+    var vEl=$('.dt-v');if(vEl)vEl.textContent=v+'℃';
+    var s1=v>=DTC.alarm,s2=v>=DTC.fan,s3=v>=DTC.trip;
+    $$('.dt-lamp').forEach(function(l){
+      var stg=parseInt(l.dataset.stage,10);
+      l.classList.toggle('on',(stg===1&&s1)||(stg===2&&s2)||(stg===3&&s3));
+    });
+    var fan=gid('dtFan');if(fan)fan.classList.toggle('on',s2&&!RM);
+    var stt=gid('dtStatus');
+    if(stt){
+      if(s3)stt.textContent='⚠ 超温跳闸：DTC 输出跳闸接点，断路器分闸';
+      else if(s2)stt.textContent='风机已启动：强冷降温中';
+      else if(s1)stt.textContent='超温告警：接点输出至光字牌 / 后台';
+      else stt.textContent='干变正常运行';
+    }
+  }
+  slider.addEventListener('input',dtUpdate);
+  dtUpdate();
+}
+
+/* ============================================================
+   模型⑤ GIS 汇控柜：SF6 泄漏闭锁（RN-FT）/ 非全相跳三相（RN-FB）
+   ============================================================ */
+var GIS={brk:true, poles:['合','合','合'], sf6:0.50, poleTimer:null};
+var GIS_COMP=[
+ {id:'drum',n:'SF6 母线气室',room:'GIS 间隔',d:'三相母线封闭在充 SF6 气体的金属筒内——绝缘和灭弧全靠这罐气。',p:'气压是生命线：密度继电器监视压力，低到闭锁值整个间隔锁死——RN-FT 的招牌岗位。',prod:'RN-FT'},
+ {id:'bushing',n:'出线套管',room:'GIS 间隔',d:'SF6 筒与架空线 / 电缆的过渡连接件。',p:'套管处附装套管 CT 与测点，信号进汇控柜。',prod:null},
+ {id:'brk',n:'断路器灭弧室',room:'GIS 间隔',d:'SF6 气体灭弧：气压不足 = 灭弧能力不足，此时强行操作就是放电事故。',p:'操动回路全家桶：防跳 RL-TBJ、位置监视 RL-THW、出口 RC。',prod:'RL-TBJ'},
+ {id:'dis3',n:'三工位开关',room:'GIS 间隔',d:'隔离合 — 分 — 接地合，一把刀三个位置（主闸与地刀一体化）。',p:'三工位位置信号上后台：双位置 / 中间继电器按辅助接点组合实现；电动机构另有 RN-DK-C。',prod:'RDP'},
+ {id:'ct',n:'电流互感器 CT',room:'GIS 间隔',d:'穿心式 CT，测量与保护的电流来源。',p:'量度 RML、变送器 TE 的输入端。',prod:'RML'},
+ {id:'lcc',n:'汇控柜（LCC）',room:'就地',d:'本间隔全部二次回路的“大脑”：跳合闸、闭锁、信号、加热驱潮、操作电源都在这里。',p:'每个 GIS 间隔配一台汇控柜 = 每个间隔都是继电器容量；RN 系列全家福的安装位。',prod:'YDSP'},
+ {id:'gauge',n:'SF6 密度继电器',room:'汇控柜',d:'监视 SF6 密度（压力）：先报警、再闭锁两级——压力表指针就代表间隔的“健康度”。',p:'报警与闭锁两组接点的实现，就是 RN-FT 的低气压闭锁功能。',prod:'RN-FT'},
+ {id:'rnft',n:'RN-FT 防跳及低气压闭锁',room:'汇控柜',d:'防跳 + SF6 低气压闭锁二合一：气压低到闭锁值直接锁死分合闸回路，一个继电器顶两个功能位。',p:'GIS/SF6 断路器汇控柜的招牌产品——客户提“气室压力”“低气压闭锁”就是它。',prod:'RN-FT'},
+ {id:'rnfb',n:'RN-FB 非全相保护',room:'汇控柜',d:'220kV+ 分相断路器三相位置不一致时，延时把三相全部跳开，防止非全相运行损坏设备。',p:'集成自检/复位按钮，启动功率≥5W、防反接防烧——分相操作的必配件。',prod:'RN-FB'},
+ {id:'rltbj',n:'RL-TBJ 防跳继电器',room:'汇控柜',d:'防止断路器在故障上反复分合。',p:'GIS 间隔操作回路标配。',prod:'RL-TBJ'},
+ {id:'rlthw',n:'RL-THW 跳合位监视',room:'汇控柜',d:'监视断路器分 / 合位置，控制回路断线告警的来源。',p:'GIS 汇控柜与 KYN28 二次室通用。',prod:'RL-THW'},
+ {id:'rdp',n:'RDP 双位置继电器',room:'汇控柜',d:'三工位 / 刀闸位置的重动与保持，失电不忘。',p:'位置信号上后台的组合元件。',prod:'RDP'},
+ {id:'thc',n:'THC 温湿度控制器',room:'汇控柜',d:'汇控柜内防凝露：自动投切加热器驱潮。',p:'GIS 汇控柜同样要防凝露——户外/地下站尤其离不开。',prod:'THC'},
+ {id:'ydsp',n:'YDSP 开关电源',room:'汇控柜',d:'汇控柜内二次设备的直流供电。',p:'重要负载加 DPM 冗余。',prod:'YDSP'}
+];
+var GIS_OK=0.45, GIS_WARN=0.41, GIS_LOCK=0.40;
+function gisProd(id){var p=null;(SN.PRODUCTS||[]).forEach(function(x){if(x.id===id)p=x;});return p;}
+function gisChip(id){var p=gisProd(id);if(!p)return '';return '<button type="button" class="tag" data-im-prod="'+id+'">'+p.n+'（'+p.m.split(' /')[0].split('（')[0]+'）</button>';}
+function gisZone(){
+  if(GIS.sf6<=GIS_LOCK)return 'lock';
+  if(GIS.sf6<=GIS_WARN)return 'warn';
+  return 'ok';
+}
+function gisApply(){
+  var needle=gid('gisNeedle');
+  if(needle){
+    var ang=Math.max(-58,Math.min(58,(GIS.sf6-0.45)/0.10*55));
+    needle.setAttribute('transform','rotate('+ang.toFixed(1)+' 435 176)');
+  }
+  var z=gisZone(), ft=gid('gisRNFT');
+  if(ft){ft.classList.toggle('alarm',z==='warn');ft.classList.toggle('lock',z==='lock');}
+  ['gisPA','gisPB','gisPC','gisLA','gisLB','gisLC'].forEach(function(id,idx){
+    var el=gid(id);if(!el)return;
+    var isPole=idx<3;
+    var st=isPole?GIS.poles[idx]:GIS.poles[idx-3];
+    el.classList.toggle('on',st==='合');
+  });
+  var brkC=gid('gisBrkContact');
+  if(brkC){brkC.style.opacity=GIS.brk?'1':'0.15';}
+  var bb=gid('gisBrk');if(bb)bb.textContent=GIS.brk?'分 闸':'合 闸';
+  var stt=gid('gisStatus');
+  if(stt){
+    var base='SF6 <b>'+GIS.sf6.toFixed(2)+' MPa</b> · 断路器 <b>'+(GIS.brk?'合闸':'分闸')+'</b> · 三相 <b>'+GIS.poles.join('/')+'</b>';
+    if(z==='lock')base+=' · <span style="color:var(--amber)">RN-FT 已闭锁</span>';
+    else if(z==='warn')base+=' · <span style="color:var(--amber)">压力低报警</span>';
+    stt.innerHTML=base;
+  }
+}
+var gisWarnTimer=null;
+function gisWarn(msg){
+  var stt=gid('gisStatus');if(!stt)return;
+  stt.innerHTML='<span style="color:var(--amber)">⚠ '+msg+'</span>';
+  clearTimeout(gisWarnTimer);
+  gisWarnTimer=setTimeout(gisApply,2600);
+}
+var gisSvg=gid('gisSvg');
+if(gisSvg){
+  $$('.gis-comp',gisSvg).forEach(function(g){
+    g.addEventListener('click',function(){
+      var id=g.getAttribute('data-gid');
+      var c=null;GIS_COMP.forEach(function(x){if(x.id===id)c=x;});
+      if(!c)return;
+      $$('.gis-comp',gisSvg).forEach(function(gg){gg.classList.toggle('sel',gg===g);});
+      gid('gisDetail').innerHTML='<h4>'+c.n+'<span class="lib-cat" style="margin-left:8px">'+c.room+'</span></h4>'
+        +'<p class="im-desc">'+c.d+'</p>'
+        +'<dl class="kv"><dt>我们的机会</dt><dd>'+c.p+'</dd>'
+        +(c.prod?('<dt>对应产品</dt><dd>'+gisChip(c.prod)+'</dd>'):'')
+        +'</dl><div class="rel-chips"><b>继续</b><div><a class="tag" href="#ch4">第四章 · GIS 与汇控柜</a><a class="tag" href="#prodlib">产品百科速览</a></div></div>';
+    });
+  });
+  var gb=gid('gisBrk');
+  if(gb)gb.addEventListener('click',function(){
+    if(gisZone()==='lock'){gisWarn('SF6 低气压闭锁：RN-FT 已锁死分合闸回路——先充气补压才能操作');return;}
+    GIS.brk=!GIS.brk;
+    GIS.poles=GIS.brk?['合','合','合']:['分','分','分'];
+    gisApply();
+  });
+  var gl=gid('gisLeak');
+  if(gl)gl.addEventListener('click',function(){
+    GIS.sf6=Math.max(0.36,Math.round((GIS.sf6-0.03)*100)/100);
+    var z=gisZone();
+    if(z==='lock')gisWarn('压力已到闭锁值：RN-FT 闭锁分合闸（先补气才能操作）');
+    else if(z==='warn')gisWarn('SF6 压力低报警：RN-FT 报警接点动作（光字牌 / 后台）');
+    gisApply();
+  });
+  var gf=gid('gisFill');
+  if(gf)gf.addEventListener('click',function(){
+    GIS.sf6=0.50;gisApply();
+    var stt=gid('gisStatus');if(stt)stt.innerHTML='已充气至额定压力，<b>闭锁解除</b> · SF6 <b>0.50 MPa</b>';
+  });
+  var gp=gid('gisPole');
+  if(gp)gp.addEventListener('click',function(){
+    if(gisZone()==='lock'){gisWarn('SF6 低气压闭锁中，机构无法动作');return;}
+    if(!GIS.brk){gisWarn('断路器在分闸状态——先合闸运行，才存在非全相风险');return;}
+    if(GIS.poles.indexOf('分')>=0){gisWarn('已处于非全相演示状态，点「分闸/合闸」复位');return;}
+    GIS.poles=['合','合','分'];gisApply();
+    var stt=gid('gisStatus');if(stt)stt.innerHTML='非全相发生：A/B <b>合</b>，C <b>拒分</b> → <b>RN-FB 启动延时…</b>';
+    GIS.poleTimer=setTimeout(function(){
+      GIS.poles=['分','分','分'];GIS.brk=false;gisApply();
+      var st2=gid('gisStatus');if(st2)st2.innerHTML='<b>RN-FB 延时动作：三相全部跳开</b>（防止非全相运行损坏设备）';
+    },1800);
+  });
+  gisApply();
+}
+
+/* ---------- 详情内产品 / 术语点击 ---------- */
+document.addEventListener('click',function(e){
+  var b=e.target.closest('[data-im-prod]');
+  if(b&&SN.jumpProd){SN.jumpProd(b.getAttribute('data-im-prod'));return;}
+  var t=e.target.closest('.tag[data-term]');
+  if(t&&SN.openTerm){SN.openTerm(t.getAttribute('data-term'));}
+});
+})();
+</script>
+
+
 </body>
 </html>
+
 
 
