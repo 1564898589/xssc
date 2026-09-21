@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>sinouse 交互式场景演示 · 产品与设备模型系统</title>
+<meta name="description" content="sinouse 电力电气交互式场景演示：KYN28 开关柜二次室、直流屏室、欧式箱变等户内/户外场景，产品安装位置与产品结构示意模型一一对应。模型为示意表达，外观和结构以实物、图纸及最新技术资料为准。">
+<link rel="stylesheet" href="./css/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='11' fill='%2316241f'/%3E%3Cpath d='M14 32.5c2.6 2.1 6 3.1 9.6 2.7 3.6-.4 6-2.3 6-4.7 0-5.6-14.6-3.4-14.6-9.6 0-2.6 2.5-4.6 6.3-4.9 3.2-.2 6.2.7 8.5 2.5' stroke='%234ed293' stroke-width='2.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<script type="importmap">
+{
+  "imports": {
+    "three": "./vendor/three.module.min.js",
+    "three/addons/": "./vendor/"
+  }
+}
+</script>
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ==================== 顶栏 ==================== -->
+  <header id="topbar">
+    <div class="brand">
+      <svg width="30" height="30" viewBox="0 0 48 48" fill="none" aria-label="sinouse">
+        <rect x="2" y="2" width="44" height="44" rx="11" fill="#16241f" stroke="#4ed293" stroke-width="1.6"/>
+        <path d="M14 32.5c2.6 2.1 6 3.1 9.6 2.7 3.6-.4 6-2.3 6-4.7 0-5.6-14.6-3.4-14.6-9.6 0-2.6 2.5-4.6 6.3-4.9 3.2-.2 6.2.7 8.5 2.5"
+              stroke="#4fd6a0" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+        <circle cx="34.5" cy="15.5" r="2.6" fill="#4ed293"/>
+      </svg>
+      <div class="brand-txt">
+        <b>sinouse</b><span>Interactive 3D</span>
+      </div>
+    </div>
+    <div class="topbar-sep"></div>
+    <!-- 窄屏（≤1120px）的**唯一**场景切换入口。
+         ≤1120 时 `#sidebar` 整块 `display:none`，那之后只剩数字键 1…9 能换场景，
+         而快捷键说明也被一起收走了 —— 1280x800 的办公本正落在这个区间。
+         做法：把场景名本身变成触发器（**零额外宽度**，不会把已经排满的顶栏挤爆）。
+         宽屏下 `summary{pointer-events:none}` + 菜单 `display:none`，与原来一模一样。
+         ⚠️ 菜单内容由 app.js 的 renderSceneList() 填 —— 与左栏共用同一份数据、
+            同一套 `.sl-item` 样式，只是换个容器，避免两边对不上。 -->
+    <details class="tb-drop" id="tb-scenes">
+      <summary>
+        <span class="tb-title">
+          <span id="scene-title">加载中…</span>
+          <span id="scene-en"></span>
+        </span>
+        <i class="tb-caret" aria-hidden="true"></i>
+      </summary>
+      <div class="tb-menu" id="tb-scene-list" aria-label="切换场景"></div>
+    </details>
+
+    <div class="topbar-right">
+      <button class="tb-btn accent" id="btn-advisor" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="advisor" title="按需求推荐产品 (A)">选型助手</button>
+      <button class="tb-btn" id="btn-alts" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="alts" title="同一功能的几种做法对照 (V)">方案对照</button>
+      <div class="topbar-sep"></div>
+      <button class="tb-btn on" id="btn-labels" type="button" aria-pressed="true" title="显示/隐藏安装位标注 (L)">标注</button>
+      <button class="tb-btn" id="btn-explode" type="button" aria-pressed="false" title="分层展开柜体，看清内部安装关系 (E)">爆炸视图</button>
+      <button class="tb-btn on" id="btn-doors" type="button" aria-pressed="true" title="柜门开合：点门扇单独开关，按此键一键全开 / 全关 (O)">柜门开合</button>
+      <button class="tb-btn" id="btn-rotate" type="button" aria-pressed="false" title="场景自动旋转 (T)">自动旋转</button>
+      <div class="topbar-sep"></div>
+      <button class="tb-btn" id="btn-reset" type="button" title="恢复场景默认视角 (R)">重置视角</button>
+      <button class="tb-btn" id="btn-fitall" type="button" title="把全场景框进画面，看这一场都有什么 (0)">全景</button>
+      <button class="tb-btn" id="btn-collapse" type="button" aria-pressed="false" title="收起左右侧栏，放大模型区 (I)">沉浸</button>
+      <button class="tb-btn" id="btn-quality" type="button" title="画质档位：高 / 中 / 低（低档降分辨率与阴影精度，仍保留阴影）(Q)">画质 高</button>
+      <button class="tb-btn" id="btn-full" type="button" aria-pressed="false" title="全屏 (F)">全屏</button>
+      <div class="topbar-sep"></div>
+      <a class="tb-btn primary" href="../index.html">← 返回百科手册</a>
+    </div>
+  </header>
+
+  <!-- ==================== 左侧场景栏 ==================== -->
+  <aside id="sidebar" aria-label="场景列表">
+    <div id="scene-list"></div>
+    <!-- 操作说明：**原生 `<details>` 折叠，默认收起**。
+         ⚠️ 为什么要收：实测这一块高 **202px**，而 9 个场景的列表只有 436px ——
+            它一个人吃掉左栏可视高度的 21%，而左栏只有 274px 宽，
+            13 行 11.5px 小字全挤在里面。用户说的「一堆字」第一眼就来自这里。
+         ⚠️ 为什么用 `<details>` 而不是自己写 JS：原生元素自带
+            「键盘 Enter/Space 展开、焦点环、读屏播报展开/收起」，
+            一行 JS 都不用写 —— 也就不会踩「只加 class 不算行为」那个坑。
+         ⚠️ `.rm-note` 必须留在 `<details>` **外面**：它是「已跟随系统减少动效」
+            的状态告知，折进去就永远看不到（那条只在 reduce 下才出现）。 -->
+    <details class="sidebar-foot" id="sb-help">
+      <summary>
+        <span class="sbf-t">操作说明</span>
+        <span class="sbf-hint">鼠标 · 快捷键</span>
+      </summary>
+      <div class="sbf-body">
+        <b>鼠标</b><br>
+        左键拖拽旋转 · 滚轮缩放 · 右键拖拽平移<br>
+        <b>双击</b>空白处 = 全场景入画 · <b>双击</b>设备 = 聚焦它<br>
+        单击元件选中 · 点击空白取消<br>
+        <b>快捷键</b> <kbd>1</kbd>…<kbd>9</kbd> 切场景 · <kbd>0</kbd> 全景 ·
+        <kbd>E</kbd> 爆炸 · <kbd>O</kbd> 柜门 · <kbd>T</kbd> 自转<br>
+        <kbd>R</kbd> 复位 · <kbd>L</kbd> 标注 · <kbd>Q</kbd> 画质 ·
+        <kbd>I</kbd> 沉浸 · <kbd>F</kbd> 全屏<br>
+        <kbd>A</kbd> 选型助手 · <kbd>V</kbd> 方案对照 · <kbd>Esc</kbd> 取消 / 关面板
+      </div>
+    </details>
+    <span class="rm-note">已跟随系统「减少动效」：相机、柜门、爆炸改为瞬时到位，光圈缩短</span>
+  </aside>
+
+  <!-- ==================== 3D 舞台 ==================== -->
+  <main id="stage" data-env="indoor">
+    <canvas id="gl"></canvas>
+    <!-- 标签浮层。可动件的操作气泡也挂在这里 —— 复用同一套「投影到屏幕」的坐标系 -->
+    <div id="labels"><div class="mover-hint" id="mover-hint"></div></div>
+
+    <div class="hud tl">
+      <span id="stage-badge" data-kind="indoor">户内</span>
+      <span id="scene-ambience"></span>
+      <span id="fps-chip" role="button" tabindex="0" aria-label="画质档位切换（等同 Q 键）">-- FPS</span>
+    </div>
+
+    <div class="hud bl">
+      <button class="hud-btn" id="btn-panel-toggle" type="button" aria-label="收起产品面板" aria-controls="panel" aria-expanded="true" title="收起产品面板" style="display:none">⇥</button>
+      <span id="model-note">示意模型 · 外观和结构以实物、图纸及最新技术资料为准</span>
+    </div>
+
+    <div class="hud br">
+      <div id="stage-tip"></div>
+    </div>
+
+    <!-- ⚠️ toast 是「操作结果」的唯一反馈（「已打开 9 扇柜门」）——
+         不做 live region 的话，键盘/读屏用户按完按钮得不到任何确认。 -->
+    <div id="toast-wrap" role="status" aria-live="polite"></div>
+
+    <div id="loading" class="on" role="status" aria-live="polite">
+      <div class="ld-box">
+        <div class="ld-spin"></div>
+        <b id="ld-step">正在构建三维场景…</b>
+        <p id="ld-note">首次加载需要解析模型与光照，请稍候</p>
+        <div class="ld-bar"><i id="ld-fill"></i></div>
+
+        <!-- 装载失败（切场景时构建抛异常）：由 app.js 的 loadFail() 填。
+             ⚠️ 为什么必须有这一块：`runLoad()` 是 async 且通体没有 try/catch，
+                而下面经典脚本里的看门狗，每一条开头都是
+                `if (done || window.__appReady) return;` —— `__appReady` 在首次装载成功时
+                就置 true 了，从那以后看门狗**永久退休**。于是「切场景时构建抛异常」
+                这条路上原先没有任何兜底：用户看到的是「进度条卡在 48% 永远不动」，
+                一句解释都没有。那不是白屏，是**卡在假进度上**，比白屏更无从下手。
+             显隐全部由 `#loading.fail` 这个类驱动（见 style.css），JS 只切换类名。 -->
+        <div id="ld-fail">
+          <b id="lf-title">场景没能构建起来</b>
+          <p id="lf-why"></p>
+          <p class="dim" id="lf-detail"></p>
+          <div class="lf-act">
+            <button type="button" id="lf-retry" class="lf-btn primary">重试这个场景</button>
+            <button type="button" id="lf-back" class="lf-btn" hidden>回到上一个能用的场景</button>
+          </div>
+          <p class="dim">其它场景不受影响 —— 也可以直接点顶栏的场景按钮换一个。</p>
+        </div>
+
+        <!-- 启动失败自诊断：由下面的经典脚本填充（即使 app.js 模块没加载起来也能工作） -->
+        <div id="boot-diag" hidden>
+          <h3 id="bd-title">三维场景没能启动</h3>
+          <p id="bd-why"></p>
+          <ol id="bd-fix"></ol>
+          <pre id="bd-info"></pre>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ==================== 右侧产品面板 ==================== -->
+  <aside id="panel" aria-label="产品面板">
+    <div class="panel-sec head">
+      <h2>场景说明 <b>·</b> <span id="prod-count">0</span> 个对应产品</h2>
+      <p id="scene-desc"></p>
+      <!-- 「为什么这样选」内容块（场景级）。默认收起 —— 面板的首要任务是切场景与选产品，
+           这块是**深入材料**，展开才看；默认摊开会把面板变成一堵字墙。
+           内容由 app.js 的 renderGuide() 从 js/guide.js 填；没有内容的场景整块 hidden
+           （不能留一个点开是空白的折叠区，那比没有更糟）。
+           ⚠️ 用原生 `<details>`：收起时浏览器自己把内容移出 Tab 顺序，不必手写 inert。
+           ⚠️ 合规声明 `#scene-note` 必须留在**外面** —— 折进 details 就等于没有标注。 -->
+      <details id="scene-guide" hidden>
+        <summary>
+          <span class="sg-t">为什么这样选</span>
+          <span class="sg-s">常见做法 · 我们的位置 · 拜访先问</span>
+        </summary>
+        <div id="guide-body"></div>
+      </details>
+      <p id="scene-note"></p>
+      <div id="origin-legend"></div>
+      <!-- 本场景可操作件一览。内容由 renderMoverSummary() 填；没有可动件的场景保持 hidden。
+           三颗控件各管一件事：「N 扇柜门」/「M 台手车」→ 定位闪烁；「一键开合」→ 全开/全关。 -->
+      <div id="mover-summary" hidden>
+        <span class="ms-title">本场景可操作：</span>
+        <button class="ms-chip" type="button" data-kind="door" aria-label="定位并闪烁标出本场景的柜门"></button>
+        <button class="ms-chip" type="button" data-kind="slide" aria-label="定位并闪烁标出本场景的手车"></button>
+        <button class="ms-all" type="button" aria-label="一键开合全部柜门与手车">一键开合</button>
+      </div>
+    </div>
+
+    <div id="prod-list"></div>
+
+    <div id="viewer-wrap">
+      <canvas id="mini"></canvas>
+      <span class="viewer-tag">产品结构示意模型 · 可旋转</span>
+      <span class="viewer-hint">拖拽旋转 · 滚轮缩放</span>
+    </div>
+
+    <div id="card">
+      <div class="card-empty">
+        <div class="ce-icon">◎</div>
+        <h3>点击场景中的元件</h3>
+        <p>选中后这里会显示产品卡片与可旋转的 3D 模型。<br>也可以直接点上方产品列表。</p>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ==================== 选型助手抽屉 ==================== -->
+  <!-- ⚠️ 关闭态只是 `transform:translateX(102%)`，**元素还在文档里** ——
+       不加 `inert` 的话抽屉里那几颗按钮仍留在 Tab 顺序里，键盘用户会走到看不见的控件上
+       （`aria-hidden` 只对读屏有效，**挡不住键盘**）。JS 里由 `_syncInert()` 接管。 -->
+    <section id="advisor" role="dialog" aria-label="选型助手" aria-hidden="true" inert>
+    <div class="adv-head">
+      <div>
+        <h2>选型助手</h2>
+        <p>回答三个问题，直接定位到产品的典型安装场景</p>
+      </div>
+      <button class="adv-close" id="adv-close" type="button" aria-label="关闭">✕</button>
+    </div>
+
+    <div class="adv-steps">
+      <span class="adv-step" data-step="0">1 环境</span>
+      <span class="adv-step" data-step="1">2 设备</span>
+      <span class="adv-step" data-step="2">3 需求</span>
+    </div>
+
+    <div id="adv-body"></div>
+
+    <div class="adv-foot">
+      <button class="btn-ghost" id="adv-back" type="button">← 上一步</button>
+      <button class="btn-ghost" id="adv-copy" type="button" hidden>复制选型摘要</button>
+      <button class="btn-ghost" id="adv-restart" type="button">重新开始</button>
+    </div>
+  </section>
+
+  <!-- ==================== 方案对照抽屉 ====================
+       ⚠️ 与选型助手同一套机制：关闭态只是 `transform:translateX(102%)`，
+          **元素还在文档里** —— 不加 `inert` 的话抽屉里的按钮仍留在 Tab 顺序里。
+          JS 里由 `_syncInert()` 统一接管，两个抽屉互斥。 -->
+  <section id="alts" role="dialog" aria-label="继电器替代方案对照" aria-hidden="true" inert>
+    <div class="adv-head">
+      <div>
+        <h2>方案对照</h2>
+        <p>同一个功能，柜内可以有哪几种做法</p>
+      </div>
+      <button class="adv-close" id="alts-close" type="button" aria-label="关闭">✕</button>
+    </div>
+    <div id="alts-body"></div>
+    <p class="alts-note">以上只说明<b>功能替代关系</b>，不比较优劣；通用元件按行业典型外观简化表达，<b>不代表任何具体厂商型号</b>。</p>
+  </section>
+
+</div>
+
+<!-- ==================== 移动端提示 ====================
+     手机端看不到 WebGL 演示，只给一段文字说服力不够 —— 配两张桌面端实际画面的
+     静态预览图，让用户知道「电脑上打开会看到什么」。
+     图片是本项目自带的本地资源（models/img/），不依赖任何外部服务；
+     万一缺失，onerror 会把整个 figure 收起来，只留文字说明，不会出现裂图或白屏。 -->
+<div id="mobile-guard">
+  <div class="mg-box">
+    <div class="mg-ico">🖥️</div>
+    <h2>请使用电脑访问</h2>
+    <p>交互式场景演示包含实时三维渲染与大量细节，<strong>需要电脑端大屏幕与独立显卡</strong>才能获得最佳体验。</p>
+    <div class="mg-shots">
+      <figure>
+        <img src="./img/guard-indoor.jpg" width="1280" height="800" loading="lazy" decoding="async"
+             alt="电脑端场景预览：户内 KYN28 开关柜二次室，可旋转缩放并点击柜内元件"
+             onerror="this.closest('figure').remove()">
+        <figcaption>户内 · KYN28 开关柜二次室（电脑端可旋转、缩放、点击元件）</figcaption>
+      </figure>
+      <figure>
+        <img src="./img/guard-outdoor.jpg" width="1280" height="800" loading="lazy" decoding="async"
+             alt="电脑端场景预览：户外环网柜，可旋转缩放并点击柜内元件"
+             onerror="this.closest('figure').remove()">
+        <figcaption>户外 · 环网柜（电脑端可旋转、缩放、点击元件）</figcaption>
+      </figure>
+    </div>
+    <div class="mg-note">
+      推荐使用 <b>Chrome / Edge</b> 最新版，屏幕宽度 ≥ 1280px。<br>
+      手机端可正常阅读百科手册的全部内容。
+    </div>
+    <a href="../index.html">← 返回百科手册</a>
+  </div>
+</div>
+
+<script type="module" src="./js/app.js"></script>
+
+<!-- ==================== 启动守卫 ====================
+     必须是「经典脚本」（不带 type="module"），且放在最后：
+     如果浏览器因为安全策略根本没加载 app.js 模块（最常见的元凶是直接双击打开 HTML，
+     file:// 页面不允许加载 ES 模块），上面那个模块里的任何代码都不会执行，
+     遮罩就会永远转圈且不报错。所以自诊断必须放在模块外面。 -->
+<script>
+(function () {
+  var t0 = Date.now();
+  var box = document.getElementById('loading');
+  var step = document.getElementById('ld-step');
+  var note = document.getElementById('ld-note');
+  var diag = document.getElementById('boot-diag');
+  var done = false;
+
+  function gl() {
+    try {
+      var c = document.createElement('canvas');
+      var g = c.getContext('webgl2') || c.getContext('webgl');
+      if (!g) return { ok: false };
+      var e = g.getExtension('WEBGL_debug_renderer_info');
+      return { ok: true, gpu: e ? String(g.getParameter(e.UNMASKED_RENDERER_WEBGL)) : String(g.getParameter(g.RENDERER)) };
+    } catch (err) { return { ok: false, err: String(err && err.message || err) }; }
+  }
+
+  function info(extra) {
+    var g = gl();
+    var lines = [
+      '页面协议：' + location.protocol,
+      '地址：' + location.href,
+      'WebGL：' + (g.ok ? '可用' : '不可用' + (g.err ? '（' + g.err + '）' : '')),
+      '显卡：' + (g.ok ? g.gpu : '—'),
+      'CPU 逻辑核：' + (navigator.hardwareConcurrency || '未知'),
+      '屏幕像素比：' + (window.devicePixelRatio || 1),
+      'importmap 支持：' + (HTMLScriptElement.supports && HTMLScriptElement.supports('importmap') ? '是' : '否'),
+      '浏览器：' + navigator.userAgent
+    ];
+    if (extra) lines.unshift('错误：' + extra);
+    return lines.join('\n');
+  }
+
+  function fail(title, why, fixes, extra) {
+    if (done) return;
+    done = true;
+    if (step) step.textContent = title;
+    var tt = document.getElementById('bd-title');
+    if (tt) tt.textContent = title;
+    if (note) note.textContent = '下面是自诊断结果，按提示处理即可';
+    var sp = document.querySelector('.ld-spin');
+    if (sp) sp.style.display = 'none';
+    var bar = document.querySelector('.ld-bar');
+    if (bar) bar.style.display = 'none';
+    var w = document.getElementById('bd-why');
+    var f = document.getElementById('bd-fix');
+    var i = document.getElementById('bd-info');
+    if (w) w.textContent = why;
+    if (f) f.innerHTML = fixes.map(function (x) { return '<li>' + x + '</li>'; }).join('');
+    if (i) i.textContent = info(extra);
+    if (diag) diag.hidden = false;
+  }
+
+  window.__bootFail = fail;   // 供 app.js 在 init 抛错时调用
+
+  // 1) file:// 直接判死：浏览器不允许 file 页面加载 ES 模块
+  if (location.protocol === 'file:') {
+    fail('不能直接双击打开这个文件', '浏览器出于安全策略，禁止 file:// 页面加载 ES 模块（三维引擎是按模块写的），所以引擎一行都没跑起来，遮罩就一直在转。',
+      ['<b>推荐</b>：在本项目目录起一个本地服务，然后访问 <code>http://127.0.0.1:8765/models/index.html</code><br>'
+        + '　· 有 Python：在该目录执行 <code>python -m http.server 8765</code><br>'
+        + '　· 有 Node：在该目录执行 <code>npx serve -l 8765</code>',
+        '或者把整个项目部署到 GitHub Pages / 任意静态托管，直接访问线上地址（推荐用于发给同事）',
+        '或者用 WorkBuddy 里给出的预览链接打开（那条链接已经带本地服务）'],
+      null);
+    return;
+  }
+
+  // 2) 没有 WebGL：给明确结论，别让用户干等
+  var g0 = gl();
+  if (!g0.ok) {
+    fail('这台机器上浏览器没有可用的 WebGL', '三维场景需要 WebGL 硬件加速，当前浏览器拿不到 WebGL 上下文。常见原因：显卡驱动被禁用、浏览器版本过旧、远程桌面/虚拟机未开启硬件加速。',
+      ['换用最新版 <b>Chrome / Edge</b> 打开',
+        '地址栏访问 <code>chrome://gpu</code>，看 WebGL 一行是不是 <b>Hardware accelerated</b>；若是 Disabled，去显卡官网更新驱动',
+        '如果是在远程桌面里打开，请在本地电脑上打开（远程桌面通常没有 3D 加速）'],
+      null);
+    return;
+  }
+
+  // 3) 看门狗：模块加载失败 / 构建卡死时兜底（模块加载失败是静默的，不会触发 onerror）
+  //    只认「脚本/样式资源加载失败」与「真实运行时异常」，避免图片等无关资源报错误报
+  window.addEventListener('error', function (e) {
+    if (done || window.__appReady) return;
+    var t = e && e.target;
+    var isRes = t && (t.tagName === 'SCRIPT' || t.tagName === 'LINK');
+    if (!e.error && !isRes) return;
+    fail('加载三维引擎时出错',
+      isRes ? '三维引擎的脚本或样式文件没能加载成功（文件缺失或路径不对）。'
+            : '页面在加载三维模块时抛出了错误，场景没能构建起来。',
+      ['刷新页面重试（Ctrl+F5 强制刷新，避开缓存）',
+        '确认 <code>models/js/</code> 与 <code>models/vendor/</code> 目录完整（没有被杀软/同步盘删掉）',
+        '换用最新版 Chrome / Edge',
+        '把下面这段信息发给我，我来定位'],
+      (e && (e.message || (t && (t.src || t.href)))) || '未知错误');
+  }, true);
+  window.addEventListener('unhandledrejection', function (e) {
+    if (done || window.__appReady) return;
+    var r = e && e.reason;
+    fail('三维场景初始化失败', '初始化过程中出现未处理的异常。',
+      ['刷新重试', '把下面这段信息发给我'], r && (r.message || String(r)));
+  });
+
+  setTimeout(function () {
+    if (done || window.__appReady) return;
+    if (note) note.textContent = '比预期慢一些 —— 低配机器首次构建需要更久，请再等一会儿';
+  }, 12000);
+
+  setTimeout(function () {
+    if (done || window.__appReady) return;
+    fail('三维场景构建超时', '等了 ' + Math.round((Date.now() - t0) / 1000) + ' 秒还没构建完。可能是显卡驱动异常、浏览器过旧，或页面被中断。',
+      ['先按 Ctrl+F5 强制刷新一次',
+        '换用最新版 Chrome / Edge',
+        '点顶栏「画质」按钮之前先在设置里把浏览器硬件加速打开',
+        '把下面这段信息发给我，我来定位'],
+      null);
+  }, 35000);
+})();
+</script>
+</body>
+</html>

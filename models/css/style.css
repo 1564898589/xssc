@@ -1,0 +1,1151 @@
+/* ============================================================
+   sinouse 交互式场景演示 · 深色工业风
+   ============================================================ */
+:root{
+  /* 第 37 轮：底色从中性「墨绿黑」换成中性炭灰并提亮一档（原来 #080b0a 太暗且带绿相）。
+     绿色收敛为强调色（激活态/图标/高亮），不再当所有面板的底色。 */
+  /* 第 45 轮：整页**再提亮一档并去掉绿相**。
+     ⚠️ 第 37 轮把「墨绿黑」换成炭灰，但只改了 `--bg`/`--panel` 这几个变量 ——
+        顶栏、舞台、所有浮层的**硬编码绿黑一个没动**（`#0f1613` / `#16201b` /
+        `#0a0f0d` / `#050706`），所以「太暗、发绿」的观感一直在。
+        这一轮把这些硬编码全部换成中性蓝灰，绿色只留作**强调色**（激活态/图标/高亮）。
+     ⚠️ `--dim` 从 `#6d7780` 提到 `#8b96a2`：前者在面板底上只有 **3.63:1**，
+        而它用在「左栏分组标题 / 场景类型 / 左栏操作说明 / 场景英文副标」这些
+        10.5~11.5px 的小字上 —— 全部低于 WCAG AA 的 4.5:1。改这一个变量全局生效。 */
+  --bg:#151b22;
+  --bg-2:#1c242d;
+  --panel:rgba(28,35,44,.94);
+  --panel-2:rgba(36,45,55,.94);
+  --ink:#e9eef3;
+  --muted:#aab5c0;
+  /* ⚠️ 第 48 轮把 `--dim` 从 `#8b96a2` 提到 `#949fab`：
+     前者在 `--panel`（侧栏）上是 5.27:1，但在 `--panel-2`（顶栏下拉）上只有 **4.70:1** ——
+     离 WCAG AA 的 4.5 只剩 0.20，而窄屏下用户真正用的就是那个下拉面。
+     提到 `#949fab` 后两面分别是 5.89 / 5.26，同时仍明显低于 `--muted`（panel-2 上 6.79），
+     层级没被抹平。⚠️ 次级文字色的对比度必须**逐层往上找第一个不透明背景**再量。 */
+  --dim:#949fab;
+  --line:rgba(255,255,255,.10);
+  --line-2:rgba(255,255,255,.18);
+  --brand:#4ed293;
+  --brand-2:#37a878;
+  /* ⚠️ 这个三元组是给「带透明度的品牌色」用的。
+     改之前全文件有 **33 处**硬编码 `rgba(var(--brand-rgb),X)`（= 旧绿 #3fb983），
+     和 `--brand`（#46c78d）**不是同一个绿** —— 于是同一个界面里有两套绿，
+     想统一改一次得搜 33 个地方。收敛成变量后，改这里一处就全局生效。 */
+  --brand-rgb:78,210,147;
+  --brand-dim:#1d6349;
+  --amber:#e2b06c;
+  --red:#e88a92;
+  --blue:#6cb4ec;
+  --violet:#b39bfb;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  --mono:"SF Mono","Cascadia Code",Consolas,monospace;
+  --r:12px;
+  --shadow:0 8px 32px rgba(0,0,0,.45);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:var(--sans); background:var(--bg); color:var(--ink);
+  font-size:14px; line-height:1.6; overflow:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:rgba(var(--brand-rgb),.28)}
+button{font-family:inherit;color:inherit;background:none;border:none;cursor:pointer}
+a{color:inherit;text-decoration:none}
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.10);border-radius:9px;border:2px solid transparent;background-clip:padding-box}
+::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.2);background-clip:padding-box}
+
+/* ============================================================ 布局 */
+#app{
+  display:grid; height:100vh; width:100vw;
+  grid-template-columns:274px 1fr 372px;
+  grid-template-rows:58px 1fr;
+  grid-template-areas:"top top top" "left stage right";
+  transition:grid-template-columns .34s cubic-bezier(.4,0,.2,1);
+  /* ⚠️ 没有这行，手机浏览器会把「布局视口」撑到 898px。
+     原因：#topbar 横跨三列，而它是一行不换行的 flex（品牌 + 场景名 + 8 个按钮），
+     min-content ≈ 898px；grid item 的 min-width 默认是 auto(=min-content)，
+     于是整页被撑宽 → 手机按 390/898 ≈ 43% 缩放渲染，什么都看不清。
+     overflow:hidden 把溢出裁掉，min-width:0（见 #topbar）才真正放开收缩。
+  ⚠️⚠️ 但 `overflow:hidden` **仍然是一个滚动容器**（只是不给用户滚动条）——
+     脚本和「焦点滚动到可见」照样能改 `scrollLeft`。而两个抽屉的关闭态是
+     `transform:translateX(102%)`，会造出约 379px 的**横向溢出**
+     （实测 `scrollWidth 2059` vs `clientWidth 1680`）。
+     于是 `toggleAlts()` 里那次 `#alts-close.focus()` 会让浏览器把**整页横向滚走**：
+     左栏 `x` 从 0 变成 −379，用户看到的就是「点开方案对照之后，左边场景列表不见了 /
+     点了没反应」，而且**不会自己复位**。
+     ⇒ `overflow:clip` 不产生滚动容器，从根上堵住这条路（`overflow:hidden` 留作兜底）。
+     ⚠️⚠️ **兜底必须写在前面、`clip` 写在后面** —— 同权重后者胜。
+        第 61 轮实测：这里一度写成 `hidden; clip; hidden;`，**最后那行把 `clip` 盖回去了**，
+        计算值仍是 `hidden`（`getComputedStyle(#app).overflow === 'hidden'`），
+        于是「修三件套」的第三条一直是**死代码**。只靠肉眼读 CSS 看不出来，
+        要问浏览器要计算值。 */
+  overflow:hidden;
+  overflow:clip;
+}
+#app.lean{grid-template-columns:0px 1fr 0px}
+/* ⚠️ `#panel.closed` 一度**一条样式都没有** —— 点「收起产品面板」只切了个 class、
+   改了按钮自己的 `aria-expanded` 和文案，**面板纹丝不动**（aria 说了假话）。
+   ⚠️ 要收的是**网格列**，所以打在父级 `#app` 上：只把 `#panel` 自身宽度设 0，
+   那一列仍然占着 372px。同权重后来者胜 → 必须写在 `#app.lean` **之后**。 */
+#app.panel-closed{grid-template-columns:274px 1fr 0px}
+/* 沉浸 + 收面板叠加：左栏也要收掉（(1,2,0) 高于上面两条） */
+#app.panel-closed.lean{grid-template-columns:0px 1fr 0px}
+#panel.closed{opacity:0;pointer-events:none;border-left:0}
+#app.blocked{filter:blur(7px) brightness(.5);pointer-events:none}
+
+/* ============================================================ 顶栏 */
+#topbar{
+  grid-area:top; display:flex; align-items:center; gap:16px; padding:0 18px;
+  background:linear-gradient(180deg,#1d2530,#161d26);
+  border-bottom:1px solid var(--line); z-index:20;
+  min-width:0; overflow:hidden;
+}
+.brand{display:flex;align-items:center;gap:11px;flex:0 0 auto}
+.brand svg{display:block}
+.brand-txt{line-height:1.15}
+.brand-txt b{display:block;font-size:14px;letter-spacing:.02em;font-weight:800}
+.brand-txt span{display:block;font-size:10.5px;color:var(--dim);letter-spacing:.16em;text-transform:uppercase;font-weight:600}
+/* ⚠️ 顶栏有 11 颗按钮，原来只有 `gap:8px` 一档间距、分隔线是 `--line-2`
+   （提亮前 `rgba(255,255,255,.16)`，在深色顶栏上几乎看不见）——
+   于是整条顶栏看起来就是「一坨灰胶囊」，没有任何分组层次。
+   这里做两件事：① 分隔线提亮 + 加左右外边距，让「组内 gap 8px」和
+   「组间 8+1+8=17px」拉开一倍差距；② 高度收到 22px（比按钮矮一点才像分隔符）。 */
+.topbar-sep{width:1px;height:22px;background:rgba(255,255,255,.24);flex:0 0 auto;margin:0 3px}
+#scene-title{font-size:14.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#scene-en{font-size:10.5px;color:var(--dim);letter-spacing:.1em;text-transform:uppercase;font-weight:600;white-space:nowrap}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+.tb-btn{
+  display:inline-flex;align-items:center;gap:6px;padding:7px 11px;border-radius:9px;
+  border:1px solid var(--line-2); background:rgba(255,255,255,.035); color:var(--muted);
+  font-size:12px;font-weight:600;transition:all .15s;white-space:nowrap;
+}
+.tb-btn:hover{background:rgba(255,255,255,.09);color:var(--ink);border-color:rgba(255,255,255,.24)}
+.tb-btn.on{background:rgba(var(--brand-rgb),.16);border-color:rgba(var(--brand-rgb),.5);color:var(--brand)}
+/* 「画质自动降档」的**零宽度**标记。窄屏下 `· 自动` 后缀被 CSS 藏掉（见 ≤1280 块），
+   这里就是唯一的可见线索：虚线边框 + 品牌色淡底。
+   ⚠️ 只改 border-style / background，颜色交给 `.on` / `.warn` ——
+      自动降档只会在 ≥1 档发生，与 `.on`（高档）不重叠，不会互相盖。 */
+.tb-btn.is-auto{border-style:dashed;background:rgba(var(--brand-rgb),.10)}
+/* 「柜门开合」序列进行中：一键全开 / 全关是门先开、手车后摇出的两段式动作，
+   低配机上要 2~3 秒。给个转圈 + 压暗，否则用户以为没点上会反复点。 */
+.tb-btn.busy{opacity:.62;cursor:progress}
+.tb-btn.busy::after{
+  content:'';width:9px;height:9px;border-radius:50%;
+  border:1.5px solid currentColor;border-top-color:transparent;
+  animation:spin .7s linear infinite;
+}
+.tb-btn.primary{background:linear-gradient(135deg,var(--brand),var(--brand-2));border-color:transparent;color:#04140d;font-weight:800}
+.tb-btn.primary:hover{filter:brightness(1.1)}
+
+/* ---- 窄屏（≤1120px）顶栏的「场景」下拉 ----
+   ≤1120 时 `#sidebar` 整块 `display:none`，而左栏是**唯一**的场景列表 ——
+   那之后只剩数字键 1…9 能换场景，而快捷键说明也被一起收走了。
+   做法是**把顶栏的场景名本身变成触发器**：零额外宽度，不会把顶栏挤爆。
+   ⚠️ `#topbar` 与 `#app` 都是 `overflow:hidden` —— 菜单若用 `position:absolute`
+      会被直接裁掉。改 `position:fixed`：祖先里没有 transform / filter，
+      不会成为 fixed 的包含块，所以不裁。坐标由 JS 按 summary 的 rect 算。 */
+.tb-drop{min-width:0;flex:0 1 auto}
+.tb-drop>summary{display:flex;align-items:center;gap:9px;min-width:0;list-style:none;
+  pointer-events:none}                       /* 宽屏：标题不可点，与今天完全一样 */
+/* summary 的内容模型是**短语内容**，`<div>` 不在其中 —— 用 span + display:block，
+   行为与原来的 div 完全一致，但不会留下一个「浏览器宽容才成立」的结构。 */
+.tb-title{display:block;min-width:0}
+#scene-title{display:block}
+#scene-en{display:block}
+.tb-drop>summary::-webkit-details-marker{display:none}
+.tb-caret{display:none;flex:0 0 auto;width:0;height:0;border-left:4px solid transparent;
+  border-right:4px solid transparent;border-top:5px solid currentColor;
+  opacity:.55;transition:transform .18s}
+.tb-drop[open]>.tb-caret{transform:rotate(180deg)}
+.tb-menu{display:none;position:fixed;z-index:60;padding:6px;border-radius:12px;
+  max-height:min(66vh,520px);overflow:auto;
+  background:var(--panel-2);border:1px solid var(--line-2);
+  box-shadow:0 18px 44px rgba(0,0,0,.5);backdrop-filter:blur(14px)}
+@media (max-width:1120px){
+  /* ⚠️ 这个块里**只放不与 ≤1560 / ≤1280 冲突的声明**（那些见文件下方另一个
+     `max-width:1120px` 块）。理由见那一段的注释：权重相同 + max-width 叠加，
+     后写的赢 —— 写在这里会被下面的 ≤1560 静默覆盖。 */
+  .tb-drop>summary{pointer-events:auto;cursor:pointer}
+  /* ⚠️ caret 只在窄屏出现。宽屏下它是个**假承诺** —— 看着像「点我能展开」，
+     而 summary 是 `pointer-events:none`、菜单是 `display:none`，点了什么都不发生。
+     出图时正是先在 1680 下看到它，才发现漏了这一条。 */
+  .tb-caret{display:block}
+  .tb-menu{display:block}
+}
+
+/* 顶栏现在是 10 颗按钮 + 品牌 + 场景名 + 返回手册，而 `#topbar` 是
+   `overflow:hidden` 且不换行 —— 窄屏上最右边的「返回百科手册」会被**整颗裁掉**
+   （不是折行、不是省略号，是直接没了，用户根本不知道有这一颗）。
+   这里做两级压缩，而不是隐藏功能按钮：
+     ① ≤1560px：收紧 padding / gap，去掉纯装饰的分隔竖线（省 ~130px）；
+     ② ≤1280px：隐掉英文副标题与品牌副标（纯装饰，省 ~90px）。
+   实测 1280 宽窗口下顶栏占用约 1200px，两级压缩后仍有约 200px 余量。 */
+@media (max-width:1560px){
+  #topbar{gap:10px;padding:0 12px}
+  .topbar-right{gap:6px}
+  .tb-btn{padding:6px 9px;font-size:11.5px}
+  /* ⚠️ 这里原来是 `.topbar-sep{display:none}` —— 为了省宽度把**分组分隔线整条拿掉**。
+     实测（`topbar_fit.js`）：显示 4 条分隔线后按钮组从 722px 涨到 819px，
+     顶栏在 1180~1560 各宽度下**仍然放得下**（余量来自 `.topbar-right{margin-left:auto}`，
+     真正会先被压缩的是场景名，而它本来就有 ellipsis）。
+     省下来的宽度没人用，代价却是 11 颗按钮在 1560 以下全变成等距胶囊 ——
+     「一坨按钮、没有层次」主要就是这么来的。改成**收窄而不是隐藏**。 */
+  .topbar-sep{height:18px;margin:0 1px}
+}
+@media (max-width:1280px){
+  #scene-en{display:none}
+  .brand-txt span{display:none}
+  /* ⚠️ 画质按钮的**状态后缀**在窄屏一律藏掉 —— 它们最宽占 **58px**，
+     而那点宽度正是场景名的宽度（≤1120 时场景名是唯一的场景切换入口）。
+     实测（`.workbuddy-ai/tmp/q_txt.js`）：低档 + 关阴影 + 自动降档 ⇒
+     `画质 低·无影 · 自动` 宽 **113.55px**，基准「画质 高」只有 **55.67px**。
+     ⚠️ 低配机（软渲染 / 核显）一打开就自动降到低档 ⇒ 这是**常态**，不是边缘情况：
+        不加这条，`ui46_probe` ⑧a4/⑧a5 在低配机上必然红。
+     信息不丢：`aria-label` / `title` 里都写着「已按帧率自动调整」，
+     按钮另有 `.is-auto`（虚线 + 品牌淡底）与 `.warn`（琥珀）两个零宽度提示。 */
+  #btn-quality .q-sub,#btn-quality .q-auto{display:none}
+}
+
+/* ⚠️⚠️ 这一块**必须排在 ≤1560 / ≤1280 两块之后**。
+   两个媒体查询的 `max-width` 是「同时命中」的叠加关系（1024 既 ≤1560 也 ≤1120），
+   选择器权重又完全相同（都是 0,1,0）—— 所以**后写的赢**，跟哪个断点更小无关。
+   第一版把这段写在 ≤1560 之前，结果 `.tb-btn{padding:6px 8px}` 被后面的
+   `padding:6px 9px` **静默覆盖**：宽度一点没省下来，表现只是「场景名还是被截断」，
+   从现象上根本看不出是层叠顺序问题（逐按钮量 padding 才定位到，见 `_wdiag3.js`）。
+   项目里已有的媒体查询本来就是这个顺序（最窄的写在最后），别打乱。
+
+   为什么值得为这几十像素单开一块：**这个断点以下，场景名从「只读标题」变成了
+   「唯一的场景切换入口」**（`#sidebar` 整块 `display:none`，快捷键说明也一起收走了）。
+   一个切换控件显示不出自己要切到哪儿，等于没有 —— 最长那条
+   「欧式箱变（预装式变电站）」需要 174px，而按原样只分到 110px。
+   省宽度的手段按「先省装饰、后省功能」排：
+     ① 品牌副标 / 场景英文副标：≤1280 已经隐掉；
+     ② 这里再隐掉品牌**文字**（保留图形 logo，识别度靠它）；
+     ③ 按钮 padding 与组间距各收 1~2px，分隔线外边距归零。
+   合计让出约 130px —— 1024 下最长的场景名也能完整显示（由 `ui46_probe` ⑧a5 守着）。
+
+   ⚠️⚠️ 断点是 **1200，不是 1120**（第 53 轮改）。原来跟「左栏收起」对齐在 1120，
+      但那个断点只管**左栏**，顶栏的紧张区间跟它并不重合：左栏 1121 起就回来了，
+      而顶栏要到 **1162** 才真的够宽 ——
+        `avail = W − 24(pad) − 916.8(品牌 + 分隔线 + 按钮组) − 30(3 个 gap)`，
+      最长场景名在 14.5px 下要 `174 + 9(summary gap) + 8(caret) = 191` ⇒ `W ≥ 1161.8`。
+      于是 **1121–1161 是一条 40px 宽的静默截断带**：左栏在，顶栏却放不下场景名。
+      对齐到 1200 后这条带子整段落进压缩档（`avail = 364`），1201 起也还有 75px 余量。 */
+@media (max-width:1200px){
+  .brand-txt{display:none}
+  #topbar{gap:6px}
+  .topbar-right{gap:4px}
+  .tb-btn{padding:6px 8px}
+  .topbar-sep{margin:0}
+  /* 场景名字号 14.5 → 13px。⚠️ 为什么动字号而不是继续挤按钮：
+     最长的「欧式箱变（预装式变电站）」在 14.5px 下要 174px，收到 13px 后只要 ~156px，
+     一次让出 18px —— 比把 11 颗按钮的 padding 从 8px 压到 6px（视觉上明显变挤）更划算。
+     而且这时它已经不是「标题」而是「切换控件」，字号略小反而与按钮组更协调。 */
+  #scene-title{font-size:13px}
+}
+
+/* ============================================================ 左侧场景栏 */
+#sidebar{
+  grid-area:left; background:var(--panel); border-right:1px solid var(--line);
+  overflow-y:auto; overflow-x:hidden; z-index:15; backdrop-filter:blur(12px);
+}
+.sl-group{
+  display:flex;align-items:baseline;gap:8px;padding:16px 16px 8px;
+  font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--dim);text-transform:uppercase;
+}
+/* ⚠️ 第 49 轮：**去掉 `opacity:.6`**。
+   `--dim` 在面板底上是 5.92:1，乘 0.6 的透明度后掉到 **3.04:1** ——
+   全量扫描（contrast_sweep.js）一次就抓出来了，而它躲过了之前两轮所有「手算」。
+   视觉层级不需要靠透明度来压：字号（9.5 vs 11）、字重（normal vs 800）、
+   letter-spacing（.1em vs .14em）已经足够把「计数」和「分组标题」分开。 */
+.sl-group em{font-style:normal;font-size:9.5px;letter-spacing:.1em}
+/* ⚠️ 第 45 轮：从「一行 flex」改成**两行网格**。
+   原来 [圆点][场景名 flex:1][计数 em] 挤在一行，而计数「6 产品 · 12 元件」
+   一个人吃掉约 80px —— 侧栏 274px 时场景名只剩 ~129px（≈10 个汉字），
+   实测 1680 宽下「欧式箱变（预装式变电站）」已经截成「欧式箱变（预…」，
+   侧栏收到 244px 时更短。用户要在列表里**认场景**，名字被截掉就没法认了。
+   改成两行后场景名拿到整行宽度（不再截断），计数下沉为 10.5px 小字副行 ——
+   顺带把「名字为主、计数为辅」的层级立起来（原来两者字号只差 2.5px、颜色还一样暗）。 */
+.sl-item{
+  display:grid;grid-template-columns:auto 1fr;align-items:center;
+  column-gap:9px;row-gap:1px;
+  width:calc(100% - 20px);margin:2px 10px;
+  padding:8px 11px;border-radius:10px;text-align:left;transition:all .16s;
+  border:1px solid transparent;
+}
+.sl-item .dot{
+  grid-column:1;grid-row:1;
+  width:7px;height:7px;border-radius:50%;
+  background:var(--dim);box-shadow:0 0 0 3px rgba(255,255,255,.04);transition:all .16s;
+}
+.sl-item[data-kind="indoor"] .dot{background:#5aa9e6}
+.sl-item[data-kind="outdoor"] .dot{background:#e0b45a}
+.sl-item .n{
+  grid-column:2;grid-row:1;min-width:0;
+  font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.sl-item em{
+  grid-column:2;grid-row:2;font-style:normal;font-size:10.5px;color:var(--dim);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.sl-item:hover{background:rgba(255,255,255,.055)}
+.sl-item.on{background:rgba(var(--brand-rgb),.13);border-color:rgba(var(--brand-rgb),.34)}
+.sl-item.on .n{color:var(--brand);font-weight:800}
+/* ⚠️ 第 49 轮：选中行的**小字**必须升一档到 `--muted`。
+   原因：`.sl-item.on` 自己的底是 `rgba(var(--brand-rgb),.13)` —— 品牌绿罩在面板底上，
+   把底提亮了约 4 个亮度百分点。而 `--dim` 是照**面板底色**标定的，罩上这层绿以后
+   10.5px 的计数副行只有 **4.02:1**（顶栏下拉）/ 4.51:1（侧栏），跌破 WCAG AA 的 4.5:1。
+   ⚠️ 这件事说明了「手算对比度」为什么不可靠：**选中态自己那层底最容易被漏掉**
+      （第 47 轮漏了「下拉面是 --panel-2」，第 48 轮漏了「选中态那层品牌绿」）。
+   ⚠️ 不要靠「调低 `.on` 的背景不透明度」来救 —— 实测要降到 .05 才过线，
+      那样选中态就看不出来了。**可读性与可辨识性不能互相牺牲，要各自满足。** */
+.sl-item.on em{color:var(--muted)}
+.sl-item.on .dot{box-shadow:0 0 0 4px rgba(var(--brand-rgb),.2)}
+/* 「操作说明」改成**原生 `<details>` 折叠**，默认收起。
+   ⚠️ 为什么要收：实测这一块高 **202px**，而 9 个场景的列表只有 436px ——
+      说明块一个人吃掉左栏可视高度的 21%，而左栏只有 274px 宽，
+      13 行 11.5px 小字挤在里面。「一堆字」的第一观感就来自这里。
+   ⚠️ 为什么用 `<details>` 而不是自己写 JS 折叠：原生元素自带
+      「键盘 Enter/Space 展开、焦点环、读屏 announced 展开/收起」，
+      一行 JS 都不用写 —— 也就不会踩「只加 class 不算行为」那个坑。 */
+.sidebar-foot{margin:12px 12px 16px}
+.sidebar-foot>summary{
+  display:flex;align-items:center;gap:8px;cursor:pointer;list-style:none;
+  padding:9px 12px;border-radius:10px;
+  background:rgba(255,255,255,.035);border:1px solid var(--line);
+  font-size:11.5px;font-weight:700;color:var(--muted);
+  transition:background .16s,border-color .16s,color .16s;
+}
+.sidebar-foot>summary::-webkit-details-marker{display:none}
+.sidebar-foot>summary:hover{background:rgba(255,255,255,.075);color:var(--ink);border-color:var(--line-2)}
+.sbf-hint{margin-left:auto;font-size:10.5px;font-weight:600;color:var(--dim)}
+.sidebar-foot>summary::after{
+  content:'';width:6px;height:6px;flex:0 0 auto;margin-left:2px;
+  border-right:1.6px solid currentColor;border-bottom:1.6px solid currentColor;
+  transform:rotate(45deg) translate(-1px,-1px);transition:transform .2s;
+}
+.sidebar-foot[open]>summary::after{transform:rotate(225deg) translate(-1px,-1px)}
+.sbf-body{
+  margin-top:8px;padding:12px;border-radius:10px;
+  background:rgba(255,255,255,.028);border:1px solid var(--line);
+  font-size:11.5px;color:var(--muted);line-height:1.75;
+}
+.sbf-body b{color:var(--ink);font-weight:700}
+.sbf-body kbd{
+  font-family:var(--mono);font-size:10px;padding:1px 5px;border-radius:4px;
+  background:rgba(255,255,255,.09);border:1px solid var(--line-2);color:var(--ink);
+}
+
+/* ============================================================ 舞台 */
+#stage{
+  grid-area:stage; position:relative; overflow:hidden; min-width:0;
+  background:radial-gradient(120% 90% at 50% 0%,#242e3a 0%,#19212b 55%,#121922 100%);
+}
+#stage[data-env="outdoor"]{background:linear-gradient(180deg,#8fb6d8,#c9d6de)}
+#gl{display:block;width:100%;height:100%;position:absolute;inset:0}
+#labels{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+#labels .hot-label{
+  position:absolute;top:0;left:0;pointer-events:auto;
+  display:inline-flex;align-items:center;gap:7px;
+  padding:4px 10px 4px 7px;border-radius:999px;
+  background:rgba(20,26,33,.84);border:1px solid rgba(255,255,255,.16);
+  color:var(--ink);font-size:11.5px;font-weight:600;white-space:nowrap;
+  backdrop-filter:blur(10px);box-shadow:0 4px 18px rgba(0,0,0,.5);
+  transition:background .15s,border-color .15s,opacity .2s;will-change:transform;
+}
+#labels .hot-label i{
+  width:7px;height:7px;border-radius:50%;background:var(--c);flex:0 0 auto;
+  box-shadow:0 0 8px var(--c);
+}
+#labels .hot-label em{font-style:normal;font-family:var(--mono);font-size:9.5px;color:var(--dim);margin-left:4px}
+#labels .hot-label:hover{background:rgba(30,38,47,.95);border-color:var(--c)}
+#labels .hot-label.active{
+  background:rgba(24,32,41,.96);border-color:var(--c);
+  box-shadow:0 0 0 1px var(--c),0 6px 26px rgba(0,0,0,.6);
+}
+#labels .hot-label.active i{animation:pulse 1.6s ease-in-out infinite}
+#labels .hot-label.hidden{display:none}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.45);opacity:.6}}
+
+/* 舞台 HUD */
+.hud{position:absolute;pointer-events:none;z-index:5}
+.hud.tl{top:14px;left:16px;display:flex;flex-direction:column;gap:8px;max-width:440px}
+.hud.tr{top:14px;right:16px;display:flex;gap:6px;pointer-events:auto}
+.hud.bl{bottom:14px;left:16px;display:flex;gap:6px;align-items:center;pointer-events:auto}
+
+/* 示意模型免责标注：常驻在画布左下角，任何场景下都可见 */
+#model-note{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 10px;border-radius:999px;
+  background:rgba(20,27,34,.66);border:1px solid rgba(255,255,255,.14);
+  color:rgba(230,240,236,.92);font-size:11px;font-weight:600;letter-spacing:.02em;
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  pointer-events:none;user-select:none;
+}
+#model-note::before{
+  content:"";width:5px;height:5px;border-radius:50%;
+  background:var(--brand);flex:0 0 auto;
+}
+.hud.br{bottom:14px;right:16px;text-align:right;max-width:340px}
+#stage-badge{
+  display:inline-block;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:800;
+  letter-spacing:.1em;width:max-content;
+}
+#stage-badge[data-kind="indoor"]{background:rgba(90,169,230,.16);color:#8fc8f2;border:1px solid rgba(90,169,230,.4)}
+#stage-badge[data-kind="outdoor"]{background:rgba(224,180,90,.18);color:#f0cd8e;border:1px solid rgba(224,180,90,.45)}
+#scene-ambience{
+  font-size:11px;color:var(--muted);letter-spacing:.02em;
+  padding:4px 10px;border-radius:8px;background:rgba(18,24,31,.62);
+  backdrop-filter:blur(8px);width:max-content;border:1px solid var(--line);
+}
+#stage-tip{
+  font-size:11.5px;color:var(--muted);line-height:1.6;
+  background:rgba(18,24,31,.70);padding:8px 12px;border-radius:9px;
+  border:1px solid var(--line);backdrop-filter:blur(8px);
+  transition:color .15s,border-color .15s,background .15s;
+}
+/* 鼠标悬停在柜门上时，右下角提示临时换成「点击开合」并换成强调色 ——
+   跟场景静态说明拉开区别，否则用户不会注意到文案变了 */
+#stage-tip.swap{
+  color:var(--brand);border-color:rgba(var(--brand-rgb),.5);
+  background:rgba(16,32,26,.86);
+}
+/* 悬停在可动件（门扇 / 手车）上时，贴着它浮出来的操作气泡。
+   默认 visibility:hidden（不是 display:none）—— 隐藏时仍参与布局，
+   所以 JS 里第一次就能量到 offsetWidth，不用先显示再量、避免闪一下。 */
+#labels .mover-hint{
+  position:absolute;top:0;left:0;pointer-events:none;visibility:hidden;
+  padding:4px 11px;border-radius:999px;white-space:nowrap;
+  background:rgba(14,28,23,.93);border:1px solid rgba(var(--brand-rgb),.55);
+  color:#8ff0c4;font-size:11.5px;font-weight:700;letter-spacing:.02em;
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  box-shadow:0 4px 20px rgba(0,0,0,.55);will-change:transform;
+}
+/* 下指小三角：气泡浮在可动件**上方**时指向它 */
+#labels .mover-hint::after{
+  content:"";position:absolute;left:50%;bottom:-5px;width:8px;height:8px;margin-left:-4px;
+  transform:rotate(45deg);background:rgba(14,28,23,.93);
+  border-right:1px solid rgba(var(--brand-rgb),.55);border-bottom:1px solid rgba(var(--brand-rgb),.55);
+}
+/* 顶到画面上沿时气泡翻到下方，三角跟着翻成上指 */
+#labels .mover-hint.below::after{top:-5px;bottom:auto;transform:rotate(-135deg)}
+.hud-btn{
+  width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;
+  /* 第 46 轮去绿相：原来是 rgba(10,15,13,.72) —— 旧绿黑。
+     这一轮定下的分界线：**面板与控件面一律中性色**，只有贴着元件的小强调气泡
+     （.mover-hint / #stage-tip.swap）保留品牌绿底。 */
+  background:rgba(18,24,31,.74);border:1px solid var(--line-2);color:var(--muted);
+  backdrop-filter:blur(10px);transition:all .15s;font-size:14px;
+}
+.hud-btn:hover{background:rgba(255,255,255,.12);color:var(--ink);border-color:rgba(255,255,255,.28)}
+.hud-btn.on{background:rgba(var(--brand-rgb),.2);border-color:rgba(var(--brand-rgb),.55);color:var(--brand)}
+.hud-btn svg{width:16px;height:16px}
+
+/* 加载遮罩 */
+#loading{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:rgba(13,18,23,.88);backdrop-filter:blur(4px);z-index:30;
+  opacity:0;pointer-events:none;transition:opacity .3s;
+}
+#loading.on{opacity:1;pointer-events:auto}
+.ld-box{text-align:center;color:var(--muted)}
+.ld-box b{display:block;color:var(--ink);font-size:15px;margin-bottom:6px}
+.ld-box p{font-size:12.5px}
+.ld-box .dim{color:var(--dim);margin-top:8px;max-width:420px;font-size:11.5px}
+/* 装载失败面板：与启动自诊断 #boot-diag 分开 ——
+   那个是「引擎都没起来」，这个是「引擎好好的、只是这个场景没建起来」。
+   显隐全部由 #loading.fail 驱动，JS 只切换类名（少一处状态就少一处不一致）。 */
+#ld-fail{display:none;max-width:460px}
+#loading.fail #ld-fail{display:block}
+#loading.fail .ld-spin,#loading.fail .ld-bar,
+#loading.fail #ld-step,#loading.fail #ld-note{display:none}
+#ld-fail .lf-act{display:flex;gap:8px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+.lf-btn{
+  padding:6px 14px;border-radius:8px;font-size:12.5px;line-height:1.5;
+  border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:var(--ink);
+  transition:background .16s,border-color .16s,filter .16s;
+}
+.lf-btn:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.28)}
+.lf-btn.primary{background:linear-gradient(135deg,var(--brand),var(--brand-2));border-color:transparent;color:#04140d;font-weight:800}
+.lf-btn.primary:hover{filter:brightness(1.1)}
+.lf-btn:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.ld-spin{
+  width:34px;height:34px;margin:0 auto 16px;border-radius:50%;
+  border:2.5px solid rgba(var(--brand-rgb),.2);border-top-color:var(--brand);
+  animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* 真实进度条：按「环境 → 几何 → 合并 → 灯光 → 标注」分阶段推进，
+   让用户知道在干什么、还有多久，而不是一个转圈转到底 */
+.ld-bar{
+  width:230px;height:3px;margin:18px auto 0;border-radius:2px;
+  background:rgba(255,255,255,.09);overflow:hidden;
+}
+.ld-bar i{
+  display:block;height:100%;width:0;border-radius:2px;
+  background:linear-gradient(90deg,var(--brand),var(--brand-2));
+  transition:width .35s cubic-bezier(.22,1,.36,1);
+}
+/* 启动失败自诊断面板：宁可把原因摊开，也不要让用户对着转圈干等 */
+#boot-diag{
+  margin:18px auto 0;max-width:560px;text-align:left;
+  padding:14px 16px;border-radius:12px;
+  border:1px solid rgba(217,164,90,.45);background:rgba(217,164,90,.07);
+}
+#boot-diag[hidden]{display:none}
+#boot-diag h3{font-size:13.5px;font-weight:800;color:var(--amber);margin-bottom:7px}
+#boot-diag p{font-size:12px;color:var(--muted);line-height:1.7}
+#boot-diag ol{margin:10px 0 0 18px;display:flex;flex-direction:column;gap:7px}
+#boot-diag li{font-size:11.5px;color:var(--muted);line-height:1.7}
+#boot-diag code{
+  font-family:var(--mono);font-size:11px;color:var(--ink);
+  background:rgba(255,255,255,.07);border:1px solid var(--line);
+  border-radius:4px;padding:1px 5px;
+}
+#boot-diag pre{
+  margin-top:12px;padding:9px 10px;border-radius:8px;max-height:170px;overflow:auto;
+  background:rgba(0,0,0,.3);border:1px solid var(--line);
+  font-family:var(--mono);font-size:10.5px;line-height:1.65;color:var(--dim);
+  white-space:pre-wrap;word-break:break-all;user-select:text;-webkit-user-select:text;
+}
+
+/* ============================================================ 右侧面板 */
+#panel{
+  grid-area:right; background:var(--panel); border-left:1px solid var(--line);
+  display:flex;flex-direction:column;overflow:hidden;z-index:15;backdrop-filter:blur(12px);
+  min-width:0;
+}
+.panel-sec{padding:14px 16px;border-bottom:1px solid var(--line)}
+.panel-sec.head{padding-bottom:10px}
+.panel-sec.head h2{
+  font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--dim);text-transform:uppercase;
+  display:flex;align-items:center;gap:8px;
+}
+.panel-sec.head h2 b{color:var(--brand);font-size:13px}
+#scene-desc{font-size:12.5px;color:var(--muted);line-height:1.7;margin-top:8px}
+/* 场景统一口径声明：与产品卡片底部的 .disclaimer 同级 —— 都是**合规声明**，
+   不能写得比正文还弱（浅色底 + 细边框 + 品牌色关键词）。 */
+#scene-note{
+  position:relative;
+  font-size:10.5px;color:var(--muted);line-height:1.62;margin-top:9px;
+  padding:7px 10px 7px 26px;
+  border:1px solid rgba(var(--brand-rgb),.20);border-radius:8px;background:rgba(var(--brand-rgb),.05);
+}
+/* ⚠️ 这里**只减重、不折叠**。它是「示意模型」的合规声明，必须常驻可见 ——
+   做成默认收起的 `<details>` 就等于没有标注。减字号 + 加 ⓘ + 收行高，
+   省掉约 1 行，但一个字都没少。 */
+#scene-note::before{
+  content:'ⓘ';position:absolute;left:9px;top:6px;font-size:11px;
+  color:var(--brand);line-height:1.62;
+}
+/* 来源图例：一眼分清「哪些是我们的产品、哪些不是」 */
+#origin-legend{display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:10px}
+#origin-legend span{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;color:var(--muted)}
+#origin-legend i{width:7px;height:7px;border-radius:50%;flex:0 0 auto}
+#origin-legend b{color:var(--text);font-weight:600}
+/* 本场景可操作件一览。柜门是一大块平板、手车闷在柜里 ——
+   不告诉用户「有几个、在哪」，他根本不会去点。
+   三颗控件各管一件事：数量胶囊 → 定位闪烁；「一键开合」→ 全开 / 全关。
+   ⚠️ `width:100%` + `flex-wrap` 必须给：子按钮默认按内容撑宽，
+      而面板是 grid item（min-width:auto），窄屏下会把布局顶出去。
+   ⚠️ `[hidden]` 要显式写 `display:none` —— 上面那条 `display:flex` 会盖掉
+      浏览器对 hidden 属性的默认样式，不加这条「没有可动件」的场景会露一行空白。 */
+#mover-summary{
+  display:flex;flex-wrap:wrap;align-items:center;gap:6px;
+  width:100%;margin-top:10px;padding:8px 9px;
+  border-radius:9px;border:1px dashed rgba(var(--brand-rgb),.42);
+  background:rgba(var(--brand-rgb),.07);
+  font-size:11px;font-weight:600;line-height:1.5;
+}
+#mover-summary[hidden]{display:none}
+#mover-summary .ms-title{color:var(--dim);font-weight:600}
+#mover-summary .ms-chip,#mover-summary .ms-all{
+  border:1px solid rgba(var(--brand-rgb),.45);background:rgba(var(--brand-rgb),.10);
+  color:var(--brand);font:inherit;font-size:11px;font-weight:700;
+  padding:3px 9px;border-radius:999px;cursor:pointer;white-space:nowrap;
+  transition:background .14s,border-color .14s,color .14s;
+}
+#mover-summary .ms-chip:hover,#mover-summary .ms-all:hover{
+  background:rgba(var(--brand-rgb),.24);border-color:rgba(var(--brand-rgb),.7);
+}
+#mover-summary .ms-all{
+  border-color:var(--line-strong);background:var(--surface);color:var(--ink);
+}
+#mover-summary .ms-all:hover{background:var(--surface-2);border-color:var(--line-strong)}
+#prod-list{overflow-y:auto;flex:0 0 auto;max-height:238px;padding:10px 12px;border-bottom:1px solid var(--line)}
+.pcard{
+  display:block;width:100%;text-align:left;padding:9px 11px;border-radius:10px;
+  border:1px solid transparent;border-left:3px solid transparent;
+  transition:all .15s;margin-bottom:3px;
+}
+.pcard:hover{background:rgba(255,255,255,.055);border-left-color:var(--c)}
+.pcard.hover{background:rgba(255,255,255,.055)}
+.pcard.on{background:rgba(var(--brand-rgb),.1);border-color:rgba(var(--brand-rgb),.3);border-left-color:var(--c)}
+.pc-fam{
+  display:inline-block;font-size:9.5px;font-weight:800;letter-spacing:.08em;
+  /* ⚠️ 第 49 轮：底从 `rgba(255,255,255,.06)`（**提亮**）改成 `rgba(0,0,0,.26)`（**压暗**）。
+     徽标文字是彩色的（`--c`），9.5px 的小字配彩字本来余量就小，
+     再被那层白底一抬就掉到 4.2 左右（实测红 #e06c75 = 4.18、蓝 #5aa9e6 = 4.27）。
+     压暗后：普通卡 5.40 / 6.78，选中卡（还叠着品牌绿 .1）5.92 —— 全部过线。
+     顺带视觉上也更好：原来那层白 6% 让所有徽标看着都「发灰」。 */
+  color:var(--c);padding:1px 6px;border-radius:4px;background:rgba(0,0,0,.26);
+  margin-bottom:3px;
+}
+.pc-n{display:block;font-size:13.5px;font-weight:700;line-height:1.35}
+.pc-m{display:block;font-family:var(--mono);font-size:10px;color:var(--dim);margin-top:2px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pc-t{display:block;font-size:11.5px;color:var(--muted);margin-top:4px;line-height:1.55}
+/* 第 47 轮：家族/来源徽标收到标题行右端（原来它自己占一行，每张卡多 17px）。
+   ⚠️ 省略号必须落在**名字**上、徽标不能被压扁：`.pc-n` 是 `min-width:0` 的可缩项，
+   `.pc-fam` 是 `flex:none`。⚠️ 这一行整体也要 `min-width:0`，否则它作为
+   `.pcard` 的 flex 子项会按 min-content 撑宽（记忆 §10 的 grid/flex 静默失效）。 */
+.pc-h{display:flex;align-items:baseline;gap:8px;min-width:0}
+.pc-h .pc-n{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pc-h .pc-fam{flex:none;margin-bottom:0}
+
+#viewer-wrap{
+  position:relative;flex:0 0 auto;height:216px;border-bottom:1px solid var(--line);
+  background:radial-gradient(70% 70% at 50% 45%,rgba(var(--brand-rgb),.09),transparent 70%),#121922;
+}
+#mini{display:block;width:100%;height:100%}
+.viewer-tag{
+  position:absolute;top:10px;left:12px;font-size:9.5px;font-weight:800;letter-spacing:.14em;
+  color:var(--dim);text-transform:uppercase;
+}
+.viewer-hint{
+  position:absolute;bottom:9px;right:12px;font-size:10px;color:var(--dim);pointer-events:none;
+}
+#card{overflow-y:auto;flex:1;min-height:0;padding:16px}
+.card-head h3{font-size:17px;font-weight:800;line-height:1.35;margin:8px 0 4px}
+.card-head .model{font-family:var(--mono);font-size:11px;color:var(--muted);word-break:break-all}
+.badge{
+  display:inline-block;font-size:10px;font-weight:800;letter-spacing:.08em;
+  color:var(--c);padding:3px 9px;border-radius:999px;
+  background:color-mix(in srgb,var(--c) 16%,transparent);
+  border:1px solid color-mix(in srgb,var(--c) 42%,transparent);
+}
+.tagline{font-size:13px;color:var(--ink);line-height:1.7;margin:12px 0 4px;font-weight:600}
+#card .sec{margin-top:16px}
+#card .sec h4{
+  font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--dim);
+  text-transform:uppercase;margin-bottom:7px;display:flex;align-items:center;gap:7px;
+}
+#card .sec h4::before{content:'';width:3px;height:11px;border-radius:2px;background:var(--c)}
+#card .sec p{font-size:12.5px;color:var(--muted);line-height:1.75}
+#card .sec p em{font-style:normal;color:var(--brand);font-weight:600}
+table.spec{width:100%;border-collapse:collapse;font-size:12px}
+table.spec th{
+  text-align:left;font-weight:600;color:var(--dim);padding:6px 10px 6px 0;
+  vertical-align:top;white-space:nowrap;width:78px;
+}
+table.spec td{color:var(--ink);padding:6px 0;line-height:1.6}
+table.spec tr+tr th,table.spec tr+tr td{border-top:1px solid var(--line)}
+.actions{display:flex;flex-direction:column;gap:8px}
+.btn-primary{
+  display:block;text-align:center;padding:10px;border-radius:9px;font-size:12.5px;font-weight:700;
+  background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#04140d;
+  transition:filter .15s;
+}
+.btn-primary:hover{filter:brightness(1.12)}
+.btn-ghost{
+  display:block;width:100%;text-align:center;padding:9px;border-radius:9px;font-size:12.5px;font-weight:600;
+  border:1px solid var(--line-2);color:var(--muted);transition:all .15s;
+}
+.btn-ghost:hover{border-color:var(--brand);color:var(--brand)}
+/* 示意模型免责标注：这是**合规声明**，不能写得比正文还弱 ——
+   所以给它独立的浅绿提示块（11.5px / --muted），关键句用品牌色加粗。 */
+.disclaimer{
+  font-size:11.5px;color:var(--muted);line-height:1.72;
+  margin-top:16px;padding:10px 12px;
+  border:1px solid rgba(var(--brand-rgb),.24);border-radius:8px;
+  background:rgba(var(--brand-rgb),.055);
+}
+.disclaimer b{color:var(--brand);font-weight:600}
+/* 「模型表达的部件（示意）」清单 */
+.partlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:5px}
+.partlist li{position:relative;padding-left:13px;font-size:12px;line-height:1.7;color:var(--muted)}
+.partlist li::before{content:"";position:absolute;left:0;top:9px;width:5px;height:5px;border-radius:50%;background:var(--brand-dim)}
+.card-empty{text-align:center;padding:40px 16px;color:var(--dim)}
+.card-empty .ce-icon{font-size:34px;color:var(--brand-dim);margin-bottom:12px}
+.card-empty h3{font-size:14px;color:var(--muted);font-weight:700;margin-bottom:8px}
+.card-empty p{font-size:12px;line-height:1.8}
+
+/* ============================================================ 移动端守卫 */
+#mobile-guard{
+  position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;
+  background:linear-gradient(180deg,#151b22,#0f141a);padding:28px;
+  /* 加了预览图之后内容会比手机屏高（两张图 + 说明 ≈ 700px），
+     必须允许纵向滚动，否则底部的「返回百科手册」按钮够不着。 */
+  overflow-y:auto;overscroll-behavior:contain;
+}
+#mobile-guard.on{display:flex}
+/* margin:auto 而不是靠 flex 居中 —— flex 居中在内容高于容器时会把顶部裁掉，
+   auto 外边距在溢出场景下会自然退化成「从顶部开始排」。 */
+.mg-box{max-width:400px;text-align:center;margin:auto}
+.mg-box .mg-ico{
+  width:66px;height:66px;margin:0 auto 20px;border-radius:18px;
+  background:rgba(var(--brand-rgb),.12);border:1px solid rgba(var(--brand-rgb),.34);
+  display:flex;align-items:center;justify-content:center;font-size:28px;
+}
+.mg-box h2{font-size:19px;font-weight:800;margin-bottom:10px}
+.mg-box p{font-size:13.5px;color:var(--muted);line-height:1.8;margin-bottom:8px}
+/* 桌面端画面预览：让手机用户先看到「电脑上打开是什么样」 */
+.mg-shots{display:flex;flex-direction:column;gap:10px;margin:16px 0 4px}
+.mg-shots figure{
+  margin:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;
+  background:rgba(255,255,255,.02);
+}
+.mg-shots img{display:block;width:100%;height:auto}
+.mg-shots figcaption{
+  font-size:10.5px;color:var(--dim);line-height:1.5;padding:7px 9px;text-align:left;
+  border-top:1px solid var(--line);
+}
+.mg-box .mg-note{
+  font-size:11.5px;color:var(--dim);background:rgba(255,255,255,.03);
+  border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:16px 0 20px;
+}
+.mg-box a{
+  display:inline-block;padding:11px 22px;border-radius:10px;font-size:13.5px;font-weight:700;
+  background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#04140d;
+}
+
+/* ============================================================ 选型助手 / 跨场景 / FPS */
+.tb-btn.accent{
+  background:linear-gradient(135deg,rgba(var(--brand-rgb),.22),rgba(79,209,197,.18));
+  border-color:rgba(var(--brand-rgb),.5);color:var(--brand);font-weight:800;
+}
+.tb-btn.accent:hover{background:linear-gradient(135deg,rgba(var(--brand-rgb),.34),rgba(79,209,197,.28));color:var(--ink)}
+#fps-chip{
+  align-self:flex-start;font-family:var(--mono);font-size:10.5px;font-weight:700;
+  color:var(--dim);background:rgba(18,24,31,.74);border:1px solid var(--line);
+  border-radius:999px;padding:3px 9px;letter-spacing:.4px;
+  cursor:pointer;transition:color .18s,border-color .18s;
+}
+#fps-chip.warn{color:var(--amber);border-color:rgba(226,176,108,.42)}
+#fps-chip:hover{color:var(--brand);border-color:rgba(var(--brand-rgb),.46)}
+.tb-btn.warn{color:var(--amber);border-color:rgba(217,164,90,.5)}
+.tb-btn.warn:hover{color:var(--amber);border-color:rgba(217,164,90,.72);background:rgba(217,164,90,.12)}
+
+/* 跨场景 chips */
+.xscenes{display:flex;flex-wrap:wrap;gap:6px}
+/* 同场景兄弟产品：两列卡片，比 chip 多一行型号，方便直接认型 */
+.siblist{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.sibchip{
+  display:flex;flex-direction:column;gap:2px;text-align:left;cursor:pointer;
+  padding:8px 10px;border-radius:9px;
+  background:rgba(255,255,255,.045);border:1px solid var(--line);
+  border-left:3px solid var(--c);
+  transition:border-color .16s,background .16s,transform .16s;
+}
+.sibchip:hover{border-color:var(--brand);border-left-color:var(--c);background:rgba(var(--brand-rgb),.12);transform:translateX(2px)}
+.sibchip b{font-size:11.5px;font-weight:700;color:var(--ink);line-height:1.35}
+.sibchip span{font-family:var(--mono);font-size:9.5px;color:var(--dim);line-height:1.3;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.xchip{
+  display:inline-flex;align-items:center;gap:6px;cursor:pointer;
+  font-size:11.5px;font-weight:600;color:var(--ink);
+  background:rgba(255,255,255,.05);border:1px solid var(--line);
+  border-radius:999px;padding:5px 11px 5px 9px;
+  transition:border-color .16s,background .16s,transform .16s;
+}
+.xchip:hover{border-color:var(--brand);background:rgba(var(--brand-rgb),.14);transform:translateY(-1px)}
+.xchip i{width:6px;height:6px;border-radius:50%;background:var(--brand);flex:none}
+.xchip i[data-kind="outdoor"]{background:var(--amber)}
+.xnone{font-size:11.5px;color:var(--dim)}
+
+/* 抽屉（选型助手 / 方案对照共用同一套外壳） */
+#advisor,#alts{
+  grid-area:right;align-self:stretch;z-index:30;
+  display:flex;flex-direction:column;overflow:hidden;
+  /* ⚠️ 第 46 轮：这里原来是 `linear-gradient(180deg,rgba(14,21,18,.985),rgba(9,14,12,.985))`
+     —— **旧的绿黑**。第 45 轮「去绿相」扫的是 6 位 hex 和品牌绿 rgba(63,185,131,X)，
+     这条深色 rgba 两种都不是，整轮漏掉。而它是一整块面板，比任何小色块都显眼。
+     教训：扫「绿相」要**按色相扫**，不能只扫你记得的那几个字面值。 */
+  background:linear-gradient(180deg,rgba(26,33,41,.985),rgba(18,24,31,.985));
+  border-left:1px solid var(--line);
+  transform:translateX(102%);opacity:0;pointer-events:none;
+  transition:transform .34s cubic-bezier(.22,1,.36,1),opacity .24s;
+}
+#advisor.on,#alts.on{transform:translateX(0);opacity:1;pointer-events:auto}
+.adv-head{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
+  padding:16px 18px 12px;border-bottom:1px solid var(--line);
+}
+.adv-head h2{font-size:15px;font-weight:800;letter-spacing:.2px}
+.adv-head p{font-size:11.5px;color:var(--dim);margin-top:4px;line-height:1.6}
+.adv-close{
+  flex:none;width:28px;height:28px;border-radius:8px;cursor:pointer;
+  background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--muted);
+  font-size:13px;line-height:1;
+}
+.adv-close:hover{background:rgba(255,255,255,.1);color:var(--ink)}
+.adv-steps{display:flex;gap:8px;padding:12px 18px 4px}
+.adv-step{
+  flex:1;text-align:center;font-size:11px;font-weight:700;color:var(--dim);
+  padding:6px 0;border-radius:8px;border:1px solid var(--line);
+  background:rgba(255,255,255,.02);transition:all .2s;
+}
+.adv-step.on{color:var(--brand);border-color:rgba(var(--brand-rgb),.5);background:rgba(var(--brand-rgb),.12)}
+.adv-step.done{color:var(--muted);border-color:rgba(var(--brand-rgb),.26)}
+/* min-height:0 是必需的：列向 flex 子项默认 min-height:auto，
+   不加的话内容一长就会把 .adv-foot 顶出容器底部，页脚按钮直接点不到 */
+#adv-body{flex:1;min-height:0;overflow-y:auto;padding:14px 18px 8px}
+#adv-body::-webkit-scrollbar{width:6px}
+#adv-body::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:3px}
+.adv-q{font-size:13.5px;font-weight:800;margin-bottom:4px}
+.adv-hint{font-size:11px;color:var(--dim);margin-bottom:14px}
+.adv-opts{display:flex;flex-direction:column;gap:8px;counter-reset:advopt}
+.adv-opt{
+  position:relative;counter-increment:advopt;
+  text-align:left;cursor:pointer;padding:11px 13px 11px 40px;border-radius:11px;
+  background:rgba(255,255,255,.035);border:1px solid var(--line);
+  transition:all .16s;
+}
+/* 序号徽标：给「一排等重的按钮」一个结构。纯 CSS counter —— 不用改 JS，
+   也就不会出现「DOM 里加了序号、读屏念不到」那种半吊子状态。 */
+.adv-opt::before{
+  content:counter(advopt);position:absolute;left:13px;top:12px;
+  width:18px;height:18px;border-radius:6px;display:flex;align-items:center;
+  justify-content:center;font-size:10.5px;font-weight:800;line-height:1;
+  background:rgba(255,255,255,.07);color:var(--dim);border:1px solid var(--line);
+  transition:all .16s;
+}
+.adv-opt:hover::before,.adv-opt.on::before{
+  background:rgba(var(--brand-rgb),.2);color:var(--brand);
+  border-color:rgba(var(--brand-rgb),.45);
+}
+.adv-opt:hover{border-color:var(--brand);background:rgba(var(--brand-rgb),.11);transform:translateX(2px)}
+.adv-opt.on{
+  border-color:rgba(var(--brand-rgb),.62);background:rgba(var(--brand-rgb),.14);
+  box-shadow:inset 0 0 0 1px rgba(var(--brand-rgb),.18);
+}
+.adv-opt.on b{color:var(--brand)}
+.adv-opt.on b::after{content:'✓';float:right;font-size:12px;color:var(--brand)}
+.adv-opt b{display:block;font-size:13px;font-weight:700;margin-bottom:3px}
+.adv-opt span{font-size:11px;color:var(--dim)}
+.adv-res-title{font-size:12.5px;font-weight:800;color:var(--brand);margin-bottom:3px}
+.adv-res-sub{font-size:11px;color:var(--dim);margin-bottom:13px;line-height:1.6}
+.adv-list{display:flex;flex-direction:column;gap:8px}
+.adv-item{
+  text-align:left;cursor:pointer;padding:11px 12px;border-radius:11px;
+  background:rgba(255,255,255,.035);border:1px solid var(--line);border-left:3px solid var(--c);
+  transition:all .16s;
+}
+.adv-item:hover{background:rgba(var(--brand-rgb),.1);border-color:var(--brand);border-left-color:var(--c);transform:translateX(2px)}
+.adv-item .ai-top{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.adv-item b{font-size:13px;font-weight:800}
+.adv-item .ai-fam{font-size:10px;font-weight:700;color:var(--c);flex:none}
+.adv-item .ai-m{font-family:var(--mono);font-size:10.5px;color:var(--dim);margin-top:3px}
+.adv-item .ai-r{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.55}
+.adv-item .ai-r i{font-style:normal;color:var(--brand);font-weight:700}
+.adv-item .ai-go{font-size:10.5px;color:var(--brand);margin-top:6px;font-weight:700}
+/* 顾问结果页：按家族分组的组头（第 47 轮）。
+   ⚠️ 组头是「分组」这件事**唯一**的视觉凭据 —— 只把卡片排成几堆、不给组头，
+   用户读到的仍是一串卡片。所以组头要「轻」（小字 + 一条细线），但不能省。
+   ⚠️ 组间距靠 `.adv-grp + .adv-grp{margin-top}`，不要给 `.adv-list` 加大 gap ——
+   那会把「组内 8px」也一起拉大，组内就不紧了。 */
+.adv-grp{display:flex;flex-direction:column;gap:8px}
+.adv-grp + .adv-grp{margin-top:15px}
+.adv-grp-h{
+  display:flex;align-items:center;gap:6px;padding:0 2px 3px;
+  border-bottom:1px solid var(--line);
+}
+.adv-grp-h b{font-size:11.5px;font-weight:800;color:var(--muted)}
+.adv-grp-h em{font-style:normal;font-size:10px;font-weight:700;color:var(--dim);margin-left:auto}
+.adv-grp-ico{display:flex;flex:0 0 auto;color:var(--brand);opacity:.85}
+.adv-grp-ico svg{display:block}
+.adv-foot{
+  display:flex;gap:8px;padding:12px 18px 16px;border-top:1px solid var(--line);
+}
+.adv-foot .btn-ghost{flex:1;text-align:center;justify-content:center;padding:9px 12px;font-size:12px}
+.adv-foot .btn-ghost[disabled]{opacity:.32;pointer-events:none}
+
+/* 结果页：落选项说明 + 复制摘要 */
+.adv-why{
+  margin-top:14px;padding:11px 12px;border-radius:10px;
+  border:1px solid var(--line);background:rgba(255,255,255,.028);
+}
+.adv-why-h{
+  font-size:11px;font-weight:800;color:var(--amber);letter-spacing:.3px;
+  display:flex;align-items:center;gap:6px;
+}
+.adv-why-h::before{content:'—';opacity:.5}
+.adv-why-sub{font-size:10.5px;color:var(--dim);margin:5px 0 2px;line-height:1.55}
+.adv-why-i{display:flex;flex-direction:column;gap:3px;padding:7px 0;border-top:1px dashed rgba(255,255,255,.07)}
+.adv-why-i:first-of-type{border-top:0}
+.adv-why-i b{font-size:12px;font-weight:700;color:var(--muted);display:flex;align-items:baseline;gap:7px}
+.adv-why-i b em{font-style:normal;font-family:var(--mono);font-size:10px;color:var(--dim);font-weight:600}
+.adv-why-i span{font-size:11px;color:var(--dim);line-height:1.6}
+/* 页脚里的复制按钮：结果页才显示，做成主色实心，别和「上一步/重新开始」混淆 */
+.adv-foot .btn-ghost#adv-copy{
+  color:#08150f;border-color:transparent;font-weight:800;
+  background:linear-gradient(180deg,#4fd6a0,#33a97c);
+}
+.adv-foot .btn-ghost#adv-copy:hover{filter:brightness(1.07)}
+.adv-foot .btn-ghost#adv-copy[hidden]{display:none}
+/* 自动复制失败时的兜底：把摘要摊成可全选的等宽块 */
+.adv-plain{
+  position:relative;margin-bottom:13px;padding:11px 12px;border-radius:10px;
+  border:1px solid rgba(217,164,90,.45);background:rgba(217,164,90,.07);
+}
+.adv-plain pre{
+  margin:0;white-space:pre-wrap;word-break:break-word;
+  font-family:var(--mono);font-size:10.5px;line-height:1.75;color:var(--muted);
+  user-select:text;-webkit-user-select:text;max-height:200px;overflow:auto;
+}
+.adv-plain-x{
+  position:absolute;right:8px;top:7px;appearance:none;cursor:pointer;
+  font:inherit;font-size:10.5px;font-weight:700;color:var(--dim);
+  padding:2px 7px;border-radius:6px;border:1px solid var(--line);background:transparent;
+}
+.adv-plain-x:hover{color:var(--ink);border-color:var(--brand)}
+#app.adv-open #panel,
+#app.alts-open #panel{opacity:.25;pointer-events:none}
+
+/* ============================================================ 轻提示条 */
+#toast-wrap{
+  position:absolute;left:50%;top:16px;transform:translateX(-50%);z-index:40;
+  display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none;
+  max-width:min(560px,72vw);
+}
+.toast{
+  display:flex;align-items:center;gap:8px;
+  font-size:12.5px;font-weight:600;line-height:1.5;color:var(--ink);
+  background:rgba(20,27,34,.95);border:1px solid rgba(var(--brand-rgb),.42);
+  border-radius:10px;padding:9px 14px;
+  box-shadow:0 10px 26px rgba(0,0,0,.5);
+  opacity:0;transform:translateY(-8px);
+  transition:opacity .26s,transform .26s;
+}
+.toast.on{opacity:1;transform:translateY(0)}
+.toast::before{content:'●';font-size:8px;color:var(--brand);flex:none}
+.toast.warn{border-color:rgba(217,164,90,.5)}
+.toast.warn::before{color:var(--amber)}
+.toast.ok{border-color:rgba(var(--brand-rgb),.5)}
+.toast.ok::before{color:var(--brand)}
+
+/* ============================================================ 响应式降级 */
+@media (max-width:1400px){
+  #app{grid-template-columns:244px 1fr 336px}
+  #app.panel-closed{grid-template-columns:244px 1fr 0px}
+}
+/* ⚠️ 断点从 1180 收到 1120：1280×800 是办公本第二常见的分辨率，
+   原来在 1280 上左栏（场景列表）会**整块消失**，而唯一能换场景的入口
+   （数字键 1…9 的说明）也正好写在那个被藏起来的块里。
+   收到 1120 之后，1280 上仍保留 244px 的场景列表。 */
+@media (max-width:1120px){
+  #app{grid-template-columns:0px 1fr 320px}
+  #app.panel-closed{grid-template-columns:0px 1fr 0px}
+  #sidebar{display:none}
+}
+
+/* 侧栏底部「已跟随系统减少动效」的提示条。默认隐藏，只在 reduce 下露出来 ——
+   这不是功能开关，只是告诉用户「你看到的行为变化是有原因的」，免得以为是 bug。
+   ⚠️ 这条**必须写在下面的 @media 之前**：两者选择器权重相同（都是 0,1,0），
+      后来者胜 —— 放在后面会把媒体查询里的 `display:block` 直接盖掉（实测踩过，
+      `.rm-note` 永远 display:none，提示条根本不出来）。 */
+.rm-note{display:none;margin-top:7px;color:var(--brand);font-weight:600;line-height:1.5}
+
+/* ============================================================
+ * 「减少动效」（prefers-reduced-motion: reduce）
+ * ------------------------------------------------------------
+ * 这一页的动效分三类，处理方式不同：
+ *   ① **装饰性过渡**（按钮 hover、面板滑入、侧栏收放、进度条缓动）
+ *      → 一律压成瞬时。状态变化本身照旧（颜色还是会变），只是不再「动」。
+ *   ② **加载 / 忙碌转圈**（`.ld-spin` 启动遮罩、`.tb-btn.busy::after` 开合序列）
+ *      → **保留**，只放慢。它们是「正在处理」的唯一线索，压掉会让人以为卡死。
+ *   ③ **选中脉冲点**（`.hot-label.active i`）→ 关掉。选中态本来就另有描边与底色。
+ * ⚠️ 不能用 `*{animation-duration:.01ms}` 一把梭 —— 那会把 ①②③ 一起打死。
+ *    同类坑在根手册踩过：跳转高亮被压成 1e-05s 之后，用户完全看不到反馈。
+ * ============================================================ */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{transition-duration:.01ms !important}
+  #labels .hot-label.active i{animation:none;opacity:1;transform:none}
+  .ld-spin{animation-duration:2.4s}
+  .tb-btn.busy::after{animation-duration:1.8s}
+  .rm-note{display:block}
+}
+/* 再给一条权重更高的兜底：即使有人把顺序调乱了，只要 html 上有这个类就一定显示。
+   （类由 app.js 的 _applyRM() 维护，同时用于无头回归断言。） */
+html.reduce-motion .rm-note{display:block}
+
+/* ============================================================
+ * 键盘焦点可见（:focus-visible）
+ * ------------------------------------------------------------
+ * ⚠️ 这一页**原本一条 `:focus` 规则都没有**（全文件 `outline` 出现 0 次）。
+ *    也就是说：键盘用户按 Tab 走一圈，**完全看不出焦点在哪儿** ——
+ *    浏览器默认那圈描边在深色底上几乎看不见，而且会被 `.tb-btn` 的
+ *    `border` / `background` 盖掉。这属于「功能在、但用户用不了」的静默失效。
+ *
+ * ⚠️ 用 `:focus-visible` 而**不是** `:focus`：
+ *    鼠标点击不该留一圈描边（点完按钮一直挂着，看着像没松手）；
+ *    `:focus-visible` 只在「键盘导航」时命中，正是我们要的语义。
+ *
+ * ⚠️ 描边颜色用亮一点的品牌绿（--brand 在深底上对比度偏低），
+ *    并且给 `outline-offset` 正值 —— 贴着元素边缘画会跟按钮自身的圆角打架。
+ * ============================================================ */
+:focus-visible{outline:2px solid #4fd6a0;outline-offset:2px}
+/* 圆角容器上把描边也做成圆角，否则方角描边套圆角按钮很刺眼 */
+.tb-btn:focus-visible,.hud-btn:focus-visible,.ms-chip:focus-visible,.ms-all:focus-visible,
+.btn-ghost:focus-visible,.adv-close:focus-visible{border-radius:999px;outline-offset:2px}
+/* 列表项 / 卡片是「整块可点」，描边画在内侧才不会被相邻项盖住 */
+#scene-list button:focus-visible,.pcard:focus-visible,#prod-list [tabindex]:focus-visible{
+  outline:2px solid #4fd6a0;outline-offset:-2px;
+}
+/* `#fps-chip` 是补过 role/tabindex 的 span，给它一个明显的焦点环 */
+#fps-chip:focus-visible{outline:2px solid #4fd6a0;outline-offset:2px;border-radius:6px}
+
+/* ============================================================ 方案对照抽屉 */
+/* ⚠️ `#alts-body` 与 `#adv-body` 是两种不同的内容（问答 vs 对照表），
+   所以**不共用**滚动容器样式 —— 但滚动与内边距的口径要一致，
+   否则两个抽屉打开时列表左右边界会差几个像素，看起来像两个不同产品。 */
+#alts-body{flex:1;min-height:0;overflow:auto;padding:14px 18px 4px}
+.alt-fn + .alt-fn{margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
+.alt-fn h3{
+  display:flex;align-items:center;gap:8px;
+  font-size:12.5px;font-weight:800;color:var(--ink);letter-spacing:.2px;
+}
+.alt-n{
+  flex:none;width:17px;height:17px;border-radius:5px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:800;
+  background:rgba(var(--brand-rgb),.16);color:var(--brand);
+}
+.alt-why{font-size:11.5px;line-height:1.68;color:var(--dim);margin:6px 0 10px}
+.alt-ways{display:flex;flex-direction:column;gap:7px}
+/* ⚠️ 三种做法必须是**同一种版式**、只靠左边那条 --c 色带区分 ——
+   若把「本公司」那张卡做得更花，用户会以为另外两张是次要选项，
+   而这张表要表达的恰恰是「三种做法都能用」。 */
+.alt-way{
+  display:flex;flex-direction:column;gap:3px;text-align:left;cursor:pointer;
+  padding:9px 11px 10px 12px;border-radius:9px;
+  border:1px solid var(--line);border-left:3px solid var(--c);
+  background:rgba(255,255,255,.028);font:inherit;
+  transition:background .18s,border-color .18s,transform .18s;
+}
+.alt-way:hover{background:rgba(255,255,255,.06);transform:translateX(2px)}
+.alt-way:focus-visible{outline:2px solid var(--c);outline-offset:2px}
+.aw-h{display:flex;align-items:baseline;gap:7px;min-width:0}
+.aw-tag{
+  flex:none;font-size:9.5px;font-weight:800;letter-spacing:.3px;
+  padding:1px 5px;border-radius:4px;
+  color:var(--c);background:color-mix(in srgb,var(--c) 16%,transparent);
+  border:1px solid color-mix(in srgb,var(--c) 34%,transparent);
+}
+.aw-h b{font-size:12px;font-weight:800;color:var(--ink);min-width:0}
+.aw-m{font-size:10.5px;color:var(--dim);font-weight:700}
+.aw-d{font-size:11px;line-height:1.62;color:var(--muted)}
+.alt-miss{
+  font-size:11px;color:var(--amber);padding:8px 11px;border-radius:8px;
+  border:1px dashed color-mix(in srgb,var(--amber) 45%,transparent);
+}
+.alts-note{
+  flex:none;padding:10px 18px 14px;border-top:1px solid var(--line);
+  font-size:10.5px;line-height:1.66;color:var(--dim);
+}
+.alts-note b{color:var(--muted)}
+
+/* 元件列表里的「继电器替代方案」段标 */
+/* ⚠️ 只换左边那条竖线的颜色，不动字色 —— 字色一动就会同时改变对比度，
+   而这一段的小字刚过 WCAG AA（记忆 §10：次级文字色必须量比值）。 */
+.pl-sep.is-alt{border-left-color:var(--amber)}
+.pl-sep.is-alt span{color:var(--muted)}
+
+/* 元件卡片里的「替代关系」段 */
+/* ⚠️ 用左侧一条色带做提示，不用整段底色 —— 卡片里已经有家族色 --c，
+   再加一块底色会和它打架。 */
+.alt-sec{border-left:2px solid color-mix(in srgb,var(--brand) 55%,transparent);padding-left:10px}
+.alt-sec h4{color:var(--brand)}
+.alt-sec p b{color:var(--ink);font-weight:800}
+
+
+/* ============================================================
+   「为什么这样选」内容块（场景级）
+   ------------------------------------------------------------
+   面板默认视图已经很长（场景说明 + 合规声明 + 图例 + 可动件 + 产品列表 + 卡片），
+   这一块是**深入材料**，用原生 `<details>` 默认收起 —— 不点开就只占一行。
+   ⚠️ 面一律**中性**（白 3% 叠在面板上），不能铺品牌绿底：
+      品牌绿只给「贴在某只元件上的小气泡」，大面积绿底会让整块被读成"高亮"。
+   ⚠️ 折叠头是 11~12px 的小字，必须走 --ink / --muted，不能落到更弱的灰。
+   ⚠️ `[hidden]` 要显式 `display:none` —— 下面的 `display:block` 会盖掉浏览器
+      对 hidden 属性的默认样式，没有内容的场景会露一个空白框。
+   ============================================================ */
+#scene-guide{
+  margin-top:10px;border:1px solid var(--line);border-radius:9px;
+  background:rgba(255,255,255,.028);overflow:hidden;
+}
+#scene-guide[hidden]{display:none}
+#scene-guide>summary{
+  display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;
+  padding:9px 11px;cursor:pointer;list-style:none;
+}
+#scene-guide>summary::-webkit-details-marker{display:none}
+#scene-guide>summary::before{
+  content:'▸';color:var(--muted);font-size:10px;line-height:1;flex:0 0 auto;
+}
+#scene-guide[open]>summary::before{content:'▾'}
+#scene-guide>summary:hover{background:rgba(255,255,255,.05)}
+#scene-guide>summary:focus-visible{outline:2px solid var(--brand);outline-offset:-2px}
+.sg-t{font-size:12px;font-weight:800;color:var(--ink)}
+.sg-s{font-size:10.5px;color:var(--muted)}
+#guide-body{padding:2px 11px 11px;border-top:1px solid var(--line)}
+#guide-body h5{
+  margin:12px 0 6px;font-size:10.5px;font-weight:800;letter-spacing:.10em;
+  color:var(--muted);
+}
+#guide-body > *:first-child{margin-top:10px}
+#guide-body p{font-size:12px;color:var(--muted);line-height:1.72;margin:0}
+#guide-body .g-use{color:var(--ink)}
+/* 行业常见做法：短标题 + 证据标签 + 一句话说明 */
+.g-common{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.g-common li{position:relative;padding-left:10px}
+.g-common li::before{
+  content:'';position:absolute;left:0;top:7px;width:3px;height:3px;border-radius:50%;
+  background:var(--muted);
+}
+.g-common b{font-size:12px;font-weight:700;color:var(--ink)}
+.g-common p{margin-top:2px;font-size:11.5px;color:var(--muted);line-height:1.66}
+/* 证据标签：两者必须能分辨，否则工程判断会被当成事实读。
+   ⚠️ 不用品牌绿 —— 它不是"我们的产品"，只是一个证据等级。用中性 / 琥珀。 */
+.g-ev{
+  display:inline-block;margin-left:6px;padding:1px 5px;border-radius:5px;
+  font-size:9.5px;font-weight:700;vertical-align:1px;white-space:nowrap;
+  border:1px solid var(--line-2);color:var(--muted);background:rgba(255,255,255,.05);
+}
+/* 「行业替代做法 / 非继电器方案」徽标。
+   ⚠️ 小字（9.5px）**必须**过 contrast_probe 的 4.5:1 红线：
+      所以文字用 `var(--ink)`（近白），底色是品牌绿 16~18% 罩在深面板上（仍是深色）。
+      不要用 `--muted` + 半透明白底那套 —— 那正是「小字看不清」的头号组合。 */
+.g-alt{
+  display:inline-block;margin-left:6px;padding:1px 6px;border-radius:5px;
+  font-size:9.5px;font-weight:700;vertical-align:1px;white-space:nowrap;
+  color:var(--ink);background:rgba(var(--brand-rgb),.16);
+  border:1px solid rgba(var(--brand-rgb),.45);
+}
+.aw-alt{
+  flex:none;font-size:9.5px;font-weight:800;letter-spacing:.2px;padding:1px 5px;border-radius:4px;
+  color:var(--ink);background:rgba(var(--brand-rgb),.18);
+  border:1px solid rgba(var(--brand-rgb),.45);
+}
+.g-ev-judge{color:var(--amber);border-color:rgba(226,176,108,.42);background:rgba(226,176,108,.08)}
+/* 「什么情况下不会选我们」——写成客户的合理理由，不是"他们不懂"。
+   虚线中性框 = 「这是一处前提」，不用红、不用品牌绿，避免读成警告或卖点。 */
+#guide-body .g-notfit{
+  padding:8px 10px;border-radius:8px;
+  border:1px dashed rgba(255,255,255,.22);background:rgba(255,255,255,.035);
+}
+.g-ask{margin:0;padding-left:17px;display:flex;flex-direction:column;gap:5px}
+.g-ask li{font-size:11.5px;color:var(--muted);line-height:1.62}
+.g-ask li::marker{color:var(--muted)}
+#guide-body .g-foot{
+  margin-top:11px;padding-top:9px;border-top:1px solid var(--line);
+  font-size:10.5px;color:var(--muted);line-height:1.62;
+}
+
+/* 标注三态里的「全部」档：复用 `.is-auto` 那套「只改边框样式与底、不动颜色」的做法
+   —— ⚠️ 绝不能让按钮文字随档位变长，顶栏是「宽度会浮动的项」最容易挤掉场景名的位置（§T1）。 */
+.tb-btn.is-all{border-style:dashed;background:rgba(var(--brand-rgb),.10)}
